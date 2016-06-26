@@ -38,8 +38,8 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/System/Size.hpp>
-#include <Qube2D/System/Point.hpp>
+#include <Qube2D/System/Structs/Size.hpp>
+#include <Qube2D/System/Structs/Point.hpp>
 
 
 namespace Qube2D
@@ -108,7 +108,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         Point<T> pos() const
         {
-            return Point<T>(x(), y());
+            return Point<T>(this->x(), this->y());
         }
         
         ///////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         Size<T> size() const
         {
-            return Size<T>(width(), height());
+            return Size<T>(this->width(), this->height());
         }
         
         
@@ -130,8 +130,8 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void setPos(const Point<T> &pos)
         {
-            setX(pos.x());
-            setY(pos.y());
+            this->setX(pos.x());
+            this->setY(pos.y());
         }
         
         ///////////////////////////////////////////////////////////
@@ -141,8 +141,8 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void setSize(const Size<T> &size)
         {
-            setWidth(size.width());
-            setHeight(size.height());
+            this->setWidth(size.width());
+            this->setHeight(size.height());
         }
         
     };

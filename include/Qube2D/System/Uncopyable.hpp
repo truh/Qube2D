@@ -66,6 +66,13 @@ namespace Qube2D
     public:
 
         ///////////////////////////////////////////////////////////
+        /// \fn     Default constructor
+        /// \brief  Initializes a new instance of Uncopyable.
+        ///
+        ///////////////////////////////////////////////////////////
+        Uncopyable() = default;
+
+        ///////////////////////////////////////////////////////////
         /// \fn     Copy constructor
         /// \brief  Function disabled through the 'delete' keyword.
         ///

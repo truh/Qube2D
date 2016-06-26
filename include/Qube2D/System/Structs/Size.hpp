@@ -67,8 +67,8 @@ namespace Qube2D
         Size()
         {
             /* Triggers a compiler error for non-integral types */
-            width = 0;
-            height = 0;
+            w = 0;
+            h = 0;
         }
         
         ///////////////////////////////////////////////////////////
@@ -80,8 +80,8 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         Size(T _w, T _h)
         {
-            width = _w;
-            height = _h;
+            w = _w;
+            h = _h;
         }
         
         ///////////////////////////////////////////////////////////
@@ -92,8 +92,8 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         Size(const Size &val)
         {
-            width = val.width;
-            height = val.width;
+            w = val.w;
+            h = val.w;
         }
         
         
@@ -105,7 +105,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         const T width() const
         {
-            return width;
+            return w;
         }
         
         ///////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         const T height() const
         {
-            return height;
+            return h;
         }
         
         ///////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void setWidth(const T &_w)
         {
-            width = _w;
+            w = _w;
         }
         
         ///////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void setHeight(const T &_h)
         {
-            height = _h;
+            h = _h;
         }
         
         
@@ -155,7 +155,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         T &rwidth()
         {
-            return width;
+            return w;
         }
         
         ///////////////////////////////////////////////////////////
@@ -171,7 +171,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         T &rheight()
         {
-            return height;
+            return h;
         }
         
         
@@ -187,7 +187,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         bool isValid() const
         {
-            return (width > 0 && height > 0);
+            return (w > 0 && h > 0);
         }
         
         
@@ -197,8 +197,8 @@ namespace Qube2D
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        T width;    ///< Horizontal dimension of the object
-        T height;   ///< Vertical dimension of the object
+        T w;    ///< Horizontal dimension of the object
+        T h;   ///< Vertical dimension of the object
     
     };
     
