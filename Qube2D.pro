@@ -14,16 +14,19 @@ QMAKE_CXXFLAGS_WARN_ON -= -Wall
 #  Include paths
 #
 INCLUDEPATH += $$PWD/include
-INCLUDEPATH += $$PWD/../glfw-3.2/include
-DEPENDPATH  += $$PWD/../glfw-3.2/include
+INCLUDEPATH += $$PWD/../glfw3/include
+DEPENDPATH  += $$PWD/../glfw3/include
 
 
 #
 #  Dependencies
 #
-unix|win32: LIBS += -L$$PWD/../glfw-3.2/bin/ -llibglfw-3.2
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../glfw-3.2/bin/libglfw-3.2.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../glfw-3.2/bin/libglfw-3.2.a
+unix|win32: LIBS += -L$$PWD/../glfw3/bin/ -llibglfw3
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../glfw3/bin/libglfw3.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../glfw3/bin/libglfw3.a
+
+win32:  LIBS += -lopengl32
+unix:   LIBS += -lGL
 
 
 #
@@ -36,7 +39,12 @@ HEADERS += \
     include/Qube2D/System/Structs/Rect.hpp \
     include/Qube2D/System/Structs/Size.hpp \
     include/Qube2D/System/Uncopyable.hpp \
-    include/Qube2D/Config.hpp
+    include/Qube2D/Config.hpp \
+    include/Qube2D/System/Storage/File.hpp \
+    include/Qube2D/System/Storage/FileEnums.hpp \
+    include/Qube2D/System/Debug.hpp \
+    include/Qube2D/System/Storage/Variant.hpp \
+    include/Qube2D/System/Storage/VariantEnums.hpp
 
 
 #
@@ -44,4 +52,7 @@ HEADERS += \
 #
 SOURCES += \
     src/System/Structs/Color.cpp \
-    src/System/Structs/GLColor.cpp
+    src/System/Structs/GLColor.cpp \
+    src/System/Storage/File.cpp \
+    src/System/Debug.cpp \
+    src/System/Storage/Variant.cpp
