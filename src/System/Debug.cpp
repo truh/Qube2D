@@ -35,6 +35,8 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Debug.hpp>
+#include <algorithm>
+#include <cstdarg>
 
 
 namespace Qube2D
@@ -47,15 +49,35 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Debug::printError
     (
+            int n,
             const char *msg,
             const char *file,
             const char *func,
-            int line
+            int line,
+            ...
     )
     {
+        // If there are arguments in the error message string,
+        // replace them with the given variadic values.
+        std::string strMsg(msg);
+
+        /* Variadic argument list */
+        va_list argList;
+        va_start(argList, line);
+        for (int i = 0; i < n; i++)
+        {
+            std::string strArg("%");
+            strArg.append(std::to_string(i));
+            size_t index = strMsg.find(strArg);
+            strMsg.replace(index, strArg.length(), va_arg(argList, char *));
+        }
+        va_end(argList);
+
+
+        // Prints the detailed error message
         std::cout << "Error thrown in function '" << func
                   << "' ,in line " << line
                   << " ,\nlocated at file '" << file
-                  << "':\n\n    " << msg << "\n\n\n";
+                  << "':\n\n    " << strMsg << "\n\n\n";
     }
 }

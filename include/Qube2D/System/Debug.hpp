@@ -41,6 +41,7 @@
 #include <Qube2D/Config.hpp>
 #include <iostream>
 #include <cassert>
+#include <tuple>
 
 
 namespace Qube2D
@@ -72,10 +73,12 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         static void printError
         (
+                int n,
                 const char *msg,
                 const char *file,
                 const char *func,
-                int line
+                int line,
+                ...
         );
 
     };
@@ -89,7 +92,18 @@ namespace Qube2D
     /// \brief   A macro to print an error message.
     ///
     ///////////////////////////////////////////////////////////
-    #define Q2DError(msg) (Debug::printError(msg, __FILE__, __func__, __LINE__))
+    #define Q2DError(msg, ...)                                              \
+    {                                                                       \
+        Debug::printError                                                   \
+        (                                                                   \
+            std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value, \
+            msg,                                                            \
+            __FILE__,                                                       \
+            __func__,                                                       \
+            __LINE__,                                                       \
+            __VA_ARGS__                                                     \
+        );                                                                  \
+    }
 }
 
 
