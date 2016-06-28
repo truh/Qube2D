@@ -37,6 +37,7 @@
 #include <Qube2D/System/Storage/File.hpp>
 #include <Qube2D/System/Debug.hpp>
 #include <cstring>
+#include <sys/stat.h>
 
 
 namespace Qube2D
@@ -88,6 +89,7 @@ namespace Qube2D
         // Attempts to open the file
         m_Stream.open(pathFile, mode);
         m_Access = access;
+        m_Path = path;
 
 
         // Determines whether loading was successful
@@ -132,26 +134,13 @@ namespace Qube2D
     /// \fn      size
     ///
     ///////////////////////////////////////////////////////////
-    QInt64 File::size() const
+    QUInt32 File::size() const
     {
-        QInt64 size;
-
-
-        // Reads until the EOF bit is set and then retrieves the
-        // amount of characters read during this process.
-        m_Stream.ignore(UINT_MAX);
-        size = m_Stream.gcount();
-        m_Stream.clear();
-
-
-        // Restores the seeking position
-        if (m_Direction == SD_Begin)
-            m_Stream.seekg(m_Position, std::ios_base::beg);
+        struct stat fileStat;
+        if (stat(m_Path, &fileStat) != -1)
+            return fileStat.st_size;
         else
-            m_Stream.seekg(m_Position, std::ios_base::end);
-
-
-        return size;
+            return 0;
     }
 
     ///////////////////////////////////////////////////////////

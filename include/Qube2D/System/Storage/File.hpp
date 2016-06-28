@@ -107,7 +107,7 @@ namespace Qube2D
         /// \returns the size of the file, in bytes.
         ///
         ///////////////////////////////////////////////////////////
-        QInt64 size() const;
+        QUInt32 size() const;
 
         ///////////////////////////////////////////////////////////
         /// \fn      position -> const
@@ -271,6 +271,7 @@ namespace Qube2D
         FileAccess m_Access;                        ///< Access flags
         SeekDirection m_Direction;                  ///< Current seek direction
         mutable QInt64 m_Position;                  ///< Current stream position
+        const char *m_Path;                         ///< Absolute path to file
 
     };
 }
