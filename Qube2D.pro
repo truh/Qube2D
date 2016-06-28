@@ -44,7 +44,10 @@ HEADERS += \
     include/Qube2D/System/Storage/FileEnums.hpp \
     include/Qube2D/System/Debug.hpp \
     include/Qube2D/System/Storage/Variant.hpp \
-    include/Qube2D/System/Storage/VariantEnums.hpp
+    include/Qube2D/System/Storage/VariantEnums.hpp \
+    include/Qube2D/Assets/Assets.hpp \
+    include/Qube2D/Assets/AssetManager.hpp \
+    include/Qube2D/Assets/AssetErrors.hpp
 
 
 #
@@ -55,4 +58,18 @@ SOURCES += \
     src/System/Structs/GLColor.cpp \
     src/System/Storage/File.cpp \
     src/System/Debug.cpp \
-    src/System/Storage/Variant.cpp
+    src/System/Storage/Variant.cpp \
+    src/Assets/AssetManager.cpp \
+    src/Assets/Assets.cpp
+
+#
+# Platform-specific code files
+#
+win32
+{
+    HEADERS += \
+        include/Qube2D/Assets/Win32/Win32AssetManager.hpp
+
+    SOURCES += \
+        src/Assets/Win32/Win32AssetManager.cpp
+}
