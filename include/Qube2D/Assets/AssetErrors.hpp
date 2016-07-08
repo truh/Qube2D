@@ -54,7 +54,7 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
 
-    #define Q2D_ASSETS_ERROR_0 "The given relative path is invalid. No such asset file exists.\nPath: %0"
+    #define Q2D_ASSETS_ERROR_0 "The given relative path is invalid. No such asset file exists.\n    Path: %0"
 }
 
 

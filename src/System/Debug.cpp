@@ -76,8 +76,8 @@ namespace Qube2D
 
         // Prints the detailed error message
         std::cout << "Error thrown in function '" << func
-                  << "' ,in line " << line
-                  << " ,\nlocated at file '" << file
+                  << "', in line " << line
+                  << ", located at file\n'" << file
                   << "':\n\n    " << strMsg << "\n\n\n";
     }
 }

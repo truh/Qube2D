@@ -146,4 +146,20 @@ namespace Qube2D
         // String should not be free'd manually!
         return m_Buffer;
     }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 29th, 2016
+    /// \fn      getFolderFiles -> static
+    ///
+    ///////////////////////////////////////////////////////////
+    char **Assets::folderFiles
+    (
+        const char    *folder,
+        const char    *extension,
+        unsigned int  *count
+    )
+    {
+        return m_Manager->folderFiles(folder, extension, count);
+    }
 }

@@ -140,7 +140,7 @@ namespace Qube2D
         
     #endif
     
-    /* Floating point numbers */
+    /* Floating point types */
     typedef float                       QFloat;
     typedef double                      QDouble;
 

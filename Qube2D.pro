@@ -47,7 +47,11 @@ HEADERS += \
     include/Qube2D/System/Storage/VariantEnums.hpp \
     include/Qube2D/Assets/Assets.hpp \
     include/Qube2D/Assets/AssetManager.hpp \
-    include/Qube2D/Assets/AssetErrors.hpp
+    include/Qube2D/Assets/AssetErrors.hpp \
+    include/Qube2D/System/Object.hpp \
+    include/Qube2D/System/Structs/Vertices.hpp \
+    include/Qube2D/System/Localization/String.hpp \
+    include/Qube2D/System/Localization/StringEnums.hpp
 
 
 #
@@ -60,7 +64,8 @@ SOURCES += \
     src/System/Debug.cpp \
     src/System/Storage/Variant.cpp \
     src/Assets/AssetManager.cpp \
-    src/Assets/Assets.cpp
+    src/Assets/Assets.cpp \
+    src/System/Localization/String.cpp
 
 #
 # Platform-specific code files

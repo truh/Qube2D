@@ -108,7 +108,10 @@ namespace Qube2D
 
         // Determines whether the given folder is relative
         if (folder[0] == ':' && folder[1] == '/')
+        {
+            strFolder.erase(0, 1);
             strFolder.insert(0, m_AppDirectory);
+        }
 
         // Repairs the extension string
         if (extension[0] != '*' && extension[1] != '.')
@@ -135,9 +138,12 @@ namespace Qube2D
         // Copies the contents from the vector to a vanilla array
         char **files = new char*[foundFiles.size()];
         for (unsigned i = 0; i < foundFiles.size(); i++)
+        {
+            files[i] = new char[MAX_PATH];
             strncpy(files[i], foundFiles.at(i).data(), MAX_PATH);
+        }
 
         *count = foundFiles.size();
-        return NULL;
+        return files;
     }
 }

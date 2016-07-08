@@ -101,6 +101,23 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         static const char *makePath(const char *path);
 
+        ///////////////////////////////////////////////////////////
+        /// \fn      folderFiles -> static
+        /// \brief   Retrieves all files within a specified folder.
+        /// \param   folder Relative-or-absolute folder path
+        /// \param   extension File extension of the files to fetch
+        /// \param   (out) count Amount of files found
+        /// \returns an array of file paths that met the conditions.
+        /// \returns NULL if no files or an error occured.
+        ///
+        ///////////////////////////////////////////////////////////
+        static char **folderFiles
+        (
+            const char    *folder,
+            const char    *extension,
+            unsigned int  *count
+        );
+
 
         ///////////////////////////////////////////////////////////
         /// \fn      load<T> -> static
@@ -114,7 +131,7 @@ namespace Qube2D
         /// \returns an initialized instance of T.
         ///
         ///////////////////////////////////////////////////////////
-        template<typename T> static T load(const char *path);
+        template <typename T> static T load(const char *path);
 
         ///////////////////////////////////////////////////////////
         /// \fn      load<T> -> static (specialization: string)
@@ -123,7 +140,7 @@ namespace Qube2D
         /// \returns the string contents of the given file.
         ///
         ///////////////////////////////////////////////////////////
-        template<const char *> static const char *load(const char *path);
+        template <const char *> static const char *load(const char *path);
 
         ///////////////////////////////////////////////////////////
         /// \fn      load<T> -> static (specialization: Texture)
@@ -151,13 +168,15 @@ namespace Qube2D
     };
 
 
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 28th, 2016
     /// \fn      load<T> -> static
     ///
     ///////////////////////////////////////////////////////////
-    template<typename T> inline T Assets::load(const char *path)
+    template <typename T> inline T Assets::load(const char *path)
     {
         static_assert(true, "The given resource type is currently not supported.");
         auto nowarning = [] (const char *) -> void { };
@@ -170,7 +189,7 @@ namespace Qube2D
     /// \fn      load<const char *> -> static
     ///
     ///////////////////////////////////////////////////////////
-    template<> inline const char *Assets::load(const char *path)
+    template <> inline const char *Assets::load(const char *path)
     {
         assert(path);
 
