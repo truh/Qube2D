@@ -65,7 +65,8 @@ SOURCES += \
     src/System/Storage/Variant.cpp \
     src/Assets/AssetManager.cpp \
     src/Assets/Assets.cpp \
-    src/System/Localization/String.cpp
+    src/System/Localization/String.cpp \
+    src/System/Object.cpp
 
 #
 # Platform-specific code files

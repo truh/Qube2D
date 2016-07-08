@@ -169,7 +169,6 @@ namespace Qube2D
 
 
 
-
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 28th, 2016
