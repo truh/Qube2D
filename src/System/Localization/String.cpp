@@ -482,8 +482,9 @@ namespace Qube2D
     String String::substr(QInt32 pos, QInt32 size) const
     {
         assert(pos >= 0);
-        assert(size != 0);
-        assert(pos + size < (QInt32)length());
+        assert(pos + size <= (QInt32)length());
+        if (size == 0)
+            return String();
 
         String str;
 
@@ -754,19 +755,25 @@ namespace Qube2D
         std::vector<String> splitList;
         std::vector<PointI> bounds;
 
-        // Finds all occurrences and stores position plus
-        // the distance to the next occurrence.
+        // Finds the first occurence
+        QUInt32 len = sep.length();
         QInt32 pos = indexOf(sep);
+        bounds.push_back(PointI(0, pos));
+
+        // Finds all other occurrences and stores position plus
+        // the distance to the next occurrence.
         while (pos != String::npos)
         {
             QInt32 size;
-            QInt32 next = indexOf(sep, pos+sep.length());
+            QInt32 next = indexOf(sep, pos+len);
             if (next == String::npos)
-                size = (length()-1) - pos;
+                size = length()-pos-len;
             else
-                size = (next-1) - pos;
+                size = next-pos-len;
+            if (size == -1) // caused by empty sub-string
+                size = 0;
 
-            bounds.push_back(PointI(pos, size));
+            bounds.push_back(PointI(pos+len, size));
             pos = next;
         }
 
@@ -778,9 +785,16 @@ namespace Qube2D
 
         // Deletes empty entries on request
         if (options == SO_EraseEmptyEntries)
+        {
             for (QUInt32 i = 0; i < occ_size; i++)
+            {
                 if (splitList.at(i).isEmpty())
+                {
                     splitList.erase(splitList.begin()+i);
+                    occ_size--;
+                }
+            }
+        }
 
         return splitList;
     }
@@ -931,6 +945,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     String &String::erase(QUInt32 pos, QUInt32 cnt)
     {
+        assert(pos + cnt <= length());
+
         m_String.erase(pos, cnt);
         return *this;
     }
@@ -1025,20 +1041,23 @@ namespace Qube2D
     String &String::trim()
     {
         // Removes any leading whitespace
-        std::locale loc("en_US.utf8");
+        std::locale loc;
         QUInt32 len = length();
         QUInt32 i; // first real character
         for (i = 0; i < len; i++)
-            if (!std::isspace(at(i), loc))
-                break;
+            if (at(i) < 128)
+                if (!std::isspace((char)at(i), loc))
+                    break;
 
         if (i != 0)
             erase(0, i);
+        len = length();
 
         // Removes any trailing whitespace
         for (i = len-1; i > 0; i--)
-            if (!std::isspace(at(i), loc))
-                break;
+            if (at(i) < 128)
+                if (!std::isspace((char)at(i), loc))
+                    break;
 
         if (i != len-1)
             erase(i+1, (len-1) - i);
