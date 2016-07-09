@@ -43,6 +43,7 @@
 #include <Qube2D/System/Structs/Color.hpp>
 #include <Qube2D/System/Structs/GLColor.hpp>
 #include <Qube2D/System/Storage/VariantEnums.hpp>
+#include <Qube2D/System/Localization/String.hpp>
 #include <vector>
 
 
@@ -61,7 +62,8 @@ namespace Qube2D
     /// char*, char16_t*, char32_t*,
     /// Int8*, Int16*, Int32*, Int64*,
     /// Color, GLColor,
-    /// PointF, RectF, SizeF
+    /// PointF, RectF, SizeF,
+    /// String
     ///
     ///////////////////////////////////////////////////////////
     class Q2D_API Variant
@@ -225,6 +227,14 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void fromRect(const RectF &rect);
 
+        ///////////////////////////////////////////////////////////
+        /// \fn     fromString (overload #3)
+        /// \brief  Converts the given String to a variant.
+        /// \param  str UTF-32 encoded string
+        ///
+        ///////////////////////////////////////////////////////////
+        void fromString(const String &str);
+
 
         ///////////////////////////////////////////////////////////
         /// \fn      isType -> const
@@ -379,6 +389,14 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         const RectF toRect() const;
+
+        ///////////////////////////////////////////////////////////
+        /// \fn      toString -> const
+        /// \brief   Converts this variant to a String instance.
+        /// \returns a Qube2D::String instance.
+        ///
+        ///////////////////////////////////////////////////////////
+        const String toString() const;
 
 
     private:

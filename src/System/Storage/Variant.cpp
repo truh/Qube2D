@@ -319,6 +319,18 @@ namespace Qube2D
         m_Type = VT_Rect;
     }
 
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    July 9th, 2016
+    /// \fn      fromString (overload #3)
+    ///
+    ///////////////////////////////////////////////////////////
+    void Variant::fromString(const String &str)
+    {
+        fromString(str.data());
+        m_Type = VT_String;
+    }
+
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -576,5 +588,17 @@ namespace Qube2D
         float h = ((float *)(m_Buffer.data()))[3];
 
         return RectF(x, y, w, h);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    July 9th, 2016
+    /// \fn      toString
+    ///
+    ///////////////////////////////////////////////////////////
+    const String Variant::toString() const
+    {
+        assert(isType(VT_String));
+        return String((char32_t *)(m_Buffer.data()));
     }
 }
