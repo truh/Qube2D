@@ -51,7 +51,10 @@ HEADERS += \
     include/Qube2D/System/Object.hpp \
     include/Qube2D/System/Structs/Vertices.hpp \
     include/Qube2D/System/Localization/String.hpp \
-    include/Qube2D/System/Localization/StringEnums.hpp
+    include/Qube2D/System/Localization/StringEnums.hpp \
+    include/Qube2D/Resources/Resources.hpp \
+    include/Qube2D/Resources/Resource.hpp \
+    include/Qube2D/Resources/ResTypes.hpp
 
 
 #
