@@ -127,7 +127,7 @@ namespace Qube2D
     typedef signed   int                QInt32;
     typedef unsigned int                QUInt32;
     
-    /* 64-bit types act differently on Windows */
+    /* 64-bit types act differently on MSVC */
     #if defined (_MSC_VER)
     
         typedef signed   __int64        QInt64;

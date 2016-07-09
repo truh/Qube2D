@@ -60,7 +60,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #1
+    /// \fn      Constructor (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String::String(const char32_t *utf32)
@@ -71,7 +71,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #2
+    /// \fn      Constructor (overload #2)
     ///
     ///////////////////////////////////////////////////////////
     String::String(const char16_t *utf16)
@@ -91,7 +91,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #3
+    /// \fn      Constructor (overload #3)
     ///
     ///////////////////////////////////////////////////////////
     String::String(const char *utf8)
@@ -107,7 +107,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #4
+    /// \fn      Constructor (overload #4)
     ///
     ///////////////////////////////////////////////////////////
     String::String(QInt8 s8, bool useHex)
@@ -131,7 +131,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #5
+    /// \fn      Constructor (overload #5)
     ///
     ///////////////////////////////////////////////////////////
     String::String(QInt16 s16, bool useHex)
@@ -152,7 +152,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #6
+    /// \fn      Constructor (overload #6)
     ///
     ///////////////////////////////////////////////////////////
     String::String(QInt32 s32, bool useHex)
@@ -173,7 +173,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #7
+    /// \fn      Constructor (overload #7)
     ///
     ///////////////////////////////////////////////////////////
     String::String(QInt64 s64, bool useHex)
@@ -194,7 +194,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Constructor -> overload #8
+    /// \fn      Constructor (overload #8)
     ///
     ///////////////////////////////////////////////////////////
     String::String(QFloat dec)
@@ -237,7 +237,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Assignment operator -> overload #1
+    /// \fn      Assignment operator (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String &String::operator=(const char16_t *utf16)
@@ -258,7 +258,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Assignment operator -> overload #2
+    /// \fn      Assignment operator (overload #2)
     ///
     ///////////////////////////////////////////////////////////
     String &String::operator=(const char *utf8)
@@ -276,7 +276,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Assignment operator -> overload #3
+    /// \fn      Assignment operator (overload #3)
     ///
     ///////////////////////////////////////////////////////////
     String &String::operator=(const String &str)
@@ -332,7 +332,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      Subscript operator -> overload #1
+    /// \fn      Subscript operator (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     char32_t &String::operator[](QUInt32 pos)
@@ -380,7 +380,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      at -> const, overload #1
+    /// \fn      at -> const (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     char32_t String::at(QUInt32 pos) const
@@ -518,7 +518,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      indexOf -> const, overload #1
+    /// \fn      indexOf -> const (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     QInt32 String::indexOf(const String &str, QUInt32 pos) const
@@ -815,7 +815,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      append, overload #1
+    /// \fn      append (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String &String::append(const String &str)
@@ -843,7 +843,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      insert, overload #1
+    /// \fn      insert (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String &String::insert(QUInt32 pos, const String &str)
@@ -892,7 +892,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      replace -> overload #1
+    /// \fn      replace (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String &String::replace(const String &rep, const String &ins,
@@ -925,7 +925,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      replace -> overload #2
+    /// \fn      replace (overload #2)
     ///
     ///////////////////////////////////////////////////////////
     String &String::replace(QUInt32 pos, QUInt32 size, const String &str)
@@ -954,7 +954,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      erase -> overload #1
+    /// \fn      erase (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     String &String::erase(const String &str, EraseOptions options)

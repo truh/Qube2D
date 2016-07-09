@@ -74,7 +74,7 @@ namespace Qube2D
         String();
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #1
+        /// \fn     Constructor (overload #1)
         /// \brief  Copies the given UTF-32 codepoints.
         /// \param  utf32 Codepoints to copy to new string
         ///
@@ -82,7 +82,7 @@ namespace Qube2D
         String(const char32_t *utf32);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #2
+        /// \fn     Constructor (overload #2)
         /// \brief  Converts the given UTF-16 string.
         /// \param  utf16 UTF-16 characters to copy and convert
         ///
@@ -90,7 +90,7 @@ namespace Qube2D
         String(const char16_t *utf16);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #3
+        /// \fn     Constructor (overload #3)
         /// \brief  Converts the given UTF-8 string.
         /// \param  utf8 UTF-8 characters to copy and convert
         ///
@@ -98,7 +98,7 @@ namespace Qube2D
         String(const char *utf8);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #4
+        /// \fn     Constructor (overload #4)
         /// \brief  Converts the given byte value.
         /// \param  s8 Byte value to convert to a string
         /// \param  (opt) useHex Convert byte to hex string?
@@ -107,7 +107,7 @@ namespace Qube2D
         String(QInt8 s8, bool useHex = false);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #5
+        /// \fn     Constructor (overload #5)
         /// \brief  Converts the given short value.
         /// \param  s16 Short value to convert to a string
         /// \param  (opt) useHex Convert short to hex string?
@@ -116,7 +116,7 @@ namespace Qube2D
         String(QInt16 s16, bool useHex = false);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #6
+        /// \fn     Constructor (overload #6)
         /// \brief  Converts the given integer value.
         /// \param  s32 Integer value to convert to a string
         /// \param  (opt) useHex Convert integer to hex string?
@@ -125,7 +125,7 @@ namespace Qube2D
         String(QInt32 s32, bool useHex = false);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #7
+        /// \fn     Constructor (overload #7)
         /// \brief  Converts the given long value.
         /// \param  s64 Byte value to convert to a string
         /// \param  (opt) useHex Convert long to hex string?
@@ -134,7 +134,7 @@ namespace Qube2D
         String(QInt64 s64, bool useHex = false);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Constructor -> overload #8
+        /// \fn     Constructor (overload #8)
         /// \brief  Converts the given floating-point number.
         /// \param  dec Floating-point number to convert to a string
         ///
@@ -160,7 +160,7 @@ namespace Qube2D
         String &operator=(const char32_t *utf32);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      Assignment operator -> overload #1
+        /// \fn      Assignment operator (overload #1)
         /// \brief   Assigns the given UTF-16 string.
         /// \param   utf16 UTF-16 characters to copy to new string
         /// \returns a reference to this string.
@@ -169,7 +169,7 @@ namespace Qube2D
         String &operator=(const char16_t *utf16);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      Assignment operator -> overload #2
+        /// \fn      Assignment operator (overload #2)
         /// \brief   Assigns the given UTF-8 string.
         /// \param   utf8 UTF-8 characters to copy to new string
         /// \returns a reference to this string.
@@ -178,7 +178,7 @@ namespace Qube2D
         String &operator=(const char *utf8);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      Assignment operator -> overload #3
+        /// \fn      Assignment operator (overload #3)
         /// \brief   Assigns the given UTF-32 codepoints.
         /// \param   str Other Qube2D::String value
         /// \returns a reference to this string.
@@ -214,7 +214,7 @@ namespace Qube2D
         char32_t &operator[](QInt32 pos);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      Subscript operator -> overload #1
+        /// \fn      Subscript operator (overload #1)
         /// \brief   Retrieves the UTF-32 char at specified position.
         /// \param   pos Position of character within the string
         /// \returns a reference to the UTF-32 character.
@@ -323,7 +323,7 @@ namespace Qube2D
         QInt32 indexOf(char32_t u32, QUInt32 pos = 0) const;
 
         ///////////////////////////////////////////////////////////
-        /// \fn     indexOf -> const, overload #1
+        /// \fn     indexOf -> const (overload #1)
         /// \brief  Retrieves the position of the given sequence.
         ///
         /// If the given sequence does not exist in this string,
@@ -430,7 +430,7 @@ namespace Qube2D
         String &append(char32_t u32);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     append -> overload #1
+        /// \fn     append (overload #1)
         /// \brief  Adds an entire sequence to the string.
         /// \param  str Qube2D::String to add
         ///
@@ -450,7 +450,7 @@ namespace Qube2D
         String &insert(QUInt32 pos, char32_t u32);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     insert -> overload #1
+        /// \fn     insert (overload #1)
         /// \brief  Inserts an entire sequence into the string.
         ///
         /// If pos is outside of bounds, appends the string
@@ -478,7 +478,7 @@ namespace Qube2D
                         ReplaceOptions options = RO_OneEntry);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     replace -> overload #1
+        /// \fn     replace (overload #1)
         /// \brief  Replaces a string with another one.
         ///
         /// Either replaces one or all occurrences of the given
@@ -494,7 +494,7 @@ namespace Qube2D
                         ReplaceOptions options = RO_OneEntry);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     replace -> overload #2
+        /// \fn     replace (overload #2)
         /// \brief  Replaces a specified section with a string.
         /// \param  pos Position to start replacing from
         /// \param  size Size of characters to replace
@@ -513,7 +513,7 @@ namespace Qube2D
         String &erase(QUInt32 pos, QUInt32 cnt);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     erase -> overload #1
+        /// \fn     erase (overload #1)
         /// \brief  Deletes the given sequence in this string.
         ///
         /// Either erases one or all occurrences of the given

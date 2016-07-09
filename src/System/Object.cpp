@@ -180,7 +180,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    July 8th, 2016
-    /// \fn      removeChild -> overload #1
+    /// \fn      removeChild (overload #1)
     ///
     ///////////////////////////////////////////////////////////
     void Object::removeChild(QUInt32 index)

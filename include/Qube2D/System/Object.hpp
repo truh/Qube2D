@@ -213,7 +213,7 @@ namespace Qube2D
         void removeChild(const Object *child);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     removeChild
+        /// \fn     removeChild (overload #1)
         /// \brief  Removes the object at the given index.
         /// \param  index Index of the child to remove
         ///

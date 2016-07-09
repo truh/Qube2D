@@ -63,7 +63,8 @@ namespace Qube2D
         VT_Rect,
         VT_Point,
         VT_Size,
-        VT_Last = VT_Size
+        VT_String,
+        VT_Last = VT_String
     };
 }
 
