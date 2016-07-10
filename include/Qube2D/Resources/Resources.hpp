@@ -76,7 +76,8 @@ namespace Qube2D
         /// \note   Resource name without file extension!
         ///
         ///////////////////////////////////////////////////////////
-        template <typename T> static T *load(const char *name);
+        template <typename T> static T load(const char *name);
+
 
     private:
 
@@ -103,7 +104,8 @@ namespace Qube2D
                       "Given resource class is not a base of Qube2D::Resource!");
 
         // Retrieves the resource vector
-        Resource *res = dynamic_cast<Resource *>(T *);
+        T *obj = new T;
+        Resource *res = dynamic_cast<Resource *>(obj);
         std::vector<ResEntry *> vec = res->getResources();
 
         // Parses the resource vector to a map
@@ -112,6 +114,36 @@ namespace Qube2D
             PrivateRes priv { entry->type, entry->data };
             m_Resources.insert(std::make_pair(entry->name, priv));
         }
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 27th, 2016
+    /// \fn      load -> static (specialization: utf8)
+    ///
+    ///////////////////////////////////////////////////////////
+    template <> const char *Resources::load
+        <const char*>(const char *name)
+    {
+        if (m_Resources.find(name) == m_Resources.end())
+            return NULL;
+
+        return reinterpret_cast<const char *>(m_Resources[name].data);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 27th, 2016
+    /// \fn      load -> static (specialization: utf16)
+    ///
+    ///////////////////////////////////////////////////////////
+    template <> const char16_t *Resources::load
+        <const char16_t*>(const char *name)
+    {
+        if (m_Resources.find(name) == m_Resources.end())
+            return NULL;
+
+        return (const char16_t *)(m_Resources[name].data);
     }
 }
 

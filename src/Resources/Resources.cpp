@@ -30,71 +30,18 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifdef  __Q2D_EXPOSE_RESOURCE__
-#ifndef __Q2D_RESTYPES_HPP__
-#define __Q2D_RESTYPES_HPP__
-
-
 ///////////////////////////////////////////////////////////
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Config.hpp>
+#include <Qube2D/Resources/Resources.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    ResTypes.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 9th, 2016
-    /// \def     ResTypes
-    /// \brief   Defines all resource types within Qube2D.
-    ///
+    // Static variable definition
+    //
     ///////////////////////////////////////////////////////////
-    enum ResTypes
-    {
-        RT_Bytes,
-        RT_Utf8,
-        RT_Utf16,
-        RT_Utf32,
-        RT_Image,
-        RT_Texture,
-        RT_Animation
-    };
-
-
-    ///////////////////////////////////////////////////////////
-    /// \file    ResTypes.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 9th, 2016
-    /// \struct  ResEntry
-    /// \brief   Defines a resource with name, data and type.
-    ///
-    ///////////////////////////////////////////////////////////
-    struct ResEntry
-    {
-        const char *name;   // Unique resource name
-        ResTypes type;      // Resource type
-        const QUInt8 *data; // Raw byte data
-    };
-
-    ///////////////////////////////////////////////////////////
-    /// \file    ResTypes.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 9th, 2016
-    /// \struct  PrivateRes
-    /// \brief   Private resource structure, in Qube2D only
-    ///
-    ///////////////////////////////////////////////////////////
-    struct PrivateRes
-    {
-        ResTypes type;      // Resource type
-        const QUInt8 *data; // Raw byte data
-    };
-
+    std::map<const char*, PrivateRes> Resources::m_Resources;
 }
-
-
-#endif  // __Q2D_RESTYPES_HPP__
-#endif  // __Q2D_EXPOSE_RESOURCE__

@@ -69,7 +69,8 @@ SOURCES += \
     src/Assets/AssetManager.cpp \
     src/Assets/Assets.cpp \
     src/System/Localization/String.cpp \
-    src/System/Object.cpp
+    src/System/Object.cpp \
+    src/Resources/Resources.cpp
 
 #
 # Platform-specific code files

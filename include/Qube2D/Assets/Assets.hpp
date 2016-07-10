@@ -134,15 +134,6 @@ namespace Qube2D
         template <typename T> static T load(const char *path);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      load<T> -> static (specialization: string)
-        /// \brief   Attempts to read all text from the given asset.
-        /// \param   path Relative-or-absolute asset path
-        /// \returns the string contents of the given file.
-        ///
-        ///////////////////////////////////////////////////////////
-        template <const char *> static const char *load(const char *path);
-
-        ///////////////////////////////////////////////////////////
         /// \fn      load<T> -> static (specialization: Texture)
         /// \brief   Attempts to create a texture from the asset.
         ///
@@ -188,7 +179,7 @@ namespace Qube2D
     /// \fn      load<const char *> -> static
     ///
     ///////////////////////////////////////////////////////////
-    template <> inline const char *Assets::load(const char *path)
+    template <> const char *Assets::load(const char *path)
     {
         assert(path);
 
