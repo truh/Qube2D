@@ -11,22 +11,36 @@ QMAKE_CXXFLAGS_WARN_ON -= -Wall
 
 
 #
+#  Output path
+#  Note: Do a shadow build under 'bin'
+#
+CONFIG(debug, debug|release) {
+    win32:      DESTDIR = debug/win32
+    linux-g++*: DESTDIR = debug/linux
+} else {
+    win32:      DESTDIR = release/win32
+    linux-g++*: DESTDIR = release/linux
+}
+
+OBJECTS_DIR = $$DESTDIR/obj
+
+
+#
 #  Include paths
 #
 INCLUDEPATH += $$PWD/include
-INCLUDEPATH += $$PWD/../glfw3/include
-DEPENDPATH  += $$PWD/../glfw3/include
+DEPENDPATH  += $$PWD/include
 
 
 #
 #  Dependencies
 #
-unix|win32: LIBS += -L$$PWD/../glfw3/bin/ -llibglfw3
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../glfw3/bin/libglfw3.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/../glfw3/bin/libglfw3.a
+linux-g++*:         LIBS += -L$$PWD/lib/glfw3.2/linux/ -lglfw3.2
+win32:!win32-g++:   PRE_TARGETDEPS += $$PWD/lib/glfw3.2/win32/libglfw3.2.lib -lgdi32
+else:win32-g++:     LIBS += -L$$PWD/lib/glfw3.2/win32/ -lglfw3.2 -lgdi32
 
 win32:  LIBS += -lopengl32
-unix:   LIBS += -lGL
+unix:   LIBS += -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -pthread -dl
 
 
 #
@@ -54,7 +68,15 @@ HEADERS += \
     include/Qube2D/System/Localization/StringEnums.hpp \
     include/Qube2D/Resources/Resources.hpp \
     include/Qube2D/Resources/Resource.hpp \
-    include/Qube2D/Resources/ResTypes.hpp
+    include/Qube2D/Resources/ResTypes.hpp \
+    include/Qube2D/Resources/Resources.inl \
+    include/Qube2D/Assets/Assets.inl \
+    include/Qube2D/Window/WindowSettings.hpp \
+    include/Qube2D/System/Object.inl \
+    include/Qube2D/Window/WindowEnums.hpp \
+    include/Qube2D/Window/Window.hpp \
+    include/Qube2D/Window/WindowCallbacks.hpp \
+    include/Qube2D/Window/WindowErrors.hpp
 
 
 #
@@ -70,16 +92,26 @@ SOURCES += \
     src/Assets/Assets.cpp \
     src/System/Localization/String.cpp \
     src/System/Object.cpp \
-    src/Resources/Resources.cpp
+    src/Resources/Resources.cpp \
+    src/Window/WindowSettings.cpp \
+    src/Window/Window.cpp \
+    src/System/Structs/Structs.cpp
+
 
 #
 # Platform-specific code files
 #
-win32
-{
+win32 {
     HEADERS += \
         include/Qube2D/Assets/Win32/Win32AssetManager.hpp
 
     SOURCES += \
         src/Assets/Win32/Win32AssetManager.cpp
+}
+linux-g++* {
+    HEADERS += \
+        include/Qube2D/Assets/Linux/LinuxAssetManager.hpp
+
+    SOURCES += \
+        src/Assets/Linux/LinuxAssetManager.cpp
 }
