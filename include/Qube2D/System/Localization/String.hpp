@@ -567,6 +567,19 @@ namespace Qube2D
 
 
         ///////////////////////////////////////////////////////////////////
+        /// \fn      checkEncoding -> static
+        /// \brief   Determines the encoding of a text file with a BOM.
+        ///
+        /// Compares the beginning of the text file with several BOMs.
+        ///
+        /// \param   str Text string as raw byte data
+        /// \returns the encoding type or TENC_Invalid if not supported.
+        ///
+        ///////////////////////////////////////////////////////////////////
+        static TextEncoding checkEncoding(const QUInt8 *str);
+
+
+        ///////////////////////////////////////////////////////////////////
         static const int npos = -1; ///< Invalid position within the string
 
 

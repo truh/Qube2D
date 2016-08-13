@@ -30,78 +30,54 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_STRINGENUMS_HPP__
-#define __Q2D_STRINGENUMS_HPP__
-
-
 ///////////////////////////////////////////////////////////
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <string>
-#include <vector>
+#include <Qube2D/System/Structs/Rect.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    StringEnums.hpp
+    /// \file    Structs.cpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 7th, 2016
-    /// \enum    TextEncoding
-    /// \note    Big endian encodings not yet supported.
+    /// \date    June 22th, 2016
+    /// \def     Point<int>, Point<float>, Point<unsigned>
+    ///
+    /// Instantiates the three most common point types which
+    /// are being used by the Qube2D library.
     ///
     ///////////////////////////////////////////////////////////
-    enum TextEncoding
-    {
-        TENC_Invalid,   ///< None of the supported encodings
-        TENC_Ascii,     ///< ASCII (0x0-0x7F) encoding
-        TENC_Utf8,      ///< Default multibyte char encoding
-        TENC_Utf16_BE,  ///< UTF-16 big endian encoding
-        TENC_Utf16_LE,  ///< UTF-16 little endian encoding
-        TENC_Utf32_BE,  ///< UTF-32 big endian encoding
-        TENC_Utf32_LE   ///< UTF-32 little endian encoding
-    };
+    Q2D_TPL Point<int>;
+    Q2D_TPL Point<float>;
+    Q2D_TPL Point<unsigned>;
 
     ///////////////////////////////////////////////////////////
-    /// \file    StringEnums.hpp
+    /// \file    Structs.cpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 7th, 2016
-    /// \enum    ReplaceOptions
+    /// \date    June 23th, 2016
+    /// \def     Size<int>, Size<float>, Size<unsigned>
+    ///
+    /// Instantiates the three most common Size types which
+    /// are being used by the Qube2D library.
     ///
     ///////////////////////////////////////////////////////////
-    enum ReplaceOptions
-    {
-        RO_OneEntry,    ///< Stops replacing after one entry
-        RO_AllEntries   ///< Replaces all entries in the string
-    };
+    Q2D_TPL Size<int>;
+    Q2D_TPL Size<float>;
+    Q2D_TPL Size<unsigned>;
 
     ///////////////////////////////////////////////////////////
-    /// \file    StringEnums.hpp
+    /// \file    Structs.cpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 7th, 2016
-    /// \enum    EraseOptions
+    /// \date    June 22th, 2016
+    /// \def     Rect<int>, Rect<float>, Rect<unsigned>
+    ///
+    /// Instantiates the three most common point types which
+    /// are being used by the Qube2D library.
     ///
     ///////////////////////////////////////////////////////////
-    enum EraseOptions
-    {
-        EO_OneEntry,    ///< Erases one entry only
-        EO_AllEntries   ///< Erases all entries in the string
-    };
-
-    ///////////////////////////////////////////////////////////
-    /// \file    StringEnums.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 7th, 2016
-    /// \enum    SplitOptions
-    ///
-    ///////////////////////////////////////////////////////////
-    enum SplitOptions
-    {
-        SO_KeepEmptyEntries,    ///< Keeps empty list entries
-        SO_EraseEmptyEntries    ///< Erases empty list entries
-    };
+    Q2D_TPL Rect<int>;
+    Q2D_TPL Rect<float>;
+    Q2D_TPL Rect<unsigned>;
 }
-
-
-#endif  // __Q2D_STRINGENUMS_HPP__

@@ -207,21 +207,6 @@ namespace Qube2D
     /// \file    Size.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 23th, 2016
-    /// \def     Size<int>, Size<float>, Size<unsigned>
-    ///
-    /// Instantiates the three most common Size types which
-    /// are being used by the Qube2D library.
-    ///
-    ///////////////////////////////////////////////////////////
-    Q2D_TPL Size<int>;
-    Q2D_TPL Size<float>;
-    Q2D_TPL Size<unsigned>;
-    
-    
-    ///////////////////////////////////////////////////////////
-    /// \file    Size.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 23th, 2016
     /// \def     SizeI, SizeF, SizeU
     ///
     /// Simplifies the template type declaration.

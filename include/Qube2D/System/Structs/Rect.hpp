@@ -152,21 +152,6 @@ namespace Qube2D
     /// \file    Rect.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 22th, 2016
-    /// \def     Rect<int>, Rect<float>, Rect<unsigned>
-    ///
-    /// Instantiates the three most common point types which
-    /// are being used by the Qube2D library.
-    ///
-    ///////////////////////////////////////////////////////////
-    Q2D_TPL Rect<int>;
-    Q2D_TPL Rect<float>;
-    Q2D_TPL Rect<unsigned>;
-    
-    
-    ///////////////////////////////////////////////////////////
-    /// \file    Rect.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 22th, 2016
     /// \def     RectI, RectF, RectU
     ///
     /// Simplifies the template type declaration.

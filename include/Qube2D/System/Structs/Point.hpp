@@ -189,21 +189,6 @@ namespace Qube2D
     /// \file    Point.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 22th, 2016
-    /// \def     Point<int>, Point<float>, Point<unsigned>
-    ///
-    /// Instantiates the three most common point types which
-    /// are being used by the Qube2D library.
-    ///
-    ///////////////////////////////////////////////////////////
-    Q2D_TPL Point<int>;
-    Q2D_TPL Point<float>;
-    Q2D_TPL Point<unsigned>;
-    
-    
-    ///////////////////////////////////////////////////////////
-    /// \file    Point.hpp
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 22th, 2016
     /// \def     PointI, PointF, PointU
     ///
     /// Simplifies the template type declaration.
