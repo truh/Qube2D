@@ -40,6 +40,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Debug.hpp>
 #include <Qube2D/System/Storage/File.hpp>
+#include <Qube2D/System/Localization/String.hpp>
 #include <Qube2D/Assets/AssetManager.hpp>
 #include <Qube2D/Assets/AssetErrors.hpp>
 
@@ -111,12 +112,9 @@ namespace Qube2D
         /// \returns NULL if no files or an error occured.
         ///
         ///////////////////////////////////////////////////////////
-        static char **folderFiles
-        (
-            const char    *folder,
-            const char    *extension,
-            unsigned int  *count
-        );
+        static const char **folderFiles(const char *folder,
+                                        const char *extension,
+                                        unsigned int *count);
 
 
         ///////////////////////////////////////////////////////////
@@ -134,17 +132,18 @@ namespace Qube2D
         template <typename T> static T load(const char *path);
 
         ///////////////////////////////////////////////////////////
-        /// \fn      load<T> -> static (specialization: Texture)
-        /// \brief   Attempts to create a texture from the asset.
+        /// \fn      loadTextFile -> static
+        /// \brief   Attempts to load the given text resource.
         ///
-        /// Loads the image data located at the given file and
-        /// attempts to create an OpenGL texture out of it.
+        /// Determines the encoding of the given text file and
+        /// loads it into an encoding-portable Qube2D::String.
+        /// An empty Qube2D::String is returned upon an error.
         ///
         /// \param   path Relative-or-absolute asset path
-        /// \returns an initialized instance of Qube2D::Texture.
+        /// \returns a Qube2D::String containing the text.
         ///
         ///////////////////////////////////////////////////////////
-        //template static Texture load<Texture>(const char *path);
+        static String loadTextFile(const char *path);
 
 
     private:
@@ -159,53 +158,8 @@ namespace Qube2D
     };
 
 
-
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 28th, 2016
-    /// \fn      load<T> -> static
-    ///
-    ///////////////////////////////////////////////////////////
-    template <typename T> inline T Assets::load(const char *path)
-    {
-        static_assert(true, "The given resource type is currently not supported.");
-        auto nowarning = [] (const char *) -> void { };
-        nowarning(path);
-    }
-
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 28th, 2016
-    /// \fn      load<const char *> -> static
-    ///
-    ///////////////////////////////////////////////////////////
-    template <> const char *Assets::load(const char *path)
-    {
-        assert(path);
-
-
-        // Determines whether the given path is absolute or relative
-        std::string filePath;
-        if (isRelative(path))
-            filePath = makePath(path);
-        else
-            filePath = path;
-
-
-        // Attempts to open the file in READ mode
-        File file;
-        if (!file.open(filePath.c_str(), FA_Read))
-        {
-    #           ifndef NDEBUG
-                Q2DError(Q2D_ASSETS_ERROR_0, path);
-    #           endif
-                return NULL;
-        }
-
-
-        // Reads all the file's string contents
-        return file.readString(file.size());
-    }
+    // template function definitions
+    #include <Qube2D/Assets/Assets.inl>
 }
 
 

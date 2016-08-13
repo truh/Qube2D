@@ -93,13 +93,9 @@ namespace Qube2D
         /// \returns NULL if no files or an error occured.
         ///
         ///////////////////////////////////////////////////////////
-        virtual char **folderFiles
-        (
-            const char    *folder,
-            const char    *extension,
-            unsigned int  *count
-        ) const = 0;
-
+        virtual const char **folderFiles(const char *folder,
+                                         const char *extension,
+                                         unsigned int *count) = 0;
 
     protected:
 

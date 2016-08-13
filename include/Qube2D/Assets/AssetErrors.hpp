@@ -34,12 +34,6 @@
 #define __Q2D_ASSETERRORS_HPP__
 
 
-///////////////////////////////////////////////////////////
-// Included files
-//
-///////////////////////////////////////////////////////////
-
-
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
@@ -55,6 +49,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
 
     #define Q2D_ASSETS_ERROR_0 "The given relative path is invalid. No such asset file exists.\n    Path: %0"
+    #define Q2D_ASSETS_ERROR_1 "The file appears to be empty whereas it should not be for this function.\n    Path: %0"
+    #define Q2D_ASSETS_ERROR_2 "The text file has an invalid encoding. Please check the BOM header.\n    Path: %0"
 }
 
 
