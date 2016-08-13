@@ -37,15 +37,15 @@
 #   include <Qube2D/Assets/Assets.hpp>
 #ifdef Q2D_SYS_WINDOWS
 #   include <Qube2D/Assets/Win32/Win32AssetManager.hpp>
-#elif Q2D_SYS_LINUX
+#elif defined Q2D_SYS_LINUX
 #   include <Qube2D/Assets/Linux/LinuxAssetManager.hpp>
-#elif Q2D_SYS_FREEBSD
+#elif defined Q2D_SYS_FREEBSD
 #   include <Qube2D/Assets/FreeBSD/FreeBSDAssetManager.hpp>
-#elif Q2D_SYS_ANDROID
+#elif defined Q2D_SYS_ANDROID
 #   include <Qube2D/Assets/Android/AndroidAssetManager.hpp>
-#elif Q2D_SYS_MACOS
+#elif defined Q2D_SYS_MACOS
 #   include <Qube2D/Assets/MacOS/MacOSAssetManager.hpp>
-#elif Q2D_SYS_IOS
+#elif defined Q2D_SYS_IOS
 #   include <Qube2D/Assets/IOS/IOSAssetManager.hpp>
 #endif
 #   include <string>
@@ -75,15 +75,15 @@ namespace Qube2D
 
 #   ifdef Q2D_SYS_WINDOWS
         m_Manager = new Win32AssetManager();
-#   elif Q2D_SYS_LINUX
+#   elif defined Q2D_SYS_LINUX
         m_Manager = new LinuxAssetManager();
-#   elif Q2D_SYS_FREEBSD
+#   elif defined Q2D_SYS_FREEBSD
         m_Manager = new FreeBSDAssetManager();
-#   elif Q2D_SYS_ANDROID
+#   elif defined Q2D_SYS_ANDROID
         m_Manager = new AndroidAssetManager();
-#   elif Q2D_SYS_MACOS
+#   elif defined Q2D_SYS_MACOS
         m_Manager = new MacOSAssetManager();
-#   elif Q2D_SYS_IOS
+#   elif defined Q2D_SYS_IOS
         m_Manager = new IOSAssetManager();
 #   endif
 
@@ -131,7 +131,8 @@ namespace Qube2D
 
         std::string strAppl = m_Manager->executableDir();
         std::string strPath = path;
-        strPath.erase(0U, 1U);
+        if (strPath.at(0) == '/')
+            strPath.erase(0U, 1U);
 
 
         // Appends the path to the application
@@ -153,7 +154,7 @@ namespace Qube2D
     /// \fn      getFolderFiles -> static
     ///
     ///////////////////////////////////////////////////////////
-    char **Assets::folderFiles
+    const char **Assets::folderFiles
     (
         const char    *folder,
         const char    *extension,
@@ -161,5 +162,72 @@ namespace Qube2D
     )
     {
         return m_Manager->folderFiles(folder, extension, count);
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 1st, 2016
+    /// \fn      loadTextFile -> static
+    ///
+    ///////////////////////////////////////////////////////////
+    String Assets::loadTextFile(const char *path)
+    {
+        assert(path);
+
+        // Determines whether the given path is absolute or relative
+        std::string filePath;
+        if (isRelative(path))
+            filePath = makePath(path);
+        else
+            filePath = path;
+
+
+        // Attempts to open the file in READ mode
+        File file;
+        if (!file.open(filePath.c_str(), FA_Read))
+        {
+            Q2DError(Q2D_ASSETS_ERROR_0, path);
+            return String();
+        }
+
+
+        // Loads the entire file into local memory
+        const QUInt8 *data = file.readBytes(file.size());
+        if (data == NULL || file.size() == 0)
+        {
+            Q2DError(Q2D_ASSETS_ERROR_1, path);
+            return String();
+        }
+
+
+        // Determines the file encoding
+        TextEncoding encoding = String::checkEncoding(data);
+        if (encoding == TENC_Invalid    ||
+            encoding == TENC_Utf16_BE   ||
+            encoding == TENC_Utf32_BE)
+        {
+            Q2DError(Q2D_ASSETS_ERROR_2, path);
+            return String();
+        }
+
+
+        // Applies four terminating bytes to cover all encodings
+        std::vector<QUInt8> enc(data, data + file.size());
+        for (int i = 0; i < 4; i++)
+            enc.push_back(0u);
+
+
+        // Interprets data depending on the encoding (ignores BOM header for conversion)
+        if (encoding == TENC_Ascii)
+            return String(reinterpret_cast<const char *>(enc.data()));
+        else if (encoding == TENC_Utf8)
+            return String(reinterpret_cast<const char *>(enc.data()+3));
+        else if (encoding == TENC_Utf16_LE)
+            return String(reinterpret_cast<const char16_t *>(enc.data()+2));
+        else if (encoding == TENC_Utf32_LE)
+            return String(reinterpret_cast<const char32_t *>(enc.data()+4));
+        else
+            return String(); // should never be reached, but suppresses compiler warning
     }
 }

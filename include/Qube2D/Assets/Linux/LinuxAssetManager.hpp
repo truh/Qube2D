@@ -30,8 +30,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_WIN32ASSETMANAGER_HPP__
-#define __Q2D_WIN32ASSETMANAGER_HPP__
+#ifndef __Q2D_LINUXASSETMANAGER_HPP__
+#define __Q2D_LINUXASSETMANAGER_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -39,41 +39,42 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Assets/AssetManager.hpp>
+#include <cstring>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Win32AssetManager.hpp
+    /// \file    LinuxAssetManager.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
-    /// \class   Win32AssetManager : AssetManager
-    /// \brief   Implements the AssetManager for MS Windows.
+    /// \date    August 4th, 2016
+    /// \class   LinuxAssetManager : AssetManager
+    /// \brief   Implements the AssetManager for Linux.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API Win32AssetManager : public AssetManager
+    class Q2D_API LinuxAssetManager : public AssetManager
     {
 
     public:
 
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
-        /// \brief  Pre-loads the executable path for Windows.
+        /// \brief  Pre-loads the executable path for Linux.
         ///
         ///////////////////////////////////////////////////////////
-        Win32AssetManager();
+        LinuxAssetManager();
 
         ///////////////////////////////////////////////////////////
         /// \fn     Destructor -> implemented
         /// \brief  Frees the string allocated by the constructor.
         ///
         ///////////////////////////////////////////////////////////
-        ~Win32AssetManager();
+        ~LinuxAssetManager();
 
 
         ///////////////////////////////////////////////////////////
         /// \fn      executableDir -> implemented
-        /// \brief   Retrieves the executable directory on Windows.
+        /// \brief   Retrieves the executable directory on Linux.
         /// \returns the absolute path to the application.
         ///
         ///////////////////////////////////////////////////////////
@@ -100,4 +101,4 @@ namespace Qube2D
 }
 
 
-#endif  // __Q2D_WIN32ASSETMANAGER_HPP__
+#endif  // __Q2D_LINUXASSETMANAGER_HPP__

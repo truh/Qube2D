@@ -34,68 +34,65 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Assets/Win32/Win32AssetManager.hpp>
+#include <Qube2D/Assets/Linux/LinuxAssetManager.hpp>
 #include <Qube2D/System/Debug.hpp>
-#include <windows.h>
+#include <cstdio>
 #include <vector>
-#include <string>
+#include <unistd.h>
+#include <dirent.h>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
+    /// \date    August 4th, 2016
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    Win32AssetManager::Win32AssetManager()
-        : AssetManager()
+    LinuxAssetManager::LinuxAssetManager()
     {
-        // Retrieves the full executable path
-        m_AppDirectory = new char[MAX_PATH];
-        GetModuleFileNameA(NULL, m_AppDirectory, MAX_PATH);
+        m_AppDirectory = new char[FILENAME_MAX];
+        readlink("/proc/self/exe", m_AppDirectory, FILENAME_MAX);
 
         std::string str(m_AppDirectory);
-        QInt8 index = str.find_last_of("\\/");
+        QInt8 index = str.find_last_of("/");
 
-        // Removes the executable name
         m_AppDirectory[index+1] = '\0';
     }
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
+    /// \date    August 4th, 2016
     /// \fn      Destructor
     ///
-    ///////////////////////////////////////////////////////////
-    Win32AssetManager::~Win32AssetManager()
+    //////////////////////////////////////////////////////////
+    LinuxAssetManager::~LinuxAssetManager()
     {
     }
 
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
+    /// \date    August 4th, 2016
     /// \fn      executableDir
     ///
-    ///////////////////////////////////////////////////////////
-    const char *Win32AssetManager::executableDir() const
+    //////////////////////////////////////////////////////////
+    const char *LinuxAssetManager::executableDir() const
     {
         return m_AppDirectory;
     }
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
+    /// \date    August 4th, 2016
     /// \fn      folderFiles
     ///
-    ///////////////////////////////////////////////////////////
-    const char **Win32AssetManager::folderFiles
-    (
-        const char *folder,
-        const char *extension,
-        unsigned int *count
+    //////////////////////////////////////////////////////////
+    const char **LinuxAssetManager::folderFiles(
+            const char *folder,
+            const char *extension,
+            unsigned int *count
     ) const
     {
         assert(folder);
@@ -105,6 +102,8 @@ namespace Qube2D
 
         std::string strFolder = folder;
         std::string strExt = extension;
+        std::vector<const char *> fileVec;
+
 
         // Determines whether the given folder is relative
         if (folder[0] == ':' && folder[1] == '/')
@@ -113,34 +112,40 @@ namespace Qube2D
             strFolder.insert(0, m_AppDirectory);
         }
 
-        // Repairs the extension string
-        if (extension[0] != '*' && extension[1] != '.')
-            strExt.insert(0, "*.");
 
-        strFolder.append(strExt);
+        // Prepares the extension string for Linux
+        if (extension[0] != '.')
+            strExt.insert(0, ".");
 
 
-        // Searches the first file in the folder
-        WIN32_FIND_DATAA findData;
-        HANDLE findHandle = FindFirstFileA(strFolder.c_str(), &findData);
-
-        // Determines whether there is any file
-        if (findHandle == INVALID_HANDLE_VALUE)
+        // Opens the directory
+        DIR *dir = opendir(strFolder.c_str());
+        if (!dir)
             return NULL;
 
-        // Finds all remaining files
-        std::vector<const char *> foundFiles;
-        do
-        {
-          foundFiles.push_back(findData.cFileName);
-        } while (FindNextFileA(findHandle, &findData));
+        struct dirent *file;
+        errno = 0;
 
-        // Copies the contents from the vector to a vanilla array
-        const char **files = new const char *[foundFiles.size()];
-        std::copy(foundFiles.begin(), foundFiles.end(), files);
+        // Loops through every file and compares extension
+        while ((file = readdir(dir)) != NULL)
+        {
+            // Check for invalid file-names
+            if (!strcmp(file->d_name, "."))  continue;
+            if (!strcmp(file->d_name, "..")) continue;
+
+
+            // Compare extension string
+            if (!strcmp(strrchr(file->d_name, '.'), strExt.c_str()))
+                fileVec.push_back(file->d_name);
+        }
+
+
+        // Copies the vector contents to a vanilla array
+        const char **files = new const char *[fileVec.size()];
+        std::copy(fileVec.begin(), fileVec.end(), files);
 
         // Specifies the return/output values
-        *count = foundFiles.size();
+        *count = fileVec.size();
         return files;
     }
 }

@@ -47,7 +47,7 @@ namespace Qube2D
     /// functions, such as 'readlink' on unix systems.
     ///
     ///////////////////////////////////////////////////////////
-    
+    ///
     #   if defined (_WIN32)
     #       define Q2D_SYS_WINDOWS
     #   elif defined (__unix__)
@@ -81,7 +81,7 @@ namespace Qube2D
     /// it to link to Qube2D classes and functions.
     ///
     ///////////////////////////////////////////////////////////
-    
+    ///
     #   if defined (Q2D_SYS_WINDOWS)
     #       if defined (__Q2D_LIBRARY__)
     #          define Q2D_API __declspec(dllexport)
@@ -110,7 +110,7 @@ namespace Qube2D
     /// they have different settings.
     ///
     ///////////////////////////////////////////////////////////
-    
+    ///
     #   if defined (__Q2D_LIBRARY__)
     #      define Q2D_TPL template class Q2D_API
     #   else
@@ -120,6 +120,7 @@ namespace Qube2D
 
 
     /* Platform independent type definitions */
+    typedef bool                        QBool;
     typedef char                        QInt8;
     typedef unsigned char               QUInt8;
     typedef signed   short              QInt16;
