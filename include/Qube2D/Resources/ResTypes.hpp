@@ -74,9 +74,9 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     struct ResEntry
     {
-        const char *name;   // Unique resource name
-        ResTypes type;      // Resource type
-        const QUInt8 *data; // Raw byte data
+        const char *name;   ///< Unique resource name
+        ResTypes type;      ///< Resource type
+        const QUInt8 *data; ///< Raw byte data
     };
 
     ///////////////////////////////////////////////////////////
@@ -89,8 +89,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     struct PrivateRes
     {
-        ResTypes type;      // Resource type
-        const QUInt8 *data; // Raw byte data
+        ResTypes type;      ///< Resource type
+        const QUInt8 *data; ///< Raw byte data
     };
 
 }

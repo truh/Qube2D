@@ -39,6 +39,7 @@
 #include <Qube2D/System/Debug.hpp>
 #include <cstdarg>
 #include <codecvt>
+#include <cstring>
 #include <sstream>
 #include <locale>
 #include <climits>
@@ -1089,5 +1090,38 @@ namespace Qube2D
 
         va_end(argList);
         return *this;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    July 31th, 2016
+    /// \fn      checkEncoding -> static
+    ///
+    ///////////////////////////////////////////////////////////
+    TextEncoding String::checkEncoding(const QUInt8 *str)
+    {
+        // check for UTF-8 BOM
+        if (memcmp(str, "\xEF\xBB\xBF", 3) == 0)
+            return TENC_Utf8;
+
+        // check for UTF-32 LE/BE (before UTF-16 since LE is the same)
+        if (memcmp(str, "\x00\x00\xFE\xFF", 4) == 0)
+            return TENC_Utf32_BE;
+        if (memcmp(str, "\xFF\xFE\x00\x00", 4) == 0)
+            return TENC_Utf32_LE;
+
+        // check for UTF-16 LE/BE
+        if (memcmp(str, "\xFE\xFF", 2) == 0)
+            return TENC_Utf16_BE;
+        if (memcmp(str, "\xFF\xFE", 2) == 0)
+            return TENC_Utf16_LE;
+
+        // check if containing valid ASCII characters
+        for (int i = 0; str[i]; i++)
+            if (str[i] >= 0x80)
+                return TENC_Invalid;
+
+        return TENC_Ascii;
     }
 }

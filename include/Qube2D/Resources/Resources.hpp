@@ -91,60 +91,8 @@ namespace Qube2D
 
 
 
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    July 9th, 2016
-    /// \fn      initialize -> static
-    ///
-    ///////////////////////////////////////////////////////////
-    template <typename T> void Resources::initialize()
-    {
-        // Assures that T is devired from Qube2D::Resource
-        static_assert(std::is_base_of<Resource, T>::value,
-                      "Given resource class is not a base of Qube2D::Resource!");
-
-        // Retrieves the resource vector
-        T *obj = new T;
-        Resource *res = dynamic_cast<Resource *>(obj);
-        std::vector<ResEntry *> vec = res->getResources();
-
-        // Parses the resource vector to a map
-        for (ResEntry *entry : vec)
-        {
-            PrivateRes priv { entry->type, entry->data };
-            m_Resources.insert(std::make_pair(entry->name, priv));
-        }
-    }
-
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
-    /// \fn      load -> static (specialization: utf8)
-    ///
-    ///////////////////////////////////////////////////////////
-    template <> const char *Resources::load
-        <const char*>(const char *name)
-    {
-        if (m_Resources.find(name) == m_Resources.end())
-            return NULL;
-
-        return reinterpret_cast<const char *>(m_Resources[name].data);
-    }
-
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    June 27th, 2016
-    /// \fn      load -> static (specialization: utf16)
-    ///
-    ///////////////////////////////////////////////////////////
-    template <> const char16_t *Resources::load
-        <const char16_t*>(const char *name)
-    {
-        if (m_Resources.find(name) == m_Resources.end())
-            return NULL;
-
-        return (const char16_t *)(m_Resources[name].data);
-    }
+    // template function definitions
+    #include <Qube2D/Resources/Resources.inl>
 }
 
 

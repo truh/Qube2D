@@ -253,44 +253,22 @@ namespace Qube2D
 
     private:
 
-        ///////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////
         // Class members
         //
-        ///////////////////////////////////////////////////////////
-        std::string m_Name;
-        Object *m_Parent;
-        std::vector<Object *> m_Children;
-        std::map<const char*, Variant> m_Properties;
-        Variant m_InvalidProp;
+        /////////////////////////////////////////////////////////////////////////////////////////
+        std::string m_Name;                             ///< Name of the object
+        Object *m_Parent;                               ///< Parental object
+        std::vector<Object *> m_Children;               ///< Child objects
+        std::map<const char*, Variant> m_Properties;    ///< Properties
+        Variant m_InvalidProp;                          ///< Value to return for invalid property
 
     };
 
 
 
-    ///////////////////////////////////////////////////////////
-    template <typename T>
-    inline const std::vector<T *> Object::childrenOfType() const
-    {
-        std::vector<T *> matches;
-
-        for (Object *obj : m_Children)
-            if (dynamic_cast<T *>(obj) != NULL)
-                matches.push_back(dynamic_cast<T *>(obj));
-
-        return matches;
-    }
-
-    ///////////////////////////////////////////////////////////
-    template <typename T> inline bool Object::isType() const
-    {
-        return dynamic_cast<T *>(this) != NULL;
-    }
-
-    ///////////////////////////////////////////////////////////
-    template <typename T> inline T *Object::convert() const
-    {
-        return dynamic_cast<T *>(this);
-    }
+    // template function definitions
+    #include <Qube2D/System/Object.inl>
 }
 
 

@@ -92,7 +92,8 @@ namespace Qube2D
     /// \brief   A macro to print an error message.
     ///
     ///////////////////////////////////////////////////////////
-    #define Q2DError(msg, ...)                                              \
+#   ifndef NDEBUG
+#   define Q2DError(msg, ...)                                               \
     {                                                                       \
         Debug::printError                                                   \
         (                                                                   \
@@ -104,6 +105,9 @@ namespace Qube2D
             __VA_ARGS__                                                     \
         );                                                                  \
     }
+#   else
+#   define Q2DError(msg, ...) ((void)msg)
+#   endif
 }
 
 
