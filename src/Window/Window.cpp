@@ -73,7 +73,14 @@ namespace Qube2D
         {
             glfwDestroyWindow(m_Window);
             glfwTerminate();
+
+            m_Window = NULL;
+            Current = NULL;
         }
+
+
+        delete Viewport;
+        Viewport = NULL;
     }
 
 
@@ -311,5 +318,28 @@ namespace Qube2D
     GLFWwindow *Window::nativeWindow() const
     {
         return m_Window;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 15th, 2016
+    /// \fn      currentWindow -> static
+    ///
+    ///////////////////////////////////////////////////////////
+    Window *Window::currentWindow()
+    {
+        return Current;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 15th, 2016
+    /// \fn      viewport -> static
+    ///
+    ///////////////////////////////////////////////////////////
+    RectF *Window::viewport()
+    {
+        return Viewport;
     }
 }
