@@ -38,7 +38,12 @@
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
 #include <GLFW/glfw3.h>
-#include <GL/gl.h>
+
+#if defined(Q2D_SYS_ANDROID) || defined(Q2D_SYS_IOS)
+#   include <GLES2/gl2.h>
+#else
+#   include <GL/gl.h>
+#endif
 
 
 namespace Qube2D
