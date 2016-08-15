@@ -40,6 +40,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
 #include <Qube2D/System/Uncopyable.hpp>
+#include <Qube2D/System/Structs/Rect.hpp>
 #include <Qube2D/Window/WindowSettings.hpp>
 #include <Qube2D/Window/WindowCallbacks.hpp>
 
@@ -291,11 +292,18 @@ namespace Qube2D
 
 
         ///////////////////////////////////////////////////////////
-        /// \var    Qube2D::Window::Current
-        /// \brief  Holds the currently active window.
+        /// \fn     currentWindow -> static
+        /// \brief  Retrieves the currently active window.
         ///
         ///////////////////////////////////////////////////////////
-        Window *Current = { 0 };
+        static Window *currentWindow();
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     viewport
+        /// \brief  Retrieves the window's viewport (pos+size).
+        ///
+        ///////////////////////////////////////////////////////////
+        static RectF *viewport();
 
 
     private:
@@ -308,6 +316,13 @@ namespace Qube2D
         GLFWwindow *m_Window;       ///< Underlying GLFW window
         WindowSettings m_Settings;  ///< Game & window settings
 
+
+        ///////////////////////////////////////////////////////////
+        // Static variables
+        //
+        ///////////////////////////////////////////////////////////
+        static Window *Current = { 0 };
+        static RectF *Viewport = { 0 };
     };
 }
 
