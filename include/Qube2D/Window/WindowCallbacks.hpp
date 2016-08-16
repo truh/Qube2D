@@ -73,6 +73,28 @@ namespace Qube2D
 
 
     ///////////////////////////////////////////////////////////
+    /// \file    WindowCallbacks.hpp
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \def     Qube2D_XYZW_Callback
+    /// \brief   Delegates holding the callback functions.
+    ///
+    ///////////////////////////////////////////////////////////
+    ///
+    PFNQUBEINIT         Qube2D_Init_Callback;
+    PFNQUBEEXIT         Qube2D_Exit_Callback;
+    PFNQUBEUPDATE       Qube2D_Update_Callback;
+    PFNQUBERENDER       Qube2D_Render_Callback;
+    PFNQUBEKEYDOWN      Qube2D_KeyDown_Callback;
+    PFNQUBEKEYUP        Qube2D_KeyUp_Callback;
+    PFNQUBEKEYCHAR      Qube2D_KeyChar_Callback;
+    PFNQUBEMOUSEDOWN    Qube2D_MouseDown_Callback;
+    PFNQUBEMOUSEUP      Qube2D_MouseUp_Callback;
+    PFNQUBEMOUSEMOVE    Qube2D_MouseMove_Callback;
+    PFNQUBEMOUSEWHEEL   Qube2D_MouseWheel_Callback;
+
+
+    ///////////////////////////////////////////////////////////
     /// \fn     GLFW_Key_Callback
     /// \brief  Translates the GLFW key event.
     ///

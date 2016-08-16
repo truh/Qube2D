@@ -62,6 +62,17 @@ namespace Qube2D
           m_IsActive(false)
     {
         // Sets all callbacks to a nullsub
+        Qube2D_Init_Callback        = { };
+        Qube2D_Exit_Callback        = { };
+        Qube2D_Update_Callback      = { };
+        Qube2D_Render_Callback      = { };
+        Qube2D_KeyDown_Callback     = { };
+        Qube2D_KeyUp_Callback       = { };
+        Qube2D_KeyChar_Callback     = { };
+        Qube2D_MouseDown_Callback   = { };
+        Qube2D_MouseUp_Callback     = { };
+        Qube2D_MouseMove_Callback   = { };
+        Qube2D_MouseWheel_Callback  = { };
     }
 
     ///////////////////////////////////////////////////////////
@@ -98,7 +109,7 @@ namespace Qube2D
         // Initializes the GLFW library
         if (!glfwInit())
         {
-            Q2DError(Q2D_WINDOW_ERROR_0, 0);
+            Q2DErrorNoArg(Q2D_WINDOW_ERROR_0);
             return false;
         }
 
@@ -119,10 +130,15 @@ namespace Qube2D
         // Sets the OpenGL context hints (for desktop)
     #   if !defined(Q2D_SYS_ANDROID) && !defined(Q2D_SYS_IOS)
             glfwWindowHint(GLFW_SAMPLES, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    #   else // (for mobile devices)
+            glfwWindowHint(GLFW_SAMPLES, 4);
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2); // OpenGLES 2.0
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     #   endif
 
 
@@ -131,12 +147,12 @@ namespace Qube2D
         const GLFWvidmode *video;
         if (!(monitor = glfwGetPrimaryMonitor()))
         {
-            Q2DError(Q2D_WINDOW_ERROR_1, 0);
+            Q2DErrorNoArg(Q2D_WINDOW_ERROR_1);
             return false;
         }
         if (!(video = glfwGetVideoMode(monitor)))
         {
-            Q2DError(Q2D_WINDOW_ERROR_2, 0);
+            Q2DErrorNoArg(Q2D_WINDOW_ERROR_2);
             return false;
         }
 
@@ -176,12 +192,21 @@ namespace Qube2D
 
 
         // If we need a window in windowed mode, the monitor should be NULL.
+        // Also, the viewport is different for fullscreen windows.
         if (attr.isFullscreen())
         {
+            Viewport->setX(0);
+            Viewport->setY(0);
+            Viewport->setWidth(video->width);
+            Viewport->setHeight(video->height);
         }
         else
         {
             monitor = NULL;
+            Viewport->setX(static_cast<float>(x));
+            Viewport->setY(static_cast<float>(y));
+            Viewport->setWidth(static_cast<float>(attr.windowSize().width()));
+            Viewport->setHeight(static_cast<float>(attr.windowSize().height()));
         }
 
 
@@ -189,7 +214,7 @@ namespace Qube2D
         if (!(m_Window = glfwCreateWindow(width, height, attr.title(), monitor, NULL)))
         {
             glfwTerminate();
-            Q2DError(Q2D_WINDOW_ERROR_3, 0);
+            Q2DErrorNoArg(Q2D_WINDOW_ERROR_3);
             return false;
         }
 
@@ -209,12 +234,12 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Window::destroy(bool exit)
     {
-        //Qube2D_Exit_Callback();
+        Qube2D_Exit_Callback();
         glfwDestroyWindow(m_Window);
         glfwTerminate();
 
         if (exit)
-            std::exit(0);
+            std::exit(GL_NO_ERROR);
     }
 
     ///////////////////////////////////////////////////////////
@@ -228,7 +253,7 @@ namespace Qube2D
         // Assures that the window has been created beforehand
         if (!m_Window)
         {
-            Q2DError(Q2D_WINDOW_ERROR_4, 0);
+            Q2DErrorNoArg(Q2D_WINDOW_ERROR_4);
             return;
         }
 
@@ -260,7 +285,7 @@ namespace Qube2D
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         m_IsActive = GL_TRUE;
-        //Qube2D_Init_Callback();
+        Qube2D_Init_Callback();
 
 
         // Defines values for computing the delta time
@@ -275,17 +300,17 @@ namespace Qube2D
             {
                 // Updates the game (provides delta time)
                 elapsed = glfwGetTime();
-                //Qube2D_Update_Callback(elapsed-current);
+                Qube2D_Update_Callback(elapsed-current);
                 current = elapsed;
 
                 // Renders the game
                 glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-                //Qube2D_Render_Callback();
+                Qube2D_Render_Callback();
                 glfwSwapBuffers(m_Window);
 
                 // GLFW does not repeatedly send key-down events; we hack
                 // this behaviour to provide multi-key-press features
-                //Qube2D_KeyDown_Callback();
+                Qube2D_KeyDown_Callback();
             }
 
             // Processes all pending GLFW events
@@ -295,7 +320,7 @@ namespace Qube2D
 
 
         // Terminates the game and frees all resources
-        //Qube2D_Exit_Callback();
+        Qube2D_Exit_Callback();
         destroy();
     }
 
@@ -320,6 +345,130 @@ namespace Qube2D
     {
         m_IsActive = active;
     }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setInitializeFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setInitializeFunction(PFNQUBEINIT func)
+    {
+        Qube2D_Init_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setExitFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setExitFunction(PFNQUBEEXIT func)
+    {
+        Qube2D_Exit_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setUpdateFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setUpdateFunction(PFNQUBEUPDATE func)
+    {
+        Qube2D_Update_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setRenderFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setRenderFunction(PFNQUBERENDER func)
+    {
+        Qube2D_Render_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setKeyDownFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setKeyDownFunction(PFNQUBEKEYDOWN func)
+    {
+        Qube2D_KeyDown_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setKeyUpFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setKeyUpFunction(PFNQUBEKEYUP func)
+    {
+        Qube2D_KeyUp_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setKeyCharFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setKeyCharFunction(PFNQUBEKEYCHAR func)
+    {
+        Qube2D_KeyChar_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setMouseDownFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setMouseDownFunction(PFNQUBEMOUSEDOWN func)
+    {
+        Qube2D_MouseDown_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setMouseUpFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setMouseUpFunction(PFNQUBEMOUSEUP func)
+    {
+        Qube2D_MouseUp_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setMouseWheelFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setMouseWheelFunction(PFNQUBEMOUSEWHEEL func)
+    {
+        Qube2D_MouseWheel_Callback = func;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    August 16th, 2016
+    /// \fn      setMouseMoveFunction
+    ///
+    ///////////////////////////////////////////////////////////
+    void Window::setMouseMoveFunction(PFNQUBEMOUSEMOVE func)
+    {
+        Qube2D_MouseMove_Callback = func;
+    }
+
+
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)

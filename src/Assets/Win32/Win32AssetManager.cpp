@@ -147,7 +147,7 @@ namespace Qube2D
             // Windows requires the extension string after the folder; we do not need it.
             strFolder.erase(strFolder.length()-strExt.length(), strExt.length());
             Q2DError(Q2D_ASSETS_ERROR_4, strFolder.c_str());
-            return;
+            return NULL;
         }
 
 
