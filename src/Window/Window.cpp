@@ -62,17 +62,20 @@ namespace Qube2D
           m_IsActive(false)
     {
         // Sets all callbacks to a nullsub
-        Qube2D_Init_Callback        = { };
-        Qube2D_Exit_Callback        = { };
-        Qube2D_Update_Callback      = { };
-        Qube2D_Render_Callback      = { };
-        Qube2D_KeyDown_Callback     = { };
-        Qube2D_KeyUp_Callback       = { };
-        Qube2D_KeyChar_Callback     = { };
-        Qube2D_MouseDown_Callback   = { };
-        Qube2D_MouseUp_Callback     = { };
-        Qube2D_MouseMove_Callback   = { };
-        Qube2D_MouseWheel_Callback  = { };
+        Qube2D_Init_Callback        = [] ( void ) { };
+        Qube2D_Exit_Callback        = [] ( void ) { };
+        Qube2D_Update_Callback      = [] (double) { };
+        Qube2D_Render_Callback      = [] ( void ) { };
+        Qube2D_KeyDown_Callback     = [] ( void ) { };
+        Qube2D_KeyUp_Callback       = [] ( void ) { };
+        Qube2D_KeyChar_Callback     = [] ( void ) { };
+        Qube2D_MouseDown_Callback   = [] ( void ) { };
+        Qube2D_MouseUp_Callback     = [] ( void ) { };
+        Qube2D_MouseMove_Callback   = [] ( void ) { };
+        Qube2D_MouseWheel_Callback  = [] (double) { };
+
+        // Initializes the viewport
+        Viewport = new RectF;
     }
 
     ///////////////////////////////////////////////////////////
@@ -234,7 +237,6 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Window::destroy(bool exit)
     {
-        Qube2D_Exit_Callback();
         glfwDestroyWindow(m_Window);
         glfwTerminate();
 
