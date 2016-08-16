@@ -40,17 +40,21 @@ namespace Qube2D
     /// \file    AssetErrors.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 28th, 2016
-    /// \brief   Defines error messages for class 'Assets'.
+    /// \brief   Defines error messages for 'Asset' classes.
     ///
     /// Q2D_ASSETS_ERROR_0
     /// Q2D_ASSETS_ERROR_1
     /// Q2D_ASSETS_ERROR_2
+    /// Q2D_ASSETS_ERROR_3
+    /// Q2D_ASSETS_ERROR_4
     ///
     ///////////////////////////////////////////////////////////
 
     #define Q2D_ASSETS_ERROR_0 "The given relative path is invalid. No such asset file exists.\n    Path: %0"
     #define Q2D_ASSETS_ERROR_1 "The file appears to be empty whereas it should not be for this function.\n    Path: %0"
     #define Q2D_ASSETS_ERROR_2 "The text file has an invalid encoding. Please check the BOM header.\n    Path: %0"
+    #define Q2D_ASSETS_ERROR_3 "The path of the current executable could not be found."
+    #define Q2D_ASSETS_ERROR_4 "There are no files that match the given conditions\n    in folder '%0'."
 }
 
 

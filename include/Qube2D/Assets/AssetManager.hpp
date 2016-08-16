@@ -95,7 +95,7 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         virtual const char **folderFiles(const char *folder,
                                          const char *extension,
-                                         unsigned int *count) = 0;
+                                         unsigned int *count) const = 0;
 
     protected:
 

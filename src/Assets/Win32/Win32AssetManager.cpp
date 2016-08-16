@@ -35,6 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Assets/Win32/Win32AssetManager.hpp>
+#include <Qube2D/Assets/AssetErrors.hpp>
 #include <Qube2D/System/Debug.hpp>
 #include <windows.h>
 #include <vector>
@@ -54,7 +55,11 @@ namespace Qube2D
     {
         // Retrieves the full executable path
         m_AppDirectory = new char[MAX_PATH];
-        GetModuleFileNameA(NULL, m_AppDirectory, MAX_PATH);
+        if (!GetModuleFileNameA(NULL, m_AppDirectory, MAX_PATH))
+        {
+            Q2DErrorNoArg(Q2D_ASSETS_ERROR_3);
+            return;
+        }
 
         std::string str(m_AppDirectory);
         QInt8 index = str.find_last_of("\\/");
@@ -134,6 +139,17 @@ namespace Qube2D
         {
           foundFiles.push_back(findData.cFileName);
         } while (FindNextFileA(findHandle, &findData));
+
+
+        // Assures that at least one file matched the conditions
+        if (foundFiles.size() == 0)
+        {
+            // Windows requires the extension string after the folder; we do not need it.
+            strFolder.erase(strFolder.length()-strExt.length(), strExt.length());
+            Q2DError(Q2D_ASSETS_ERROR_4, strFolder.c_str());
+            return;
+        }
+
 
         // Copies the contents from the vector to a vanilla array
         const char **files = new const char *[foundFiles.size()];

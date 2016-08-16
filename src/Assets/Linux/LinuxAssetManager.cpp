@@ -35,6 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Assets/Linux/LinuxAssetManager.hpp>
+#include <Qube2D/Assets/AssetErrors.hpp>
 #include <Qube2D/System/Debug.hpp>
 #include <cstdio>
 #include <vector>
@@ -53,7 +54,12 @@ namespace Qube2D
     LinuxAssetManager::LinuxAssetManager()
     {
         m_AppDirectory = new char[FILENAME_MAX];
-        readlink("/proc/self/exe", m_AppDirectory, FILENAME_MAX);
+        if (readlink("/proc/self/exe", m_AppDirectory, FILENAME_MAX) <= 0)
+        {
+            Q2DErrorNoArg(Q2D_ASSETS_ERROR_3);
+            return;
+        }
+
 
         std::string str(m_AppDirectory);
         QInt8 index = str.find_last_of("/");
@@ -137,6 +143,14 @@ namespace Qube2D
             // Compare extension string
             if (!strcmp(strrchr(file->d_name, '.'), strExt.c_str()))
                 fileVec.push_back(file->d_name);
+        }
+
+
+        // Assures that at least one file matched the conditions
+        if (fileVec.size() == 0)
+        {
+            Q2DError(Q2D_ASSETS_ERROR_4, strFolder.c_str());
+            return NULL;
         }
 
 

@@ -35,9 +35,9 @@ DEPENDPATH  += $$PWD/include
 #
 #  Dependencies
 #
-linux-g++*:         LIBS += -L$$PWD/lib/glfw3.2/linux/ -lglfw3.2
+linux-g++*:         LIBS += -L$$PWD/lib/glfw-3.2/linux/ -lglfw-3.2
 win32:!win32-g++:   PRE_TARGETDEPS += $$PWD/lib/glfw3.2/win32/libglfw3.2.lib -lgdi32
-else:win32-g++:     LIBS += -L$$PWD/lib/glfw3.2/win32/ -lglfw3.2 -lgdi32
+else:win32-g++:     LIBS += -L$$PWD/lib/glfw-3.2/win32/ -lglfw-3.2 -lgdi32
 
 win32:  LIBS += -lopengl32
 unix:   LIBS += -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -pthread -dl
@@ -76,7 +76,8 @@ HEADERS += \
     include/Qube2D/Window/WindowEnums.hpp \
     include/Qube2D/Window/Window.hpp \
     include/Qube2D/Window/WindowCallbacks.hpp \
-    include/Qube2D/Window/WindowErrors.hpp
+    include/Qube2D/Window/WindowErrors.hpp \
+    include/glad/glad.h
 
 
 #
@@ -95,7 +96,8 @@ SOURCES += \
     src/Resources/Resources.cpp \
     src/Window/WindowSettings.cpp \
     src/Window/Window.cpp \
-    src/System/Structs/Structs.cpp
+    src/System/Structs/Structs.cpp \
+    include/glad/glad.c
 
 
 #

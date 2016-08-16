@@ -88,11 +88,11 @@ namespace Qube2D
     /// \file    Debug.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 25th, 2016
-    /// \def     Q2DError
+    /// \def     Q2DError, Q2DErrorNoArg
     /// \brief   A macro to print an error message.
     ///
     ///////////////////////////////////////////////////////////
-#   ifndef NDEBUG
+#ifndef NDEBUG
 #   define Q2DError(msg, ...)                                               \
     {                                                                       \
         Debug::printError                                                   \
@@ -105,9 +105,11 @@ namespace Qube2D
             __VA_ARGS__                                                     \
         );                                                                  \
     }
-#   else
+#   define Q2DErrorNoArg(msg) (Debug::printError(0, msg, __FILE__, __func__, __LINE__, NULL))
+#else
 #   define Q2DError(msg, ...) ((void)msg)
-#   endif
+#   define Q2DErrorNoArg(msg) ((void)msg)
+#endif
 }
 
 

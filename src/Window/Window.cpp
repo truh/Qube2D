@@ -37,17 +37,20 @@
 #include <Qube2D/System/Debug.hpp>
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
-#if defined(Q2D_SYS_ANDROID) || defined(Q2D_SYS_IOS)
-#   include <GLES2/gl2.h>
-#else
-#   include <GL/gl.h>
-#endif
 
 
 namespace Qube2D
 {
+    ///////////////////////////////////////////////////////////
+    // Static variable definitions
+    //
+    ///////////////////////////////////////////////////////////
+    Window *Window::Current = NULL;
+    RectF *Window::Viewport = NULL;
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 9th, 2016
@@ -230,9 +233,18 @@ namespace Qube2D
         }
 
 
-        // Specifies the clear color and shows the window
+        // Sets context current to this thread and loads extensions
         GLColor clear = m_Settings.clearColor();
         glfwMakeContextCurrent(m_Window);
+
+    #   if defined(Q2D_SYS_ANDROID) || defined(Q2D_SYS_IOS)
+            gladLoadGLES2Loader((GLADloadproc) glfwGetProcAddress);
+    #   else
+            gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    #   endif
+
+
+        // Specifies the clear color and shows the window
         glClearColor(clear.r(), clear.g(), clear.b(), clear.a());
         glfwShowWindow(m_Window);
 

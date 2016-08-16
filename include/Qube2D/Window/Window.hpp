@@ -321,8 +321,8 @@ namespace Qube2D
         // Static variables
         //
         ///////////////////////////////////////////////////////////
-        static Window *Current = { 0 };
-        static RectF *Viewport = { 0 };
+        static Window *Current;
+        static RectF *Viewport;
     };
 }
 
