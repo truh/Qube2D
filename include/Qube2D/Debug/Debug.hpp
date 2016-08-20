@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -92,24 +92,25 @@ namespace Qube2D
     /// \brief   A macro to print an error message.
     ///
     ///////////////////////////////////////////////////////////
-#ifndef NDEBUG
-#   define Q2DError(msg, ...)                                               \
-    {                                                                       \
-        Debug::printError                                                   \
-        (                                                                   \
-            std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value, \
-            msg,                                                            \
-            __FILE__,                                                       \
-            __func__,                                                       \
-            __LINE__,                                                       \
-            __VA_ARGS__                                                     \
-        );                                                                  \
-    }
-#   define Q2DErrorNoArg(msg) (Debug::printError(0, msg, __FILE__, __func__, __LINE__, NULL))
-#else
-#   define Q2DError(msg, ...) ((void)msg)
-#   define Q2DErrorNoArg(msg) ((void)msg)
-#endif
+    /// 
+#   ifndef NDEBUG
+#       define Q2DErrorNoArg(msg) (Debug::printError(0, msg, __FILE__, __func__, __LINE__, NULL))
+#       define Q2DError(msg, ...)                                               \
+        {                                                                       \
+            Debug::printError                                                   \
+            (                                                                   \
+                std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value, \
+                msg,                                                            \
+                __FILE__,                                                       \
+                __func__,                                                       \
+                __LINE__,                                                       \
+                __VA_ARGS__                                                     \
+            );                                                                  \
+        }
+#   else
+#       define Q2DError(msg, ...) ((void)msg)
+#       define Q2DErrorNoArg(msg) ((void)msg)
+#   endif
 }
 
 
