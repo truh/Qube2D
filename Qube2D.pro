@@ -56,7 +56,7 @@ HEADERS += \
     include/Qube2D/Config.hpp \
     include/Qube2D/System/Storage/File.hpp \
     include/Qube2D/System/Storage/FileEnums.hpp \
-    include/Qube2D/System/Debug.hpp \
+    include/Qube2D/Debug/Debug.hpp \
     include/Qube2D/System/Storage/Variant.hpp \
     include/Qube2D/System/Storage/VariantEnums.hpp \
     include/Qube2D/Assets/Assets.hpp \
@@ -77,7 +77,19 @@ HEADERS += \
     include/Qube2D/Window/Window.hpp \
     include/Qube2D/Window/WindowCallbacks.hpp \
     include/Qube2D/Window/WindowErrors.hpp \
-    include/glad/glad.h
+    include/glad/glad.h \
+    include/Qube2D/Input/Keyboard.hpp \
+    include/Qube2D/Input/Keys.hpp \
+    include/Qube2D/Input/Mouse.hpp \
+    include/Qube2D/Input/Buttons.hpp \
+    include/Qube2D/Debug/GLCheck.hpp \
+    include/Qube2D/Graphics/OpenGL/VertexArray.hpp \
+    include/Qube2D/Graphics/OpenGL/VertexBuffer.hpp \
+    include/Qube2D/Graphics/OpenGL/GLEnums.hpp \
+    include/Qube2D/Graphics/OpenGL/Texture.hpp \
+    include/Qube2D/Graphics/OpenGL/Shader.hpp \
+    include/Qube2D/Graphics/OpenGL/ShaderProgram.hpp \
+    include/Qube2D/Graphics/OpenGL/GLErrors.hpp
 
 
 #
@@ -87,7 +99,7 @@ SOURCES += \
     src/System/Structs/Color.cpp \
     src/System/Structs/GLColor.cpp \
     src/System/Storage/File.cpp \
-    src/System/Debug.cpp \
+    src/Debug/Debug.cpp \
     src/System/Storage/Variant.cpp \
     src/Assets/AssetManager.cpp \
     src/Assets/Assets.cpp \
@@ -97,7 +109,15 @@ SOURCES += \
     src/Window/WindowSettings.cpp \
     src/Window/Window.cpp \
     src/System/Structs/Structs.cpp \
-    include/glad/glad.c
+    include/glad/glad.c \
+    src/Input/Keyboard.cpp \
+    src/Input/Mouse.cpp \
+    src/Window/WindowCallbacks.cpp \
+    src/Debug/GLCheck.cpp \
+    src/Graphics/OpenGL/VertexArray.cpp \
+    src/Graphics/OpenGL/VertexBuffer.cpp \
+    src/Graphics/OpenGL/Shader.cpp \
+    src/Graphics/OpenGL/ShaderProgram.cpp
 
 
 #
