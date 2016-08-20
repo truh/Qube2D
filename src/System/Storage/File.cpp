@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -35,7 +35,8 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Storage/File.hpp>
-#include <Qube2D/System/Debug.hpp>
+#include <Qube2D/Assets/Assets.hpp>
+#include <Qube2D/Debug/Debug.hpp>
 #include <cstring>
 #include <sys/stat.h>
 
@@ -70,12 +71,10 @@ namespace Qube2D
 
 
         // Determines whether the given path is relative or absolute
-        // and converts the relative to an absolute in case.
-        std::string pathFile;
-        if (path[0] == ':' && path[1] == '/')
-            /*pathFile = Assets::makePath(path)*/;
-        else
-            pathFile = path;
+        // and converts the relative to an absolute eventually.
+        std::string pathFile = path;
+        if (Assets::isRelative(path))
+            pathFile = Assets::makePath(path);
 
 
         // Determines the stream open flags

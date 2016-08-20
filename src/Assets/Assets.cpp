@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -34,6 +34,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
+#   include <Qube2D/Assets/AssetErrors.hpp>
 #   include <Qube2D/Assets/Assets.hpp>
 #ifdef Q2D_SYS_WINDOWS
 #   include <Qube2D/Assets/Win32/Win32AssetManager.hpp>

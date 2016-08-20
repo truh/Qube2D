@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -36,7 +36,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Localization/String.hpp>
 #include <Qube2D/System/Structs/Point.hpp>
-#include <Qube2D/System/Debug.hpp>
+#include <Qube2D/Debug/Debug.hpp>
 #include <cstdarg>
 #include <codecvt>
 #include <cstring>
