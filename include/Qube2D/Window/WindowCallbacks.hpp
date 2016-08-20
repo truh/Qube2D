@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -65,7 +65,7 @@ namespace Qube2D
     typedef void ( *PFNQUBERENDER     )(  void  );
     typedef void ( *PFNQUBEKEYDOWN    )(  void  );
     typedef void ( *PFNQUBEKEYUP      )(  void  );
-    typedef void ( *PFNQUBEKEYCHAR    )(  void  );
+    typedef void ( *PFNQUBEKEYCHAR    )(unsigned);
     typedef void ( *PFNQUBEMOUSEDOWN  )(  void  );
     typedef void ( *PFNQUBEMOUSEUP    )(  void  );
     typedef void ( *PFNQUBEMOUSEMOVE  )(  void  );
@@ -81,17 +81,17 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     ///
-    PFNQUBEINIT         Qube2D_Init_Callback;
-    PFNQUBEEXIT         Qube2D_Exit_Callback;
-    PFNQUBEUPDATE       Qube2D_Update_Callback;
-    PFNQUBERENDER       Qube2D_Render_Callback;
-    PFNQUBEKEYDOWN      Qube2D_KeyDown_Callback;
-    PFNQUBEKEYUP        Qube2D_KeyUp_Callback;
-    PFNQUBEKEYCHAR      Qube2D_KeyChar_Callback;
-    PFNQUBEMOUSEDOWN    Qube2D_MouseDown_Callback;
-    PFNQUBEMOUSEUP      Qube2D_MouseUp_Callback;
-    PFNQUBEMOUSEMOVE    Qube2D_MouseMove_Callback;
-    PFNQUBEMOUSEWHEEL   Qube2D_MouseWheel_Callback;
+    extern PFNQUBEINIT         Qube2D_Init_Callback;
+    extern PFNQUBEEXIT         Qube2D_Exit_Callback;
+    extern PFNQUBEUPDATE       Qube2D_Update_Callback;
+    extern PFNQUBERENDER       Qube2D_Render_Callback;
+    extern PFNQUBEKEYDOWN      Qube2D_KeyDown_Callback;
+    extern PFNQUBEKEYUP        Qube2D_KeyUp_Callback;
+    extern PFNQUBEKEYCHAR      Qube2D_KeyChar_Callback;
+    extern PFNQUBEMOUSEDOWN    Qube2D_MouseDown_Callback;
+    extern PFNQUBEMOUSEUP      Qube2D_MouseUp_Callback;
+    extern PFNQUBEMOUSEMOVE    Qube2D_MouseMove_Callback;
+    extern PFNQUBEMOUSEWHEEL   Qube2D_MouseWheel_Callback;
 
 
     ///////////////////////////////////////////////////////////
@@ -179,9 +179,9 @@ namespace Qube2D
     /// \param  y_off Vertical scroll offset
     ///
     ///////////////////////////////////////////////////////////
-    extern void GLFW_Key_Callback(GLFWwindow *window,
-                                  QDouble x_off,
-                                  QDouble y_off);
+    extern void GLFW_Scroll_Callback(GLFWwindow *window,
+                                     QDouble x_off,
+                                     QDouble y_off);
 
     ///////////////////////////////////////////////////////////
     /// \fn     GLFW_Focus_Callback
@@ -194,8 +194,8 @@ namespace Qube2D
     /// \param  is_focus Determines whether it is focused
     ///
     ///////////////////////////////////////////////////////////
-    extern void GLFW_Char_Callback(GLFWwindow *window,
-                                   QBool is_focus);
+    extern void GLFW_Focus_Callback(GLFWwindow *window,
+                                    QInt32 is_focus);
 
     ///////////////////////////////////////////////////////////
     /// \fn     GLFW_Resize_Callback
@@ -209,9 +209,24 @@ namespace Qube2D
     /// \param  hei New height of the window
     ///
     ///////////////////////////////////////////////////////////
-    extern void GLFW_Cursor_Callback(GLFWwindow *window,
+    extern void GLFW_Resize_Callback(GLFWwindow *window,
                                      QInt32 wid,
                                      QInt32 hei);
+
+    ///////////////////////////////////////////////////////////
+    /// \fn     GLFW_Minimize_Callback
+    /// \brief  Translates the GLFW iconify event.
+    ///
+    /// Depending on the parameter, stops updating and rendering
+    /// because the window was minimized.
+    ///
+    /// \param  window Ignored; Window::Current used
+    /// \param  minimize Is true if window was minimized
+    ///                  Is false if window was restored
+    ///
+    ///////////////////////////////////////////////////////////
+    extern void GLFW_Minimize_Callback(GLFWwindow *window,
+                                       QInt32 minimize);
 }
 
 

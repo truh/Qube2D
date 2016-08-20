@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \
+//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -34,7 +34,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/System/Debug.hpp>
+#include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
 #include <glad/glad.h>
@@ -49,6 +49,23 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     Window *Window::Current = NULL;
     RectF *Window::Viewport = NULL;
+    
+    
+    ////////////////////////////////////////////////////////////////////
+    // Callback definitions
+    //
+    ////////////////////////////////////////////////////////////////////
+    PFNQUBEINIT         Qube2D_Init_Callback        = [] (  void  ) { };
+    PFNQUBEEXIT         Qube2D_Exit_Callback        = [] (  void  ) { };
+    PFNQUBEUPDATE       Qube2D_Update_Callback      = [] ( double ) { };
+    PFNQUBERENDER       Qube2D_Render_Callback      = [] (  void  ) { };
+    PFNQUBEKEYDOWN      Qube2D_KeyDown_Callback     = [] (  void  ) { };
+    PFNQUBEKEYUP        Qube2D_KeyUp_Callback       = [] (  void  ) { };
+    PFNQUBEKEYCHAR      Qube2D_KeyChar_Callback     = [] (unsigned) { };
+    PFNQUBEMOUSEDOWN    Qube2D_MouseDown_Callback   = [] (  void  ) { };
+    PFNQUBEMOUSEUP      Qube2D_MouseUp_Callback     = [] (  void  ) { };
+    PFNQUBEMOUSEMOVE    Qube2D_MouseMove_Callback   = [] (  void  ) { };
+    PFNQUBEMOUSEWHEEL   Qube2D_MouseWheel_Callback  = [] ( double ) { };
 
 
     ///////////////////////////////////////////////////////////
@@ -59,21 +76,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     Window::Window()
         : m_Window(NULL),
-          m_IsActive(false)
+          m_IsActive(false) 
     {
-        // Sets all callbacks to a nullsub
-        Qube2D_Init_Callback        = [] ( void ) { };
-        Qube2D_Exit_Callback        = [] ( void ) { };
-        Qube2D_Update_Callback      = [] (double) { };
-        Qube2D_Render_Callback      = [] ( void ) { };
-        Qube2D_KeyDown_Callback     = [] ( void ) { };
-        Qube2D_KeyUp_Callback       = [] ( void ) { };
-        Qube2D_KeyChar_Callback     = [] ( void ) { };
-        Qube2D_MouseDown_Callback   = [] ( void ) { };
-        Qube2D_MouseUp_Callback     = [] ( void ) { };
-        Qube2D_MouseMove_Callback   = [] ( void ) { };
-        Qube2D_MouseWheel_Callback  = [] (double) { };
-
         // Initializes the viewport
         Viewport = new RectF;
     }
@@ -224,6 +228,16 @@ namespace Qube2D
 
         // Sets the initial position and all the callbacks
         glfwSetWindowPos(m_Window, x, y);
+        glfwSetKeyCallback(m_Window, GLFW_Key_Callback);
+        glfwSetCharModsCallback(m_Window, GLFW_Char_Callback);
+        glfwSetScrollCallback(m_Window, GLFW_Scroll_Callback);
+        glfwSetWindowFocusCallback(m_Window, GLFW_Focus_Callback);
+        glfwSetCursorPosCallback(m_Window, GLFW_Cursor_Callback);
+        glfwSetMouseButtonCallback(m_Window, GLFW_Mouse_Callback);
+        glfwSetWindowSizeCallback(m_Window, GLFW_Resize_Callback);
+        glfwSetWindowIconifyCallback(m_Window, GLFW_Minimize_Callback);
+
+
         m_Settings = attr;
         Current = this;
         return true;
@@ -309,10 +323,6 @@ namespace Qube2D
                 glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
                 Qube2D_Render_Callback();
                 glfwSwapBuffers(m_Window);
-
-                // GLFW does not repeatedly send key-down events; we hack
-                // this behaviour to provide multi-key-press features
-                Qube2D_KeyDown_Callback();
             }
 
             // Processes all pending GLFW events
