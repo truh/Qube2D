@@ -119,7 +119,7 @@ namespace Qube2D
     /// \fn      fill
     ///
     ///////////////////////////////////////////////////////////
-    void VertexBuffer::fill(void *data, int size)
+    void VertexBuffer::fill(const void *data, int size)
     {
         glCheck(glBufferData(m_Type, size, data, m_Usage));
     }
@@ -132,6 +132,6 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void VertexBuffer::modify(void *data, int src, int dst, int size)
     {
-        glCheck(glBufferSubData(m_Type, dst, size, data+src));
+        glCheck(glBufferSubData(m_Type, dst, size, static_cast<char *>(data) + src));
     }
 }

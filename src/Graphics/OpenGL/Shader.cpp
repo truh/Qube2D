@@ -102,12 +102,14 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Shader::compileFromFile(const char *path)
     {
+        assert(path);
+        
         // Determines whether the given path is relative or absolute
         // and converts the relative to an absolute eventually.
         std::string filePath = path;
         if (Assets::isRelative(path))
             filePath = Assets::makePath(path);
-        
+
         
         // Creates a new file handle
         File file;
@@ -118,7 +120,9 @@ namespace Qube2D
         }
         
         // Reads its content and compiles it as shader code
-        compileFromString(file.readString(file.size()));     
+        const char *code = file.readString(file.size());
+        compileFromString(code);
+        delete [] code;
     }
     
     ///////////////////////////////////////////////////////////

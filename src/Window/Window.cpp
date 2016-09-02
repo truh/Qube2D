@@ -37,6 +37,7 @@
 #include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
+#include <Qube2D/Graphics/Base/Image.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -251,6 +252,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Window::destroy(bool exit)
     {
+        Image::destroyGL();
+        
         glfwDestroyWindow(m_Window);
         glfwTerminate();
 
@@ -295,6 +298,10 @@ namespace Qube2D
             glfwSwapInterval(GL_TRUE);
         else
             glfwSwapInterval(GL_FALSE);
+        
+        
+        // Initializes global OpenGL objects
+        Image::initializeGL();
 
 
         // Enables color blending for shaders etc.

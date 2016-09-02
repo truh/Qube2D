@@ -114,7 +114,7 @@ namespace Qube2D
         /// \param    size Size to store, in bytes
         /// 
         ///////////////////////////////////////////////////////////
-        void fill(void *data, int size);
+        void fill(const void *data, int size);
         
         ///////////////////////////////////////////////////////////
         /// \fn     modify

@@ -32,6 +32,7 @@
 
 #ifndef __Q2D_ASSETS_INL_HPP__
 #define __Q2D_ASSETS_INL_HPP__
+#include <Qube2D/Assets/AssetErrors.hpp>
 
 
 ///////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@
 /// \fn      load<T> -> static
 ///
 ///////////////////////////////////////////////////////////
-template <typename T> T Assets::load(const char* path)
+template <typename T> inline T Assets::load(const char* path)
 {
     static_assert(true, "The given resource type is currently not supported.");
     auto nowarning = [](const char*) -> void {};
@@ -53,7 +54,7 @@ template <typename T> T Assets::load(const char* path)
 /// \fn      load<const char *> -> static
 ///
 ///////////////////////////////////////////////////////////
-template <> const char* Assets::load(const char* path)
+template <> inline const char* Assets::load(const char* path)
 {
     assert(path);
 
@@ -66,10 +67,9 @@ template <> const char* Assets::load(const char* path)
 
     // Attempts to open the file in READ mode
     File file;
-    if (!file.open(filePath.c_str(), FA_Read)) {
-#   ifndef NDEBUG
+    if (!file.open(filePath.c_str(), FA_Read))
+    {
         Q2DError(Q2D_ASSETS_ERROR_0, path);
-#   endif
         return NULL;
     }
 

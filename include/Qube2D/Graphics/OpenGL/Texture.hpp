@@ -40,6 +40,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
 #include <Qube2D/System/Structs/Rect.hpp>
+#include <Qube2D/System/Structs/Color.hpp>
 #include <Qube2D/Graphics/OpenGL/GLEnums.hpp>
 #include <vector>
 
@@ -76,7 +77,10 @@ namespace Qube2D
         /// \param  color Color to fill texture with (default=black)
         ///
         ///////////////////////////////////////////////////////////
-        void create(int width, int height, TextureFormat format, int color = 0);
+        void create(int width,
+                    int height,
+                    TextureFormat format,
+                    Color color = Color());
         
         ///////////////////////////////////////////////////////////
         /// \fn     createFromFile
@@ -90,9 +94,10 @@ namespace Qube2D
         /// \fn     createFromMemory
         /// \brief  Loads an image from memory and converts it.
         /// \param  bytes PNG image as raw byte data
+        /// \param  size Size of the given data array
         /// 
         ///////////////////////////////////////////////////////////
-        void createFromMemory(const std::vector<QUInt8> &bytes);
+        void createFromMemory(const QUInt8 *bytes, QUInt32 size);
         
         ///////////////////////////////////////////////////////////
         /// \fn      destroy
@@ -103,6 +108,22 @@ namespace Qube2D
         /// 
         ///////////////////////////////////////////////////////////
         void destroy();
+        
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     bind
+        /// \brief  Binds this texture to the current context.
+        /// 
+        ///////////////////////////////////////////////////////////
+        void bind();
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     unbind
+        /// \brief  Unbinds this texture from the current context.
+        /// \note   Unbinds any texture that is currently bound.
+        /// 
+        ///////////////////////////////////////////////////////////
+        void unbind();
         
         
         ///////////////////////////////////////////////////////////
@@ -119,7 +140,7 @@ namespace Qube2D
         /// \returns  the width of the texture, in pixels.
         /// 
         ///////////////////////////////////////////////////////////
-        QUInt32 width() const;
+        QFloat width() const;
         
         ///////////////////////////////////////////////////////////
         /// \fn       height -> const
@@ -127,7 +148,7 @@ namespace Qube2D
         /// \returns  the height of the texture, in pixels.
         /// 
         ///////////////////////////////////////////////////////////
-        QUInt32 height() const;
+        QFloat height() const;
         
         
         ///////////////////////////////////////////////////////////
@@ -191,8 +212,8 @@ namespace Qube2D
         //
         ///////////////////////////////////////////////////////////
         QUInt32 m_ID;           ///< Texture ID within OpenGL
-        QUInt32 m_Width;        ///< Width of the texture in pixels
-        QUInt32 m_Height;       ///< Height of the texture in pixels
+        QFloat  m_Width;        ///< Width of the texture in pixels
+        QFloat  m_Height;       ///< Height of the texture in pixels
         QUInt32 m_Format;       ///< Texture format within OpenGL
         
     };

@@ -106,6 +106,7 @@ namespace Qube2D
                   << "\tin line: " << line                              << std::endl
                   << "\tof type: " << errorType                         << std::endl
                   << "\tcall as: " << expr                              << std::endl
-                  << "\tdetails: " << errorDesc                         << std::endl;
+                  << "\tdetails: " << errorDesc                         << std::endl
+                                                                        << std::endl;
     }
 }

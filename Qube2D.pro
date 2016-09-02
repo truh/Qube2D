@@ -8,6 +8,7 @@ TARGET          = Qube2D
 DEFINES        += __Q2D_LIBRARY__
 QMAKE_LFLAGS   += -static-libgcc -static-libstdc++
 QMAKE_CXXFLAGS_WARN_ON -= -Wall
+QMAKE_CXXFLAGS_WARN_ON += -Wno-comment
 
 
 #
@@ -29,6 +30,7 @@ OBJECTS_DIR = $$DESTDIR/obj
 #  Include paths
 #
 INCLUDEPATH += $$PWD/include
+INCLUDEPATH += $$PWD/deps
 DEPENDPATH  += $$PWD/include
 
 
@@ -77,7 +79,7 @@ HEADERS += \
     include/Qube2D/Window/Window.hpp \
     include/Qube2D/Window/WindowCallbacks.hpp \
     include/Qube2D/Window/WindowErrors.hpp \
-    include/glad/glad.h \
+    deps/glad/glad.h \
     include/Qube2D/Input/Keyboard.hpp \
     include/Qube2D/Input/Keys.hpp \
     include/Qube2D/Input/Mouse.hpp \
@@ -89,7 +91,11 @@ HEADERS += \
     include/Qube2D/Graphics/OpenGL/Texture.hpp \
     include/Qube2D/Graphics/OpenGL/Shader.hpp \
     include/Qube2D/Graphics/OpenGL/ShaderProgram.hpp \
-    include/Qube2D/Graphics/OpenGL/GLErrors.hpp
+    include/Qube2D/Graphics/OpenGL/GLErrors.hpp \
+    deps/lodepng/lodepng.h \
+    include/Qube2D/Graphics/Base/Image.hpp \
+    include/Qube2D/Graphics/GraphicsEnums.hpp \
+    include/Qube2D/Graphics/Shader/TextureShader.hpp
 
 
 #
@@ -109,7 +115,7 @@ SOURCES += \
     src/Window/WindowSettings.cpp \
     src/Window/Window.cpp \
     src/System/Structs/Structs.cpp \
-    include/glad/glad.c \
+    deps/glad/glad.c \
     src/Input/Keyboard.cpp \
     src/Input/Mouse.cpp \
     src/Window/WindowCallbacks.cpp \
@@ -117,7 +123,10 @@ SOURCES += \
     src/Graphics/OpenGL/VertexArray.cpp \
     src/Graphics/OpenGL/VertexBuffer.cpp \
     src/Graphics/OpenGL/Shader.cpp \
-    src/Graphics/OpenGL/ShaderProgram.cpp
+    src/Graphics/OpenGL/ShaderProgram.cpp \
+    deps/lodepng/lodepng.cpp \
+    src/Graphics/OpenGL/Texture.cpp \
+    src/Graphics/Base/Image.cpp
 
 
 #

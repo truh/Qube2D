@@ -85,7 +85,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     ///
 #   ifndef NDEBUG
-#       define glCheck(expr) { expr; GLCheck::check(__FILE__, __LINE__, #expr); }
+#       define glCheck(expr)  do { expr; GLCheck::check(__FILE__, __LINE__, #expr); } while(0)
 #   else
 #       define glCheck(expr) { expr; }
 #   endif

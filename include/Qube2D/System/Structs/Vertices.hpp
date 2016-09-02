@@ -96,7 +96,7 @@ namespace Qube2D
     /// \brief   Defines a vertex for texture objects.
     ///
     /// Texture object vertices consist of a coordinate pair,
-    /// a texture coordinate pair and RGB components.
+    /// a texture coordinate pair and RGBA components.
     ///
     ///////////////////////////////////////////////////////////
     struct TextureVertex
@@ -108,6 +108,7 @@ namespace Qube2D
         float r;    ///< Red color component of the vertex
         float g;    ///< Green color component of the vertex
         float b;    ///< Blue color component of the vertex
+        float a;    ///< Alpha component of the vertex
 
 
         ///////////////////////////////////////////////////////////
@@ -142,6 +143,19 @@ namespace Qube2D
             r = _r;
             g = _g;
             b = _b;
+        }
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     rgba -> inline
+        /// \brief  Modifies the vertex color in one turn.
+        ///
+        ///////////////////////////////////////////////////////////
+        inline void rgba(float _r, float _g, float _b, float _a)
+        {
+            r = _r;
+            g = _g;
+            b = _b;
+            a = _a;
         }
     };
 
