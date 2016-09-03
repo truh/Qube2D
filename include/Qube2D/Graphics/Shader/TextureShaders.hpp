@@ -43,7 +43,7 @@ namespace Qube2D
     /// \var     Qube2D_TextureVertexShader
     ///
     ///////////////////////////////////////////////////////////
-    const char *Qube2D_TextureVertexShader =
+    const char Qube2D_TextureVertexShader[] =
     {
         "#version 330 core                          \n"
         "                                           \n"
@@ -74,7 +74,7 @@ namespace Qube2D
     /// \var     Qube2D_TextureFragShader
     ///
     ///////////////////////////////////////////////////////////
-    const char *Qube2D_TextureFragShader =
+    const char Qube2D_TextureFragShader[] =
     {
         "#version 330 core                          \n"
         "                                           \n"

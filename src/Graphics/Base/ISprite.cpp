@@ -36,13 +36,11 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
-#include <Qube2D/Graphics/Base/Image.hpp>
-#include <Qube2D/Graphics/Shader/TextureShader.hpp>
+#include <Qube2D/Graphics/Base/ISprite.hpp>
+#include <Qube2D/Graphics/Shader/TextureShaders.hpp>
 #include <Qube2D/System/Structs/GLColor.hpp>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <cstddef>
+#include <glad/glad.h>
 
 
 namespace Qube2D
@@ -60,13 +58,13 @@ namespace Qube2D
     // Static class member definitions
     //
     ///////////////////////////////////////////////////////////
-    VertexArray Image::m_VertexArray;
-    VertexBuffer Image::m_IndexBuffer;
-    ShaderProgram Image::m_ShaderProgram;
-    Shader Image::m_VertexShader;
-    Shader Image::m_FragShader;
-    QInt32 Image::m_UniformSampler;
-    QInt32 Image::m_UniformMatrix;
+    VertexArray ISprite::m_VertexArray;
+    VertexBuffer ISprite::m_IndexBuffer;
+    ShaderProgram ISprite::m_ShaderProgram;
+    Shader ISprite::m_VertexShader;
+    Shader ISprite::m_FragShader;
+    QInt32 ISprite::m_UniformSampler;
+    QInt32 ISprite::m_UniformMatrix;
 
 
     ///////////////////////////////////////////////////////////
@@ -75,7 +73,7 @@ namespace Qube2D
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    Image::Image() : m_CustomProgram(NULL)
+    ISprite::ISprite() : m_CustomProgram(NULL)
     {
     }
     
@@ -86,7 +84,7 @@ namespace Qube2D
     /// \fn      create
     ///
     ///////////////////////////////////////////////////////////
-    void Image::create()
+    void ISprite::create()
     {
         m_CustomProgram = &m_ShaderProgram;
         m_VertexBuffer.create(BufferType::Vertex,
@@ -99,7 +97,7 @@ namespace Qube2D
     /// \fn      destroy
     ///
     ///////////////////////////////////////////////////////////
-    void Image::destroy()
+    void ISprite::destroy()
     {
         m_VertexBuffer.destroy();
         m_Texture.destroy();
@@ -112,7 +110,7 @@ namespace Qube2D
     /// \fn      load
     ///
     ///////////////////////////////////////////////////////////
-    void Image::load(const char *path)
+    void ISprite::load(const char *path)
     { 
         m_Texture.createFromFile(path);
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
@@ -126,7 +124,7 @@ namespace Qube2D
     /// \fn      load (overload #1)
     ///
     ///////////////////////////////////////////////////////////
-    void Image::load(const Texture &texture)
+    void ISprite::load(const Texture &texture)
     {
         m_Texture = texture;
         m_Texture.bind();
@@ -142,7 +140,7 @@ namespace Qube2D
     /// \fn      setSourceRectangle
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setSourceRectangle(const RectF &rect)
+    void ISprite::setSourceRectangle(const RectF &rect)
     {
         // Pre-calculates OpenGL vertex positions and UV coords
         float tex_w = rect.width();
@@ -171,7 +169,7 @@ namespace Qube2D
     /// \fn      setBlendColor
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setBlendColor(const Color &color)
+    void ISprite::setBlendColor(const Color &color)
     {
         GLColor glc = color.toGL();
         
@@ -194,7 +192,7 @@ namespace Qube2D
     /// \fn      setBlendColorEx
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setBlendColorEx(const Color &topLeft,
+    void ISprite::setBlendColorEx(const Color &topLeft,
                                 const Color &topRight,
                                 const Color &bottomRight,
                                 const Color &bottomLeft)
@@ -217,7 +215,7 @@ namespace Qube2D
     /// \fn      setOpacity
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setOpacity(QFloat opacity)
+    void ISprite::setOpacity(QFloat opacity)
     {
         if (opacity == 1.f)
             return;
@@ -234,7 +232,7 @@ namespace Qube2D
     /// \fn      setBlendMode
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setBlendMode(BlendMode mode)
+    void ISprite::setBlendMode(BlendMode mode)
     {
         m_BlendMode = mode;
     }
@@ -245,9 +243,16 @@ namespace Qube2D
     /// \fn      setCustomShaderProgram
     ///
     ///////////////////////////////////////////////////////////
-    void Image::setCustomShaderProgram(ShaderProgram *program)
+    void ISprite::setCustomShaderProgram(ShaderProgram *program)
     {
-        m_CustomProgram = program;
+        if (program)
+            m_CustomProgram = program;
+        else
+            m_CustomProgram = &m_ShaderProgram;
+        
+        m_CustomProgram->bind();
+        m_UniformMatrix = m_CustomProgram->getUniformLocation("uni_mvp");
+        m_UniformSampler = m_CustomProgram->getUniformLocation("uni_texture");
     }
     
     
@@ -257,7 +262,7 @@ namespace Qube2D
     /// \fn      render
     ///
     ///////////////////////////////////////////////////////////
-    void Image::render()
+    void ISprite::render()
     {
         // Constructs the MVP matrix
         //glm::mat4 projection = glm::ortho(0.f, m_WinWidth, m_WinHeight, 0.f);
@@ -265,6 +270,7 @@ namespace Qube2D
         //glm::mat4 identity = glm::mat4(1.f);
         //glm::mat4 mvp = projection * translation * identity;
         
+        // Temporary hack before implementing IMovable and IFadable
         glm::mat4 identity = glm::mat4(1.f);
         glm::mat4 projection = glm::ortho(0.f, 600.f, 400.f, 0.f);
         glm::mat4 mvp = projection * identity;
@@ -272,9 +278,10 @@ namespace Qube2D
         
         // Binds all necessary objects
         m_VertexArray.bind();
-        m_ShaderProgram.bind();
         m_IndexBuffer.bind();
-        m_VertexBuffer.bind();
+        m_VertexBuffer.bind();       
+        m_CustomProgram->bind();
+        
         
         // Buffers the vertex data
         m_VertexBuffer.fill(&m_Vertices, IMAGE_VERTEX_SIZE);
@@ -334,9 +341,9 @@ namespace Qube2D
         // Unbinds the necessary objects
         m_Texture.unbind();
         m_VertexArray.unbind();
-        m_ShaderProgram.unbind();
         m_IndexBuffer.unbind();
         m_VertexBuffer.unbind();
+        m_CustomProgram->unbind();
     }
     
     
@@ -346,7 +353,7 @@ namespace Qube2D
     /// \fn      initializeGL
     ///
     ///////////////////////////////////////////////////////////
-    void Image::initializeGL()
+    void ISprite::initializeGL()
     {
         const QUInt32 indices[6] = { 0u, 1u, 2u, 2u, 3u, 0u };
         
@@ -376,7 +383,7 @@ namespace Qube2D
     /// \fn      destroyGL
     ///
     ///////////////////////////////////////////////////////////
-    void Image::destroyGL()
+    void ISprite::destroyGL()
     {
         m_IndexBuffer.destroy();
         m_VertexShader.destroy();

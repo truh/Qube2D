@@ -30,8 +30,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_IMAGE_HPP__
-#define __Q2D_IMAGE_HPP__
+#ifndef __Q2D_ISPRITE_HPP__
+#define __Q2D_ISPRITE_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -51,14 +51,14 @@
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Image.hpp
+    /// \file    ISprite.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 31th, 2016
-    /// \class   Image
+    /// \class   ISprite
     /// \brief   Base class for all texture-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API Image
+    class Q2D_API ISprite
     {
         
     public:
@@ -68,7 +68,7 @@ namespace Qube2D
         /// \brief  Initializes a new instance of Qube2D::Image.
         /// 
         ///////////////////////////////////////////////////////////
-        Image();
+        ISprite();
         
         
         ///////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ namespace Qube2D
         /// \param  program Program having shaders attached to it
         /// \note   This function causes the rendering to override 
         ///         the default shader program. To reset it, pass
-        ///         NULL to this function
+        ///         NULL to this function.
         /// 
         ///////////////////////////////////////////////////////////
         void setCustomShaderProgram(ShaderProgram *program);
@@ -226,4 +226,4 @@ namespace Qube2D
 }
 
 
-#endif  // __Q2D_IMAGE_HPP__
+#endif  // __Q2D_ISPRITE_HPP__

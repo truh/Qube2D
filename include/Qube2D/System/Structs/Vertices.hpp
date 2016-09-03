@@ -61,6 +61,7 @@ namespace Qube2D
         float r;    ///< Red color component of the vertex
         float g;    ///< Green color component of the vertex
         float b;    ///< Blue color component of the vertex
+        float a;    ///< Alpha component
 
 
         ///////////////////////////////////////////////////////////
@@ -84,6 +85,19 @@ namespace Qube2D
             r = _r;
             g = _g;
             b = _b;
+        }
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     rgba -> inline
+        /// \brief  Modifies the vertex color in one turn.
+        ///
+        ///////////////////////////////////////////////////////////
+        inline void rgba(float _r, float _g, float _b, float _a)
+        {
+            r = _r;
+            g = _g;
+            b = _b;
+            a = _a;
         }
     };
 
@@ -226,6 +240,26 @@ namespace Qube2D
         inline void add(PrimitiveVertex _v)
         {
             v.push_back(_v);
+        }
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     ptr -> inline
+        /// \brief  Retrieves the pointer to the continuous data.
+        ///
+        ///////////////////////////////////////////////////////////
+        inline const PrimitiveVertex *ptr() const
+        {
+            return v.data();
+        }
+        
+        ///////////////////////////////////////////////////////////
+        /// \fn     ptr -> inline
+        /// \brief  Retrieves the pointer to the continuous data.
+        ///
+        ///////////////////////////////////////////////////////////
+        inline std::size_t size() const
+        {
+            return v.size();
         }
     };
 
