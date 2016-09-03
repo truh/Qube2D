@@ -93,9 +93,13 @@ HEADERS += \
     include/Qube2D/Graphics/OpenGL/ShaderProgram.hpp \
     include/Qube2D/Graphics/OpenGL/GLErrors.hpp \
     deps/lodepng/lodepng.h \
-    include/Qube2D/Graphics/Base/Image.hpp \
     include/Qube2D/Graphics/GraphicsEnums.hpp \
-    include/Qube2D/Graphics/Shader/TextureShader.hpp
+    include/Qube2D/Graphics/Shader/PrimitiveShaders.hpp \
+    include/Qube2D/Graphics/Shader/TextureShaders.hpp \
+    include/Qube2D/Graphics/Base/ISprite.hpp \
+    include/Qube2D/Graphics/Base/IPrimitive.hpp \
+    include/Qube2D/Graphics/Base/IFadable.hpp \
+    include/Qube2D/Graphics/Base/BaseEnums.hpp
 
 
 #
@@ -126,7 +130,9 @@ SOURCES += \
     src/Graphics/OpenGL/ShaderProgram.cpp \
     deps/lodepng/lodepng.cpp \
     src/Graphics/OpenGL/Texture.cpp \
-    src/Graphics/Base/Image.cpp
+    src/Graphics/Base/ISprite.cpp \
+    src/Graphics/Base/IPrimitive.cpp \
+    src/Graphics/Base/IFadable.cpp
 
 
 #
