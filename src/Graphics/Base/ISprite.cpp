@@ -65,6 +65,7 @@ namespace Qube2D
     Shader ISprite::m_FragShader;
     QInt32 ISprite::m_UniformSampler;
     QInt32 ISprite::m_UniformMatrix;
+    QInt32 ISprite::m_UniformOpacity;
 
 
     ///////////////////////////////////////////////////////////
@@ -73,7 +74,9 @@ namespace Qube2D
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    ISprite::ISprite() : m_CustomProgram(NULL)
+    ISprite::ISprite()
+        : IFadable(),
+          m_CustomProgram(NULL)
     {
     }
     
@@ -86,6 +89,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void ISprite::create()
     {
+        setInitialOpacity(1.f);
         m_CustomProgram = &m_ShaderProgram;
         m_VertexBuffer.create(BufferType::Vertex,
                               BufferUsage::Dynamic);               
@@ -253,6 +257,7 @@ namespace Qube2D
         m_CustomProgram->bind();
         m_UniformMatrix = m_CustomProgram->getUniformLocation("uni_mvp");
         m_UniformSampler = m_CustomProgram->getUniformLocation("uni_texture");
+        m_UniformOpacity = m_CustomProgram->getUniformLocation("uni_opacity");
     }
     
     
@@ -291,8 +296,9 @@ namespace Qube2D
         m_Texture.bind();
         glCheck(glUniform1i(m_UniformSampler, 0));
         
-        // Forwards the MVP matrix to the shader
+        // Forwards the MVP matrix and the opacity to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
+        glCheck(glUniform1f(m_UniformOpacity, m_Opacity));
         
         
         // Enables all the used vertex attributes
@@ -371,6 +377,7 @@ namespace Qube2D
         
         m_UniformMatrix = m_ShaderProgram.getUniformLocation("uni_mvp");
         m_UniformSampler = m_ShaderProgram.getUniformLocation("uni_texture");
+        m_UniformOpacity = m_ShaderProgram.getUniformLocation("uni_opacity");
         
         m_IndexBuffer.create(BufferType::Index, BufferUsage::Static);
         m_IndexBuffer.bind();

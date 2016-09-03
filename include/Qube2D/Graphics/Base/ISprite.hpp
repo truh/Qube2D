@@ -42,6 +42,7 @@
 #include <Qube2D/System/Structs/Rect.hpp>
 #include <Qube2D/System/Structs/Vertices.hpp>
 #include <Qube2D/Graphics/GraphicsEnums.hpp>
+#include <Qube2D/Graphics/Base/IFadable.hpp>
 #include <Qube2D/Graphics/OpenGL/Texture.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
@@ -58,7 +59,7 @@ namespace Qube2D
     /// \brief   Base class for all texture-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API ISprite
+    class Q2D_API ISprite : public IFadable
     {
         
     public:
@@ -221,6 +222,7 @@ namespace Qube2D
         static Shader m_FragShader;             ///< Texture frag. shader
         static QInt32 m_UniformSampler;         ///< Sampler2D variable loc
         static QInt32 m_UniformMatrix;          ///< MVP variable loc
+        static QInt32 m_UniformOpacity;         ///< Opacity variable loc
         
     };
 }

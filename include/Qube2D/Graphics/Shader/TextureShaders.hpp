@@ -83,12 +83,15 @@ namespace Qube2D
         "                                           \n"
         "out vec4 out_color;                        \n"
         "uniform sampler2D uni_texture;             \n"
+        "uniform float uni_opacity;                 \n"
         "                                           \n"
         "void main()                                \n"
         "{                                          \n"
-        "   out_color = texture(                    \n"
-        "           uni_texture,                    \n"
-        "           frag_uv) * frag_rgba;           \n"
+        "   vec4 v_opac =                           \n"
+        "       vec4(1.0, 1.0, 1.0, uni_opacity);   \n"
+        "   out_color =                             \n"
+        "       texture(uni_texture, frag_uv) *     \n"
+        "       frag_rgba * v_opac;                 \n"
         "}                                          \n"
     };
 }
