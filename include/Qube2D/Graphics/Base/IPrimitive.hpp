@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -42,6 +42,8 @@
 #include <Qube2D/System/Structs/Color.hpp>
 #include <Qube2D/System/Structs/Vertices.hpp>
 #include <Qube2D/Graphics/GraphicsEnums.hpp>
+#include <Qube2D/Graphics/Base/IFadable.hpp>
+#include <Qube2D/Graphics/Base/IMovable.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
 #include <Qube2D/Graphics/OpenGL/ShaderProgram.hpp>
@@ -57,99 +59,99 @@ namespace Qube2D
     /// \brief   Base class for all primitive-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API IPrimitive
+    class Q2D_API IPrimitive : public IMovable, public IFadable
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new instance of Qube2D::Primitive.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         IPrimitive();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Creates all OpenGL-related objects.
         /// \note   Must be called before modifying the data and
         ///         after creating the window.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void create();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Destroys all OpenGL-related objects.
         /// \note   Must be called before destroying the window.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
-        void destroy();    
-        
-        
+        void destroy();
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     setCustomShaderProgram
         /// \brief  Specifies a shader program for this primitive.
         /// \param  program Program having shaders attached to it
-        /// \note   This function causes the rendering to override 
+        /// \note   This function causes the rendering to override
         ///         the default shader program. To reset it, pass
         ///         NULL to this function.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setCustomShaderProgram(ShaderProgram *program);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     render
         /// \brief  Applies vertex changes and performs rendering.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void render();
-        
-        
+
+
     #ifdef __Q2D_LIBRARY__
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     initializeGL
         /// \brief  Creates all static OpenGL objects.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         static void initializeGL();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroyGL
         /// \brief  Destroys all static OpenGL objects.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         static void destroyGL();
-        
+
     #endif
-        
-        
+
+
     protected:
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     setVertexCount
         /// \brief  Specifies the amount of vertices.
         /// \param  count Amount of vertices to allocate
         /// \note   Must be called before modifying vertices.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setVertexCount(QUInt32 count);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setVertexColors
         /// \brief  Specifies the color of each vertex.
         /// \param  colors List-size must be equal to vertex-count
         /// \note   If the list contains one element only, the engine
         ///         assumes that all vertices should be that color.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setVertexColors(const std::vector<Color> &colors);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -158,10 +160,10 @@ namespace Qube2D
         PolygonVertices m_Vertices;     ///< Vertex data
         ShaderProgram *m_CustomProgram; ///< Custom shader program
         QUInt32 m_DrawMode;             ///< OpenGL drawing mode
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Static class members
         //
@@ -171,7 +173,8 @@ namespace Qube2D
         static Shader m_VertexShader;           ///< Primitive vertex shader
         static Shader m_FragShader;             ///< Primitive frag. shader
         static QInt32 m_UniformMatrix;          ///< MVP variable loc
-        
+        static QInt32 m_UniformOpacity;         ///< Opacity variable loc
+
     };
 }
 

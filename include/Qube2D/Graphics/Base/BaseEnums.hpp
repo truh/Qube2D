@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -38,6 +38,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
+#include <Qube2D/Debug/Debug.hpp>
 
 
 namespace Qube2D
@@ -48,18 +49,35 @@ namespace Qube2D
     /// \date    September 3rd, 2016
     ///
     ///////////////////////////////////////////////////////////
-    
+
 
     ///////////////////////////////////////////////////////////
     /// \enum   FadeMode
     /// \brief  Defines the fade modes for IFadable.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class FadeMode : unsigned int
     {
         In      = 0,    ///< Fades the object in
         Out     = 1,    ///< Fades the object out
         Pulse   = 2     ///< Repeatedly fades the object in and out
+    };
+
+    ///////////////////////////////////////////////////////////
+    /// \enum   MoveDirection
+    /// \brief  Defines moving directions for IMovable.
+    ///
+    ///////////////////////////////////////////////////////////
+    enum class MoveDirection : unsigned int
+    {
+        Up              = 0,    ///< Moves the object upwards
+        Down            = 1,    ///< Moves the object downwards
+        Right           = 2,    ///< Moves the object to the right
+        Left            = 3,    ///< Moves the object to the left
+        UpAndRight      = 4,    ///< Moves the object up and right
+        UpAndLeft       = 5,    ///< Moves the object up and left
+        DownAndRight    = 6,    ///< Moves the object down and right
+        DownAndLeft     = 7     ///< Moves the object down and left
     };
 }
 

@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -38,6 +38,8 @@
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
 #include <Qube2D/Graphics/Base/ISprite.hpp>
+#include <Qube2D/Graphics/Base/IPrimitive.hpp>
+#include <Qube2D/Graphics/Base/IMovable.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -50,8 +52,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     Window *Window::Current = NULL;
     RectF *Window::Viewport = NULL;
-    
-    
+
+
     ////////////////////////////////////////////////////////////////////
     // Callback definitions
     //
@@ -77,7 +79,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     Window::Window()
         : m_Window(NULL),
-          m_IsActive(false) 
+          m_IsActive(false)
     {
         // Initializes the viewport
         Viewport = new RectF;
@@ -253,7 +255,8 @@ namespace Qube2D
     void Window::destroy(bool exit)
     {
         ISprite::destroyGL();
-        
+        IPrimitive::destroyGL();
+
         glfwDestroyWindow(m_Window);
         glfwTerminate();
 
@@ -278,7 +281,6 @@ namespace Qube2D
 
 
         // Sets context current to this thread and loads extensions
-        GLColor clear = m_Settings.clearColor();
         glfwMakeContextCurrent(m_Window);
 
     #   if defined(Q2D_SYS_ANDROID) || defined(Q2D_SYS_IOS)
@@ -289,6 +291,7 @@ namespace Qube2D
 
 
         // Specifies the clear color and shows the window
+        GLColor clear = m_Settings.clearColor();
         glClearColor(clear.r(), clear.g(), clear.b(), clear.a());
         glfwShowWindow(m_Window);
 
@@ -298,10 +301,12 @@ namespace Qube2D
             glfwSwapInterval(GL_TRUE);
         else
             glfwSwapInterval(GL_FALSE);
-        
-        
+
+
         // Initializes global OpenGL objects
         ISprite::initializeGL();
+        IPrimitive::initializeGL();
+        IMovable::initializeMatrix();
 
 
         // Enables color blending for shaders etc.

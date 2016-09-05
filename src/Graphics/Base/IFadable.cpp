@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -56,8 +56,8 @@ namespace Qube2D
           m_IsFading(false)
     {
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -68,7 +68,7 @@ namespace Qube2D
     {
         return m_Opacity;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -79,19 +79,19 @@ namespace Qube2D
     {
         return m_IsFading;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
-    /// \fn      setInitialOpacity
+    /// \fn      setOpacity
     ///
     ///////////////////////////////////////////////////////////
-    void IFadable::setInitialOpacity(QFloat opacity)
+    void IFadable::setOpacity(QFloat opacity)
     {
         m_Opacity = opacity;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -102,7 +102,7 @@ namespace Qube2D
     {
         m_Speed = speed;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -113,16 +113,16 @@ namespace Qube2D
     {
         m_Mode = m_InitialMode = static_cast<QUInt32>(mode);
         m_IsFading = true;
-        
+
         if (mode != FadeMode::In)
             m_Opacity = 1.f;
         else
             m_Opacity = 0.f;
-        
+
         if (mode == FadeMode::Pulse)
             m_Mode = IFADABLE_FADE_IN;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -133,7 +133,7 @@ namespace Qube2D
     {
         m_BreakPoint = opacity;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -144,7 +144,7 @@ namespace Qube2D
     {
         m_BreakPoint = -1.f;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -155,8 +155,8 @@ namespace Qube2D
     {
         m_IsFading = false;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -165,24 +165,28 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void IFadable::updateFade(double deltaTime)
     {
+        if (!m_IsFading)
+            return;
+
+
         // Increases the elapsed time
         m_ElapsedTime += deltaTime;
-        
+
         if (m_ElapsedTime >= IFADABLE_UPDATE_INTERVAL)
         {
             m_ElapsedTime = 0.0;
-            
+
             // Increase or decrease the value
             if (m_Mode == IFADABLE_FADE_IN)
             {
                 m_Opacity += m_Speed;
-                
+
                 // Stops fading if value exceeded the maximum
-                if (m_Opacity >= 1.f || m_Opacity >= m_BreakPoint)
+                if (m_Opacity >= 1.f || (m_BreakPoint != -1 && m_Opacity >= m_BreakPoint))
                 {
                     m_Opacity = 1.f;
-                    
-                   
+
+
                     // Checks whether the object should pulse
                     if (m_InitialMode == IFADABLE_FADE_PULSE)
                     {
@@ -198,13 +202,13 @@ namespace Qube2D
             else
             {
                 m_Opacity -= m_Speed;
-                
+
                 // Stops fading if value exceeded the minimum
-                if (m_Opacity <= 0.f || m_Opacity <= m_BreakPoint)
+                if (m_Opacity <= 0.f || (m_BreakPoint != -1 && m_Opacity <= m_BreakPoint))
                 {
                     m_Opacity = 0.f;
-                    
-                   
+
+
                     // Checks whether the object should pulse
                     if (m_InitialMode == IFADABLE_FADE_PULSE)
                     {
@@ -217,6 +221,6 @@ namespace Qube2D
                     }
                 }
             }
-        }       
+        }
     }
 }

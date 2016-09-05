@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -54,106 +54,106 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API IFadable
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new instance of Qube2D::Fadable.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         IFadable();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       opacity -> const
         /// \brief    Retrieves the current opacity.
         /// \returns  the opacity value between 0.0 and 1.0.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QFloat opacity() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       isFading -> const
         /// \brief    Determines whether the object is still fading.
         /// \returns  TRUE if the object is still fading.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QBool isFading() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
-        /// \fn     setInitialOpacity
+        /// \fn     setOpacity
         /// \brief  Specifies the initial opacity before fading.
         /// \param  opacity Initial opacity between 0.0 and 1.0
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
-        void setInitialOpacity(QFloat opacity);
-        
+        void setOpacity(QFloat opacity);
+
         ///////////////////////////////////////////////////////////
         /// \fn     setFadingSpeed
         /// \brief  Specifies the speed of the fade.
         /// \param  speed Speed between 0.0 and 1.0.
         /// \note   The specified value will be added/substracted
         ///         to/from the opacity everytime the fade updates.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setFadingSpeed(QFloat speed);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     startFading
         /// \brief  Starts fading the object.
         /// \param  mode Specifies the fading mode
         /// \note   Will fully fade to either 0.0 or 1.0, except
         ///         if a breakpoint was specified.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void startFading(FadeMode mode);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setFadeBreakPoint
         /// \brief  Specifies a break point for the next fade.
         /// \param  opacity Opacity to stop fading at
         /// \note   Remove the breakpoint via removeFadeBreakPoint.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setFadeBreakPoint(QFloat opacity);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     removeFadeBreakPoint
         /// \brief  Removes the break point previously specified.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void removeFadeBreakPoint();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     stopFading
         /// \brief  Stops fading the object manually.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void stopFading();
-        
-        
+
+
     protected:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     updateFade
         /// \brief  Updates the opacity value.
         /// \param  deltaTime Time between last and current update.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void updateFade(double deltaTime);
-        
+
         ///////////////////////////////////////////////////////////
         // Protected class members
         //
         ///////////////////////////////////////////////////////////
         QFloat m_Opacity;           ///< Current object's opacity
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -164,10 +164,10 @@ namespace Qube2D
         QUInt32 m_Mode;             ///< Fading mode
         QUInt32 m_InitialMode;      ///< Initial fading mode (hack for 'pulse')
         QBool m_IsFading;           ///< Is object currently fading?
-        
+
     };
-    
-    
+
+
     #define IFADABLE_UPDATE_INTERVAL 0.016666666666667
     #define IFADABLE_FADE_IN    0
     #define IFADABLE_FADE_OUT   1

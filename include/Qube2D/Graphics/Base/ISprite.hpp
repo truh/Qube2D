@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -43,6 +43,7 @@
 #include <Qube2D/System/Structs/Vertices.hpp>
 #include <Qube2D/Graphics/GraphicsEnums.hpp>
 #include <Qube2D/Graphics/Base/IFadable.hpp>
+#include <Qube2D/Graphics/Base/IMovable.hpp>
 #include <Qube2D/Graphics/OpenGL/Texture.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
@@ -59,70 +60,70 @@ namespace Qube2D
     /// \brief   Base class for all texture-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API ISprite : public IFadable
+    class Q2D_API ISprite : public IMovable, public IFadable
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new instance of Qube2D::Image.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         ISprite();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Creates all OpenGL-related objects.
         /// \note   Must be called before modifying the data and
         ///         after creating the window.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void create();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Destroys all OpenGL-related objects.
         /// \note   Must be called before destroying the window.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     load
         /// \brief  Loads an image from a relative or absolute path.
         /// \param  path Absolute or relative path to the image
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void load(const char *path);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     load (overload #1)
         /// \brief  Directly loads the texture to display.
         /// \param  texture Texture to render
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void load(const Texture &texture);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     setSourceRectangle
         /// \brief  Specifies the region of the image to be drawn.
         /// \param  rect Region to draw
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setSourceRectangle(const RectF &rect);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setBlendColor
         /// \brief  Specifies the color to blend each pixel with.
         /// \param  color Color to be added, multiplied, ...
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setBlendColor(const Color &color);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setBlendColorEx
         /// \brief  Specifies the blend color for each vertex.
@@ -130,74 +131,70 @@ namespace Qube2D
         /// \param  topRight Top-right vertex blend color
         /// \param  bottomRight Bottom-right vertex blend color
         /// \param  bottomLeft Bottom-left vertex blend color
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setBlendColorEx(const Color &topLeft,
                              const Color &topRight,
                              const Color &bottomRight,
                              const Color &bottomLeft);
-        
-        ///////////////////////////////////////////////////////////
-        /// \fn     setOpacity
-        /// \brief  Specifies the opacity of all pixels.
-        /// \param  opacity Value from 0.0-1.0
-        /// \note   If 'opacity' is 1.0, the alpha value of the
-        ///         blend color will be taken instead. For all
-        ///         other values, 'opacity' will be taken.
-        ///
-        ///////////////////////////////////////////////////////////
-        void setOpacity(QFloat opacity);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setBlendMode
         /// \brief  Specifies the blend mode within the frag shader.
         /// \param  mode One of the Qube2D::BlendMode enum values
         /// \note   The default value is BlendMode::NoBlend.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setBlendMode(BlendMode mode);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setCustomShaderProgram
         /// \brief  Specifies a shader program for this texture.
         /// \param  program Program having shaders attached to it
-        /// \note   This function causes the rendering to override 
+        /// \note   This function causes the rendering to override
         ///         the default shader program. To reset it, pass
         ///         NULL to this function.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setCustomShaderProgram(ShaderProgram *program);
-        
-        
+
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     update
+        /// \brief  Updates possible movement and fading.
+        ///
+        ///////////////////////////////////////////////////////////
+        void update(double deltaTime);
+
         ///////////////////////////////////////////////////////////
         /// \fn     render
         /// \brief  Applies vertex changes and renders the texture.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void render();
-        
-        
+
+
     #ifdef __Q2D_LIBRARY__
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     initializeGL
         /// \brief  Creates all static OpenGL objects.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         static void initializeGL();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroyGL
         /// \brief  Destroys all static OpenGL objects.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         static void destroyGL();
-        
+
     #endif
-        
-        
+
+
     protected:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -207,10 +204,10 @@ namespace Qube2D
         Texture m_Texture;              ///< Underlying texture
         BlendMode m_BlendMode;          ///< Fragment shader mode
         ShaderProgram *m_CustomProgram; ///< Custom shader program
-        
-        
-    private: 
-        
+
+
+    private:
+
         ///////////////////////////////////////////////////////////
         // Static class members
         //
@@ -223,7 +220,7 @@ namespace Qube2D
         static QInt32 m_UniformSampler;         ///< Sampler2D variable loc
         static QInt32 m_UniformMatrix;          ///< MVP variable loc
         static QInt32 m_UniformOpacity;         ///< Opacity variable loc
-        
+
     };
 }
 

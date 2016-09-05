@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -79,8 +79,8 @@ namespace Qube2D
           m_CustomProgram(NULL)
     {
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -89,12 +89,12 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void ISprite::create()
     {
-        setInitialOpacity(1.f);
+        setOpacity(1.f);
         m_CustomProgram = &m_ShaderProgram;
         m_VertexBuffer.create(BufferType::Vertex,
-                              BufferUsage::Dynamic);               
+                              BufferUsage::Dynamic);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -106,8 +106,8 @@ namespace Qube2D
         m_VertexBuffer.destroy();
         m_Texture.destroy();
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -115,13 +115,14 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     void ISprite::load(const char *path)
-    { 
+    {
         m_Texture.createFromFile(path);
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
+        setBlendColor(Color(255, 255, 255, 255));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -135,9 +136,10 @@ namespace Qube2D
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
+        setBlendColor(Color(255, 255, 255, 255));
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -153,20 +155,20 @@ namespace Qube2D
         float rel_y = rect.y() / tex_h;
         float rel_w = rel_x + (tex_w / m_Texture.width());
         float rel_h = rel_y + (tex_h / m_Texture.height());
-        
+
         // Modifies the XY data
         m_Vertices.v0.xy(0.f,   0.f);
         m_Vertices.v1.xy(tex_w, 0.f);
         m_Vertices.v2.xy(tex_w, tex_h);
         m_Vertices.v3.xy(0.f,   tex_h);
-        
+
         // Modifies the UV data
         m_Vertices.v0.uv(rel_x, rel_y);
         m_Vertices.v1.uv(rel_w, rel_y);
         m_Vertices.v2.uv(rel_w, rel_h);
         m_Vertices.v3.uv(rel_x, rel_h);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -176,20 +178,20 @@ namespace Qube2D
     void ISprite::setBlendColor(const Color &color)
     {
         GLColor glc = color.toGL();
-        
+
         // Pre-fetches the color components
         float r = glc.r();
         float g = glc.g();
         float b = glc.b();
         float a = glc.a();
-        
+
         // Modifies the RGBA data
         m_Vertices.v0.rgba(r, g, b, a);
         m_Vertices.v1.rgba(r, g, b, a);
         m_Vertices.v2.rgba(r, g, b, a);
         m_Vertices.v3.rgba(r, g, b, a);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -205,31 +207,14 @@ namespace Qube2D
         GLColor tr = topRight.toGL();
         GLColor br = bottomRight.toGL();
         GLColor bl = bottomLeft.toGL();
-        
+
         // Modifies the RGBA data
         m_Vertices.v0.rgba(tl.r(), tl.g(), tl.b(), tl.a());
         m_Vertices.v1.rgba(tr.r(), tr.g(), tr.b(), tr.a());
         m_Vertices.v2.rgba(br.r(), br.g(), br.b(), br.a());
         m_Vertices.v3.rgba(bl.r(), bl.g(), bl.b(), bl.a());
     }
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 1st, 2016
-    /// \fn      setOpacity
-    ///
-    ///////////////////////////////////////////////////////////
-    void ISprite::setOpacity(QFloat opacity)
-    {
-        if (opacity == 1.f)
-            return;
-        
-        m_Vertices.v0.a = opacity;
-        m_Vertices.v1.a = opacity;
-        m_Vertices.v2.a = opacity;
-        m_Vertices.v3.a = opacity;
-    }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -240,7 +225,7 @@ namespace Qube2D
     {
         m_BlendMode = mode;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -253,14 +238,26 @@ namespace Qube2D
             m_CustomProgram = program;
         else
             m_CustomProgram = &m_ShaderProgram;
-        
+
         m_CustomProgram->bind();
         m_UniformMatrix = m_CustomProgram->getUniformLocation("uni_mvp");
         m_UniformSampler = m_CustomProgram->getUniformLocation("uni_texture");
         m_UniformOpacity = m_CustomProgram->getUniformLocation("uni_opacity");
     }
-    
-    
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 5th, 2016
+    /// \fn      update
+    ///
+    ///////////////////////////////////////////////////////////
+    void ISprite::update(double deltaTime)
+    {
+        updateFade(deltaTime);
+        updateMovement(deltaTime);
+    }
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -270,42 +267,36 @@ namespace Qube2D
     void ISprite::render()
     {
         // Constructs the MVP matrix
-        //glm::mat4 projection = glm::ortho(0.f, m_WinWidth, m_WinHeight, 0.f);
-        //glm::mat4 translation = glm::translate(glm::vec3(m_Translation.x(), m_Translation.y()));
-        //glm::mat4 identity = glm::mat4(1.f);
-        //glm::mat4 mvp = projection * translation * identity;
-        
-        // Temporary hack before implementing IMovable and IFadable
         glm::mat4 identity = glm::mat4(1.f);
-        glm::mat4 projection = glm::ortho(0.f, 600.f, 400.f, 0.f);
-        glm::mat4 mvp = projection * identity;
-        
-        
+        glm::mat4 translation = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
+        glm::mat4 mvp = m_ProjMatrix * translation * identity;
+
+
         // Binds all necessary objects
         m_VertexArray.bind();
         m_IndexBuffer.bind();
-        m_VertexBuffer.bind();       
+        m_VertexBuffer.bind();
         m_CustomProgram->bind();
-        
-        
+
+
         // Buffers the vertex data
         m_VertexBuffer.fill(&m_Vertices, IMAGE_VERTEX_SIZE);
-        
+
         // Binds the texture to unit 0
         glCheck(glActiveTexture(GL_TEXTURE0));
         m_Texture.bind();
         glCheck(glUniform1i(m_UniformSampler, 0));
-        
+
         // Forwards the MVP matrix and the opacity to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
         glCheck(glUniform1f(m_UniformOpacity, m_Opacity));
-        
-        
+
+
         // Enables all the used vertex attributes
         m_VertexArray.enableAttrib(0);
         m_VertexArray.enableAttrib(1);
         m_VertexArray.enableAttrib(2);
-        
+
         // Specifies the vertex attributes
         glCheck(glVertexAttribPointer(
                     0,
@@ -313,7 +304,7 @@ namespace Qube2D
                     GL_FLOAT,
                     GL_FALSE,
                     IMAGE_SINGLE_VERTEX,
-                    NULL));   
+                    NULL));
 
         glCheck(glVertexAttribPointer(
                     1,
@@ -330,20 +321,20 @@ namespace Qube2D
                     GL_FALSE,
                     IMAGE_SINGLE_VERTEX,
                     IMAGE_OFFSET_BLEND));
-        
+
         // Renders the texture
         glCheck(glDrawElements(
                     GL_TRIANGLES,
                     6,
                     GL_UNSIGNED_INT,
                     NULL));
-        
-        
+
+
         // Disables all the used vertex attributes
         m_VertexArray.disableAttrib(2);
         m_VertexArray.disableAttrib(1);
-        m_VertexArray.disableAttrib(0);       
-        
+        m_VertexArray.disableAttrib(0);
+
         // Unbinds the necessary objects
         m_Texture.unbind();
         m_VertexArray.unbind();
@@ -351,8 +342,8 @@ namespace Qube2D
         m_VertexBuffer.unbind();
         m_CustomProgram->unbind();
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -362,28 +353,28 @@ namespace Qube2D
     void ISprite::initializeGL()
     {
         const QUInt32 indices[6] = { 0u, 1u, 2u, 2u, 3u, 0u };
-        
+
         m_VertexArray.create();
-        m_ShaderProgram.create();       
+        m_ShaderProgram.create();
         m_VertexShader.create(ShaderType::Vertex);
         m_FragShader.create(ShaderType::Fragment);
-        
+
         m_VertexShader.compileFromString(Qube2D_TextureVertexShader);
         m_FragShader.compileFromString(Qube2D_TextureFragShader);
         m_ShaderProgram.addShader(m_VertexShader);
         m_ShaderProgram.addShader(m_FragShader);
         m_ShaderProgram.link();
         m_ShaderProgram.bind();
-        
+
         m_UniformMatrix = m_ShaderProgram.getUniformLocation("uni_mvp");
         m_UniformSampler = m_ShaderProgram.getUniformLocation("uni_texture");
         m_UniformOpacity = m_ShaderProgram.getUniformLocation("uni_opacity");
-        
+
         m_IndexBuffer.create(BufferType::Index, BufferUsage::Static);
         m_IndexBuffer.bind();
         m_IndexBuffer.fill(indices, sizeof(QUInt32) * 6);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016

@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -51,7 +51,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     #define PRIMITIVE_SINGLE_VERTEX     sizeof(float) * 6
     #define PRIMITIVE_OFFSET_BLEND      (const void *)(sizeof(float) * 2)
-    
+
     ///////////////////////////////////////////////////////////
     // Static class member definitions
     //
@@ -61,6 +61,7 @@ namespace Qube2D
     Shader IPrimitive::m_VertexShader;
     Shader IPrimitive::m_FragShader;
     QInt32 IPrimitive::m_UniformMatrix;
+    QInt32 IPrimitive::m_UniformOpacity;
 
 
     ///////////////////////////////////////////////////////////
@@ -72,8 +73,8 @@ namespace Qube2D
     IPrimitive::IPrimitive() : m_CustomProgram(NULL)
     {
     }
-     
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -86,7 +87,7 @@ namespace Qube2D
         m_VertexBuffer.create(BufferType::Vertex,
                               BufferUsage::Dynamic);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -98,8 +99,8 @@ namespace Qube2D
         m_VertexBuffer.destroy();
         m_Vertices.v.clear();
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -109,11 +110,11 @@ namespace Qube2D
     void IPrimitive::setVertexCount(QUInt32 count)
     {
         assert(count != 0);
-        
+
         for (QUInt32 i = 0; i < count; i++)
             m_Vertices.add(PrimitiveVertex());
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -124,7 +125,7 @@ namespace Qube2D
     {
         assert(colors.size() != m_Vertices.size() &&
                colors.size() != 1);
-        
+
         if (colors.size() == 1)
         {
             GLColor c = colors.at(0).toGL();
@@ -132,7 +133,7 @@ namespace Qube2D
             QFloat  g = c.g();
             QFloat  b = c.b();
             QFloat  a = c.a();
-            
+
             for (QUInt32 i = 0; i < colors.size(); i++)
                 m_Vertices.v[i].rgba(r, g, b, a);
         }
@@ -144,8 +145,8 @@ namespace Qube2D
                 m_Vertices.v[i].rgba(c.r(), c.g(), c.b(), c.a());
             }
         }
-    }       
-    
+    }
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -158,12 +159,12 @@ namespace Qube2D
             m_CustomProgram = program;
         else
             m_CustomProgram = &m_ShaderProgram;
-        
+
         m_CustomProgram->bind();
         m_UniformMatrix = m_CustomProgram->getUniformLocation("uni_mvp");
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -173,34 +174,29 @@ namespace Qube2D
     void IPrimitive::render()
     {
         // Constructs the MVP matrix
-        //glm::mat4 identity = glm::mat4(1.f);
-        //glm::mat4 projection = glm::ortho(0.f, m_WinWidth, m_WinHeight, 0.f);
-        //glm::mat4 translation = glm::translate(glm::vec3(m_Translation.x(), m_Translation.y()));
-        //glm::mat4 mvp = projection * translation * identity;
-        
-        // Temporary hack before implementing interfaces IMovable and IFadable
         glm::mat4 identity = glm::mat4(1.f);
-        glm::mat4 projection = glm::ortho(0.f, 600.f, 400.f, 0.f);
-        glm::mat4 mvp = projection * identity;
-        
-        
+        glm::mat4 translation = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
+        glm::mat4 mvp = m_ProjMatrix * translation * identity;
+
+
         // Binds all necessary objects
         m_VertexArray.bind();
         m_VertexBuffer.bind();
         m_CustomProgram->bind();
-        
-        
+
+
         // Buffers the vertex data
         m_VertexBuffer.fill(m_Vertices.ptr(), m_Vertices.size() * PRIMITIVE_SINGLE_VERTEX);
-        
-        // Forwards the MVP matrix to the shader
+
+        // Forwards the MVP matrix and the opacity to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
-        
-        
+        glCheck(glUniform1f(m_UniformOpacity, m_Opacity));
+
+
         // Enables all the used vertex attributes
         m_VertexArray.enableAttrib(0);
         m_VertexArray.enableAttrib(1);
-        
+
         // Specifies the vertex attributes
         glCheck(glVertexAttribPointer(
                     0,
@@ -209,7 +205,7 @@ namespace Qube2D
                     GL_FALSE,
                     PRIMITIVE_SINGLE_VERTEX,
                     NULL));
-        
+
         glCheck(glVertexAttribPointer(
                     1,
                     4,
@@ -217,25 +213,25 @@ namespace Qube2D
                     GL_FALSE,
                     PRIMITIVE_SINGLE_VERTEX,
                     PRIMITIVE_OFFSET_BLEND));
-        
+
         // Renders the primitive
         glCheck(glDrawArrays(
                     m_DrawMode,
                     GL_ZERO,
                     m_Vertices.size()));
-        
-        
+
+
         // Disables all the used vertex attributes
         m_VertexArray.disableAttrib(1);
-        m_VertexArray.disableAttrib(0);       
-        
+        m_VertexArray.disableAttrib(0);
+
         // Unbinds the necessary objects
         m_VertexArray.unbind();
         m_VertexBuffer.unbind();
         m_CustomProgram->unbind();
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
@@ -245,20 +241,21 @@ namespace Qube2D
     void IPrimitive::initializeGL()
     {
         m_VertexArray.create();
-        m_ShaderProgram.create();       
+        m_ShaderProgram.create();
         m_VertexShader.create(ShaderType::Vertex);
         m_FragShader.create(ShaderType::Fragment);
-        
+
         m_VertexShader.compileFromString(Qube2D_PrimitiveVertexShader);
         m_FragShader.compileFromString(Qube2D_PrimitiveFragShader);
         m_ShaderProgram.addShader(m_VertexShader);
         m_ShaderProgram.addShader(m_FragShader);
         m_ShaderProgram.link();
         m_ShaderProgram.bind();
-        
+
         m_UniformMatrix = m_ShaderProgram.getUniformLocation("uni_mvp");
+        m_UniformOpacity = m_ShaderProgram.getUniformLocation("uni_opacity");
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
