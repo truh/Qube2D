@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//                    ___        _            ____  ____  
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                    ___        _            ____  ____
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -48,8 +48,8 @@ namespace Qube2D
     //
     ///////////////////////////////////////////////////////////
     class GLColor;
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Color.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -64,9 +64,9 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API Color
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes all color components to zero.
@@ -75,7 +75,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         Color();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Specifies an 8-bit color with RGB components.
@@ -84,7 +84,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         Color(QUInt8 rgb, QUInt8 alpha = 255);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Specifies the R, G and B components.
@@ -95,7 +95,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         Color(QUInt8 red, QUInt8 green, QUInt8 blue, QUInt8 alpha = 255);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Copy constructor
         /// \brief  Copies all the four components to this color.
@@ -103,7 +103,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         Color(const Color &color);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Assignment operator
         /// \brief  Copies all the four components to this color.
@@ -111,8 +111,8 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         Color &operator =(const Color &color);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      r -> const
         /// \brief   Retrieves the red color component.
@@ -120,7 +120,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         QUInt8 r() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      g -> const
         /// \brief   Retrieves the green color component.
@@ -128,7 +128,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         QUInt8 g() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      b -> const
         /// \brief   Retrieves the blue color component.
@@ -136,7 +136,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         QUInt8 b() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      a -> const
         /// \brief   Retrieves the alpha component.
@@ -144,8 +144,8 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         QUInt8 a() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     setR
         /// \brief  Modifies the red color component.
@@ -153,7 +153,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void setR(QUInt8 red);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setG
         /// \brief  Modifies the green color component.
@@ -177,15 +177,15 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void setA(QUInt8 alpha);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     invert
         /// \brief  Inverts all color components, but not alpha.
         ///
         ///////////////////////////////////////////////////////////
         void invert();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     brighten
         /// \brief  Brightens all color components by FACTOR.
@@ -196,7 +196,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void brighten(QFloat factor);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     multiplyBlend
         /// \brief  Multiplies two corresponding color components.
@@ -204,7 +204,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void multiplyBlend(const Color &color);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     additiveBlend
         /// \brief  Adds two corresponding color components.
@@ -212,7 +212,7 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void additiveBlend(const Color &color);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     xorBlend
         /// \brief  XORs two corresponding color components.
@@ -220,8 +220,8 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void xorBlend(const Color &color);
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      toGL -> const
         /// \brief   Converts this color to an OpenGL color.
@@ -231,10 +231,10 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         GLColor toGL() const;
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -243,7 +243,7 @@ namespace Qube2D
         QUInt8 cg;       ///< Green color component
         QUInt8 cb;       ///< Blue color component
         QUInt8 ca;       ///< Transparency value
-        
+
     };
 }
 

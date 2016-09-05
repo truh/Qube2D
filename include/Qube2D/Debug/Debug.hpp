@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -92,7 +92,7 @@ namespace Qube2D
     /// \brief   A macro to print an error message.
     ///
     ///////////////////////////////////////////////////////////
-    /// 
+    ///
 #   ifndef NDEBUG
 #       define Q2DErrorNoArg(msg) (Debug::printError(0, msg, __FILE__, __func__, __LINE__, NULL))
 #       define Q2DError(msg, ...)                                               \

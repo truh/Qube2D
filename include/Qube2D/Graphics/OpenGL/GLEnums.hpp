@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -47,29 +47,29 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \enum   BufferType
     /// \brief  Defines types for OpenGL buffers.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class BufferType : unsigned int
     {
         Vertex  = 0x8892,   ///< Normal buffer for vertices
         Index   = 0x8893    ///< Buffer for vertex indices
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \enum   BufferType
     /// \brief  Defines types for OpenGL buffers.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class BufferUsage : unsigned int
     {
         Static  = 0x88E4,   ///< Static draw
         Dynamic = 0x88E8    ///< Dynamic draw
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \enum   TextureFormat
     /// \brief  Defines imaging formats for the texture.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class TextureFormat : unsigned int
     {
@@ -80,11 +80,11 @@ namespace Qube2D
         FormatBGR       = 0x80E0,   ///< 24-bits (reversed)
         FormatBGRA      = 0x80E1    ///< 32-bits (reversed)
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \enum   InterpolationMode
     /// \brief  Defines magnifying/minifying filter modes.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class InterpolationMode : unsigned int
     {
@@ -95,11 +95,11 @@ namespace Qube2D
         Nearest_Mipmap_Linear   = 0x2702,   ///< Average of two mipmaps (no aa)
         Linear_Mipmap_Linear    = 0x2703    ///< Average of two mipmaps (aa)
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \enum   WrapMode
     /// \brief  Defines texture wrapping modes.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class WrapMode : unsigned int
     {
@@ -109,11 +109,11 @@ namespace Qube2D
         ClampToBorder   = 0x812D,   ///< No wrapping used (outside border)
         RepeatMirrored  = 0x8370    ///< Repeat texture flipped
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \enum   ShaderType
     /// \brief  Defines several shader kinds.
-    /// 
+    ///
     ///////////////////////////////////////////////////////////
     enum class ShaderType : unsigned int
     {

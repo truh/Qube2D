@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -53,91 +53,91 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API VertexArray
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new Qube2D::VertexArray.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         VertexArray();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Allocates a new OpenGL vertex array object.
         ///
         ///////////////////////////////////////////////////////////
         void create();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Frees this OpenGL vertex array object.
         ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
         /// \brief    Retrieves the ID of this vertex array object.
         /// \returns  the non-zero ID of this VAO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      bind
         /// \brief   Binds this VAO to the current context.
         /// \remark  Unbinds any previously bound VAO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void bind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      unbind
         /// \brief   Unbinds this VAO from the current context.
         /// \remark  This function actually unbinds any VAO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void unbind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       enableAttrib
         /// \brief    Enables the specified vertex attrib location.
-        /// 
+        ///
         /// After calling this function, the specified attribute
         /// within the shader might be modified as desired.
-        /// 
+        ///
         /// \param    location Location index of the variable
         /// \example  GLSL: layout(location = 0) in vec2 var;
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void enableAttrib(QUInt32 location);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     disableAttrib
         /// \brief  Disables the specified vertex attrib location.
-        /// 
+        ///
         /// After calling this function, the specified attribute
         /// can not be modified anymore.
-        /// 
+        ///
         /// \param  location Location index of the variable
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void disableAttrib(QUInt32 location);
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////
         QUInt32 m_ID;   ///< VAO identifier within OpenGL
-        
+
     };
 }
 

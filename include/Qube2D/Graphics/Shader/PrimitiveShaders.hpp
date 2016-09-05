@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -61,9 +61,9 @@ namespace Qube2D
         "           0.0,                            \n"
         "           1.0);                           \n"
         "}                                          \n"
-        
+
     };
-    
+
     ///////////////////////////////////////////////////////////
     /// \file    PrimitiveShader.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -77,10 +77,13 @@ namespace Qube2D
         "                                           \n"
         "in vec4 frag_rgba;                         \n"
         "out vec4 out_color;                        \n"
+        "uniform float uni_opacity;                 \n"
         "                                           \n"
         "void main()                                \n"
         "{                                          \n"
-        "   out_color = frag_rgba;                  \n"
+        "   vec4 v_opac =                           \n"
+        "       vec4(1.0, 1.0, 1.0, uni_opacity);   \n"
+        "   out_color = frag_rgba * v_opac;         \n"
         "}                                          \n"
     };
 }

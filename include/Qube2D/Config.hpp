@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//                    ___        _            ____  ____  
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                    ___        _            ____  ____
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -68,8 +68,8 @@ namespace Qube2D
     #   else
     #       error Underlying system not supported!
     #   endif
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Config.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -95,8 +95,8 @@ namespace Qube2D
     #          define Q2D_API ///< No export/import attribute
     #       endif
     #   endif
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Config.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -127,20 +127,20 @@ namespace Qube2D
     typedef unsigned short              QUInt16;
     typedef signed   int                QInt32;
     typedef unsigned int                QUInt32;
-    
+
     /* 64-bit types act differently on MSVC */
     #if defined (_MSC_VER)
-    
+
         typedef signed   __int64        QInt64;
         typedef unsigned __int64        QUInt64;
-        
+
     #else
-    
+
         typedef signed   long long      QInt64;
         typedef unsigned long long      QUInt64;
-        
+
     #endif
-    
+
     /* Floating point types */
     typedef float                       QFloat;
     typedef double                      QDouble;

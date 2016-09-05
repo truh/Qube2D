@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//                    ___        _            ____  ____  
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                    ___        _            ____  ____
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -55,9 +55,9 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     template <typename T> class Q2D_API Point
     {
-    
+
     public:
-    
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes all values to default.
@@ -68,7 +68,7 @@ namespace Qube2D
             cx = T();
             cy = T();
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Initializes this class with the given values.
@@ -81,7 +81,7 @@ namespace Qube2D
             cx = _x;
             cy = _y;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Copies the values of the given object.
@@ -93,8 +93,8 @@ namespace Qube2D
             cx = val.cx;
             cy = val.cy;
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      x -> const
         /// \brief   Retrieves the value of the first pair entry.
@@ -105,7 +105,7 @@ namespace Qube2D
         {
             return cx;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      y -> const
         /// \brief   Retrieves the value of the second pair entry.
@@ -116,7 +116,7 @@ namespace Qube2D
         {
             return cy;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setX
         /// \brief  Modifies the first pair entry.
@@ -127,7 +127,7 @@ namespace Qube2D
         {
             cx = _x;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setY
         /// \brief  Modifies the second pair entry.
@@ -138,8 +138,8 @@ namespace Qube2D
         {
             cy = _y;
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     rx
         /// \brief  Returns a reference to the first pair entry.
@@ -155,7 +155,7 @@ namespace Qube2D
         {
             return cx;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     ry
         /// \brief  Returns a reference to the second pair entry.
@@ -171,20 +171,20 @@ namespace Qube2D
         {
             return cy;
         }
-        
-        
+
+
     private:
-    
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////
         T cx;    ///< First value pair entry
         T cy;    ///< Second value pair entry
-    
+
     };
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Point.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)

@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//                    ___        _            ____  ____  
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                    ___        _            ____  ____
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -56,9 +56,9 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     template <typename T> class Q2D_API Size
     {
-    
+
     public:
-    
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes all values to default.
@@ -70,7 +70,7 @@ namespace Qube2D
             w = 0;
             h = 0;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Initializes this class with the given values.
@@ -83,7 +83,7 @@ namespace Qube2D
             w = _w;
             h = _h;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Copies the values of the given object.
@@ -95,8 +95,8 @@ namespace Qube2D
             w = val.w;
             h = val.w;
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      width -> const
         /// \brief   Retrieves the width of the object.
@@ -107,7 +107,7 @@ namespace Qube2D
         {
             return w;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      height -> const
         /// \brief   Retrieves the height of the object.
@@ -118,7 +118,7 @@ namespace Qube2D
         {
             return h;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setWidth
         /// \brief  Modifies the width of the object.
@@ -129,7 +129,7 @@ namespace Qube2D
         {
             w = _w;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setHeight
         /// \brief  Modifies the height of the object.
@@ -140,8 +140,8 @@ namespace Qube2D
         {
             h = _h;
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     rwidth
         /// \brief  Returns a reference to the width.
@@ -157,7 +157,7 @@ namespace Qube2D
         {
             return w;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     rheight
         /// \brief  Returns a reference to the height.
@@ -173,8 +173,8 @@ namespace Qube2D
         {
             return h;
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     isValid -> const
         /// \brief  Determines whether this size is valid.
@@ -189,8 +189,8 @@ namespace Qube2D
         {
             return (w > 0 && h > 0);
         }
-        
-        
+
+
     private:
 
         ///////////////////////////////////////////////////////////
@@ -199,10 +199,10 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         T w;    ///< Horizontal dimension of the object
         T h;   ///< Vertical dimension of the object
-    
+
     };
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Size.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)

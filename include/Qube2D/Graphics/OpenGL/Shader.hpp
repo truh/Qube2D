@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -54,42 +54,42 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API Shader
     {
-       
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new Qube2D::Shader.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         Shader();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Allocates a new OpenGL shader object.
         /// \param  type One of the ShaderType values
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void create(ShaderType type);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Frees this OpenGL shader object.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
         /// \brief    Retrieves the shader ID within OpenGL.
         /// \returns  the non-zero shader ID.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     compileFromFile
         /// \brief  Compiles the shader written in a file.
@@ -97,25 +97,25 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void compileFromFile(const char *path);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     compileFromString
         /// \brief  Compiles the shader specified as ASCII string.
         /// \param  code ASCII string containing shader code
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void compileFromString(const char *code);
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////
         QUInt32 m_ID;       ///< Shader ID within OpenGL
         QUInt32 m_Type;     ///< Type of the shader
-        
+
     };
 }
 

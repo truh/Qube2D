@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -57,17 +57,17 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API Texture
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new Qube2D::Texture.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         Texture();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Creates a new texture with a single color.
@@ -81,132 +81,132 @@ namespace Qube2D
                     int height,
                     TextureFormat format,
                     Color color = Color());
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     createFromFile
         /// \brief  Loads a PNG image and converts it to a texture.
         /// \param  path Absolute file path or asset path
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void createFromFile(const char *path);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     createFromMemory
         /// \brief  Loads an image from memory and converts it.
         /// \param  bytes PNG image as raw byte data
         /// \param  size Size of the given data array
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void createFromMemory(const QUInt8 *bytes, QUInt32 size);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      destroy
         /// \brief   Frees the OpenGL texture.
         /// \remark  Allocate a texture using Texture::create,
         ///          Texture::createFromFile or
         ///          Texture::createFromMemory.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     bind
         /// \brief  Binds this texture to the current context.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void bind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     unbind
         /// \brief  Unbinds this texture from the current context.
         /// \note   Unbinds any texture that is currently bound.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void unbind();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
         /// \brief    Retrieves the texture ID within OpenGL.
         /// \returns  the non-zero texture ID.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       width -> const
         /// \brief    Retrieves the width of this texture.
         /// \returns  the width of the texture, in pixels.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QFloat width() const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       height -> const
         /// \brief    Retrieves the height of this texture.
         /// \returns  the height of the texture, in pixels.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QFloat height() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      setMagFilter
         /// \brief   Specifies the magnifying filter/interpolation.
         /// \param   filter One of the InterpolationMode values
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setMagFilter(InterpolationMode filter);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setMinFilter
         /// \brief  Specifies the minifying filter/interpolation.
         /// \param  filter One of the InterpolationMode values
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setMinFilter(InterpolationMode filter);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setVerticalWrap
         /// \brief  Specifies the vertical wrap.
-        /// 
+        ///
         /// Wrapping always occurs if one of the texture coordinates
         /// exceed the texture's bounds.
-        /// 
+        ///
         /// \param  wrap One of the WrapMode values
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setVerticalWrap(WrapMode wrap);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     setHorizontalWrap
         /// \brief  Specifies the horizontal wrap.
-        /// 
+        ///
         /// Wrapping always occurs if one of the texture coordinates
         /// exceed the texture's bounds.
-        /// 
+        ///
         /// \param  wrap One of the WrapMode values
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void setHorizontalWrap(WrapMode wrap);
 
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      updatePixels
         /// \brief   Updates the pixels of the texture.
         /// \param   data Raw pixel data to store
         /// \param   rect Part of the texture to update
         /// \param   format Format of the given pixel data
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void updatePixels(const QUInt8 *data,
                           const RectI &rect,
                           TextureFormat format);
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -215,7 +215,7 @@ namespace Qube2D
         QFloat  m_Width;        ///< Width of the texture in pixels
         QFloat  m_Height;       ///< Height of the texture in pixels
         QUInt32 m_Format;       ///< Texture format within OpenGL
-        
+
     };
 }
 

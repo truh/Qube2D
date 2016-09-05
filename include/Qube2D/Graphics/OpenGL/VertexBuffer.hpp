@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -54,17 +54,17 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API VertexBuffer
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new Qube2D::VertexBuffer.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         VertexBuffer();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Allocates a new OpenGL vertex buffer object.
@@ -73,67 +73,67 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         void create(BufferType type, BufferUsage usage);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Frees this OpenGL vertex buffer object.
         ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
         /// \brief    Retrieves the ID of this vertex buffer object.
         /// \returns  the non-zero ID of this VBO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      bind
         /// \brief   Binds this VBO to the current context.
         /// \remark  Unbinds any previously bound VBO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void bind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      unbind
         /// \brief   Unbinds this VBO from the current context.
         /// \remark  This function actually unbinds any VBO.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void unbind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       fill
         /// \brief    Fills this buffer with the given data.
         /// \param    data Data to store in the buffer
         /// \param    size Size to store, in bytes
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void fill(const void *data, int size);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     modify
         /// \brief  Modifies the buffer's contents.
-        /// 
+        ///
         /// Same as fill, but this function allows to you specify
         /// a source and destination offset.
-        /// 
+        ///
         /// \param  data Data to use
         /// \param  src Offset within 'data' to start copying from
         /// \param  dst Start offset within the buffer
         /// \param  size Amount of bytes to copy from 'data'
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void modify(void *data, int src, int dst, int size);
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
@@ -141,7 +141,7 @@ namespace Qube2D
         QUInt32 m_ID;       ///< VBO identifier within OpenGL
         QUInt32 m_Type;     ///< Buffer type (vertex or index)
         QUInt32 m_Usage;    ///< Buffer usage (static or dynamic)
-        
+
     };
 }
 

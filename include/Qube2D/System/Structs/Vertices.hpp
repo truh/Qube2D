@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -86,7 +86,7 @@ namespace Qube2D
             g = _g;
             b = _b;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     rgba -> inline
         /// \brief  Modifies the vertex color in one turn.
@@ -158,7 +158,7 @@ namespace Qube2D
             g = _g;
             b = _b;
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     rgba -> inline
         /// \brief  Modifies the vertex color in one turn.
@@ -241,7 +241,7 @@ namespace Qube2D
         {
             v.push_back(_v);
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     ptr -> inline
         /// \brief  Retrieves the pointer to the continuous data.
@@ -251,7 +251,7 @@ namespace Qube2D
         {
             return v.data();
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     ptr -> inline
         /// \brief  Retrieves the pointer to the continuous data.

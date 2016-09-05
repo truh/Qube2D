@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -53,23 +53,23 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API GLCheck
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     check
         /// \brief  Determines whether the latest called OpenGL
         ///         function threw an error and outputs a message.
-        /// 
+        ///
         /// \param  file File in which the causing expression is
         /// \param  line Line of the causing expression
         /// \param  expr The expression, as a string
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         static void check(const char *file,
                           const long line,
                           const char *expr);
-        
+
     };
 
 

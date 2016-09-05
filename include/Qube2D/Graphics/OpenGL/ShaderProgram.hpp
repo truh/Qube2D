@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -53,91 +53,91 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     class Q2D_API ShaderProgram
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes a new Qube::ShaderProgram.
         ///
         ///////////////////////////////////////////////////////////
         ShaderProgram();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     create
         /// \brief  Allocates a new OpenGL shader program.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void create();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
         /// \brief  Frees this OpenGL shader program.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void destroy();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
         /// \brief    Retrieves the shader ID within OpenGL.
         /// \returns  the non-zero shader ID.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     addShader
         /// \brief  Attaches a shader to this program.
         /// \param  shader Shader object to attach
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void addShader(const Shader &shader);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     removeShader
         /// \brief  Detaches the given shader from this program.
         /// \param  shader Shader object to detach
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void removeShader(const Shader &shader);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      link
         /// \brief   Links the attached shaders to the program.
         /// \remark  After calling this function, the program may
         ///          be bound by using ShaderProgram::bind.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void link();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     bind
         /// \brief  Uses this program for OpenGL related rendering.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void bind();
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     unbind
         /// \brief  Does not use this program for rendering anymore.
         /// \note   In fact, unbinds any currently bound program.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void unbind();
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn     bindLocation
         /// \brief  Associates a variable with an index.
         /// \param  var Name of the variable
         /// \param  index New index to use for this variable
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         void bindLocation(const char *var, QUInt32 index);
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       getLocation -> const
         /// \brief    Retrieves the location of a variable.
@@ -145,10 +145,10 @@ namespace Qube2D
         /// \returns  the location of the given variable.
         /// \remarks  This method should not be used for >= GL 3.3;
         ///           use 'layout(location = X) in VAR' instead.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QUInt32 getLocation(const char *var) const;
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn       getUniformLocation -> const
         /// \brief    Retrieves the location of an uniform variable.
@@ -156,19 +156,19 @@ namespace Qube2D
         /// \returns  the location of the given uniform variable.
         /// \remarks  This method has to be used for uniform vars,
         ///           because they do not support 'layout' yet.
-        /// 
+        ///
         ///////////////////////////////////////////////////////////
         QInt32 getUniformLocation(const char *uni) const;
-        
-        
+
+
     private:
-        
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////
         QUInt32 m_ID;   ///< Shader program ID within OpenGL
-        
+
     };
 }
 

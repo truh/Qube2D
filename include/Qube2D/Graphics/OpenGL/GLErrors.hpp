@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -53,11 +53,11 @@ namespace Qube2D
     /// Q2D_TEXTURE_ERROR_1
     ///
     ///////////////////////////////////////////////////////////
-    
+
     #define Q2D_SHADER_ERROR_0  "The given path is invalid. No such asset file exists.\n    Path: %0"
     #define Q2D_TEXTURE_ERROR_0 "The given path is invalid. No such asset file exists.\n    Path: %0"
     #define Q2D_TEXTURE_ERROR_1 "The given PNG image is invalid."
-    
+
 }
 
 

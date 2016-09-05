@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //
 //
-//                    ___        _            ____  ____  
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                    ___        _            ____  ____
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -56,12 +56,12 @@ namespace Qube2D
     /// Qube2D::Size::isValid also validates the rectangle.
     ///
     ///////////////////////////////////////////////////////////
-    template <typename T> 
+    template <typename T>
     class Q2D_API Rect : public Point<T>, public Size<T>
     {
-        
+
     public:
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
         /// \brief  Initializes all values to default.
@@ -70,7 +70,7 @@ namespace Qube2D
         Rect() : Point<T>(0, 0), Size<T>(100, 100)
         {
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Specifies the position and the size.
@@ -85,7 +85,7 @@ namespace Qube2D
               Size<T>(_w, _h)
         {
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn     Constructor
         /// \brief  Specifies the position and the size.
@@ -98,31 +98,31 @@ namespace Qube2D
               Size<T>(size)
         {
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      pos -> const
         /// \brief   Retrieves the position of the rectangle.
-        /// \returns a value that contains a (xy) coordinate pair. 
+        /// \returns a value that contains a (xy) coordinate pair.
         ///
         ///////////////////////////////////////////////////////////
         Point<T> pos() const
         {
             return Point<T>(this->x(), this->y());
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      size -> const
         /// \brief   Retrieves the size of the rectangle.
-        /// \returns a value that contains a (wh) size pair. 
+        /// \returns a value that contains a (wh) size pair.
         ///
         ///////////////////////////////////////////////////////////
         Size<T> size() const
         {
             return Size<T>(this->width(), this->height());
         }
-        
-        
+
+
         ///////////////////////////////////////////////////////////
         /// \fn      setPos
         /// \brief   Specifies the rectangle's position.
@@ -133,7 +133,7 @@ namespace Qube2D
             this->setX(pos.x());
             this->setY(pos.y());
         }
-        
+
         ///////////////////////////////////////////////////////////
         /// \fn      setSize
         /// \brief   Specifies the rectangle's size.
@@ -144,10 +144,10 @@ namespace Qube2D
             this->setWidth(size.width());
             this->setHeight(size.height());
         }
-        
+
     };
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \file    Rect.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
