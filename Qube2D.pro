@@ -100,7 +100,8 @@ HEADERS += \
     include/Qube2D/Graphics/Base/IPrimitive.hpp \
     include/Qube2D/Graphics/Base/IFadable.hpp \
     include/Qube2D/Graphics/Base/BaseEnums.hpp \
-    include/Qube2D/Graphics/Base/IMovable.hpp
+    include/Qube2D/Graphics/Base/IMovable.hpp \
+    include/Qube2D/Graphics/Base/ITransformable.hpp
 
 
 #
@@ -134,7 +135,8 @@ SOURCES += \
     src/Graphics/Base/ISprite.cpp \
     src/Graphics/Base/IPrimitive.cpp \
     src/Graphics/Base/IFadable.cpp \
-    src/Graphics/Base/IMovable.cpp
+    src/Graphics/Base/IMovable.cpp \
+    src/Graphics/Base/ITransformable.cpp
 
 
 #
