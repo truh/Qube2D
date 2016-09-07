@@ -40,7 +40,6 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
 #include <Qube2D/Graphics/Base/BaseEnums.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 
 namespace Qube2D
@@ -163,12 +162,12 @@ namespace Qube2D
     #ifdef __Q2D_LIBRARY__
 
         ///////////////////////////////////////////////////////////
-        /// \fn     initializeMatrix
-        /// \brief  Initializes the projection matrix.
+        /// \fn     initializeView
+        /// \brief  Specifies the window's width and height.
         /// \note   Must be called everytime the window size changes.
         ///
         ///////////////////////////////////////////////////////////
-        static void initializeMatrix();
+        static void initializeView();
 
     #endif
 
@@ -183,12 +182,13 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void updateMovement(double deltaTime);
 
+
         ///////////////////////////////////////////////////////////
         // Static class members
         //
         ///////////////////////////////////////////////////////////
-        static glm::mat4 m_ProjMatrix;       ///< Projection matrix
-
+        static QFloat m_WinW;              ///< Window width
+        static QFloat m_WinH;              ///< Window height
 
         ///////////////////////////////////////////////////////////
         // Protected class members
