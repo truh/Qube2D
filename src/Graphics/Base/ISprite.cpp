@@ -120,6 +120,7 @@ namespace Qube2D
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
+        setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
     }
 
@@ -136,6 +137,7 @@ namespace Qube2D
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
+        setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
     }
 
@@ -256,6 +258,8 @@ namespace Qube2D
     {
         updateFade(deltaTime);
         updateMovement(deltaTime);
+        updateRotation(deltaTime);
+        updateScaling(deltaTime);
     }
 
     ///////////////////////////////////////////////////////////
@@ -267,9 +271,14 @@ namespace Qube2D
     void ISprite::render()
     {
         // Constructs the MVP matrix
-        glm::mat4 identity = glm::mat4(1.f);
-        glm::mat4 translation = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
-        glm::mat4 mvp = m_ProjMatrix * translation * identity;
+        glm::mat4 identity      = glm::mat4(1.f);
+        glm::mat4 projection    = glm::ortho(0.f, m_WinW, m_WinH, 0.f);
+        glm::mat4 translation   = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
+        glm::mat4 origin        = glm::translate(identity, glm::vec3(-m_OriginX, -m_OriginY, 0.f));
+        glm::mat4 rotation      = glm::rotate(identity, glm::radians(m_Angle), glm::vec3(0.f, 0.f, 1.f));
+        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(m_OriginX, m_OriginY, 0.f));
+        glm::mat4 scaling       = glm::scale(identity, glm::vec3(m_Scale, m_Scale, 1.f));
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling * identity;
 
 
         // Binds all necessary objects

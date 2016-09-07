@@ -167,6 +167,20 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 7th, 2016
+    /// \fn      update
+    ///
+    ///////////////////////////////////////////////////////////
+    void IPrimitive::update(double deltaTime)
+    {
+        updateFade(deltaTime);
+        updateMovement(deltaTime);
+        updateRotation(deltaTime);
+        updateScaling(deltaTime);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 3rd, 2016
     /// \fn      render
     ///
@@ -174,9 +188,14 @@ namespace Qube2D
     void IPrimitive::render()
     {
         // Constructs the MVP matrix
-        glm::mat4 identity = glm::mat4(1.f);
-        glm::mat4 translation = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
-        glm::mat4 mvp = m_ProjMatrix * translation * identity;
+        glm::mat4 identity      = glm::mat4(1.f);
+        glm::mat4 projection    = glm::ortho(0.f, m_WinW, m_WinH, 0.f);
+        glm::mat4 translation   = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
+        glm::mat4 origin        = glm::translate(identity, glm::vec3(-m_OriginX, -m_OriginY, 0.f));
+        glm::mat4 rotation      = glm::rotate(identity, glm::radians(m_Angle), glm::vec3(0.f, 0.f, 1.f));
+        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(m_OriginX, m_OriginY, 0.f));
+        glm::mat4 scaling       = glm::scale(identity, glm::vec3(m_Scale, m_Scale, 1.f));
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling * identity;
 
 
         // Binds all necessary objects

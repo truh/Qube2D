@@ -174,8 +174,6 @@ namespace Qube2D
 
         if (m_ElapsedTime >= IFADABLE_UPDATE_INTERVAL)
         {
-            m_ElapsedTime = 0.0;
-
             // Increase or decrease the value
             if (m_Mode == IFADABLE_FADE_IN)
             {
@@ -221,6 +219,9 @@ namespace Qube2D
                     }
                 }
             }
+
+
+            m_ElapsedTime = 0.0;
         }
     }
 }

@@ -44,6 +44,7 @@
 #include <Qube2D/Graphics/GraphicsEnums.hpp>
 #include <Qube2D/Graphics/Base/IFadable.hpp>
 #include <Qube2D/Graphics/Base/IMovable.hpp>
+#include <Qube2D/Graphics/Base/ITransformable.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
 #include <Qube2D/Graphics/OpenGL/ShaderProgram.hpp>
@@ -59,7 +60,9 @@ namespace Qube2D
     /// \brief   Base class for all primitive-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API IPrimitive : public IMovable, public IFadable
+    class Q2D_API IPrimitive : public IMovable,
+                               public IFadable,
+                               public ITransformable
     {
 
     public:
@@ -101,6 +104,13 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void setCustomShaderProgram(ShaderProgram *program);
 
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     update
+        /// \brief  Updates possible movement and fading.
+        ///
+        ///////////////////////////////////////////////////////////
+        void update(double deltaTime);
 
         ///////////////////////////////////////////////////////////
         /// \fn     render

@@ -306,7 +306,7 @@ namespace Qube2D
         // Initializes global OpenGL objects
         ISprite::initializeGL();
         IPrimitive::initializeGL();
-        IMovable::initializeMatrix();
+        IMovable::initializeView();
 
 
         // Enables color blending for shaders etc.

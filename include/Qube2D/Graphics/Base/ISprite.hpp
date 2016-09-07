@@ -44,6 +44,7 @@
 #include <Qube2D/Graphics/GraphicsEnums.hpp>
 #include <Qube2D/Graphics/Base/IFadable.hpp>
 #include <Qube2D/Graphics/Base/IMovable.hpp>
+#include <Qube2D/Graphics/Base/ITransformable.hpp>
 #include <Qube2D/Graphics/OpenGL/Texture.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
 #include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
@@ -60,7 +61,9 @@ namespace Qube2D
     /// \brief   Base class for all texture-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API ISprite : public IMovable, public IFadable
+    class Q2D_API ISprite : public IMovable,
+                            public IFadable,
+                            public ITransformable
     {
 
     public:

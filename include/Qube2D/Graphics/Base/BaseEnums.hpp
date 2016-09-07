@@ -79,6 +79,17 @@ namespace Qube2D
         DownAndRight    = 6,    ///< Moves the object down and right
         DownAndLeft     = 7     ///< Moves the object down and left
     };
+
+    ///////////////////////////////////////////////////////////
+    /// \enum   RotateDirection
+    /// \brief  Defines rotating directions for ITransformable.
+    ///
+    ///////////////////////////////////////////////////////////
+    enum class RotateDirection : unsigned int
+    {
+        Clockwise           = 0,    ///< Rotates the object CW
+        CounterClockwise    = 1     ///< Rotates the object CCW
+    };
 }
 
 
