@@ -41,10 +41,11 @@
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    // Variables
+    // Static variable definitions
     //
     ///////////////////////////////////////////////////////////
-    glm::mat4 IMovable::m_ProjMatrix;
+    QFloat IMovable::m_WinW = 0.f;
+    QFloat IMovable::m_WinH = 0.f;
 
 
     ///////////////////////////////////////////////////////////
@@ -305,12 +306,14 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 5th, 2016
-    /// \fn      initializeMatrix
+    /// \fn      initializeView
     ///
     ///////////////////////////////////////////////////////////
-    void IMovable::initializeMatrix()
+    void IMovable::initializeView()
     {
         RectF *vp = Window::viewport();
-        m_ProjMatrix = glm::ortho(0.f, vp->width(), vp->height(), 0.f);
+
+        m_WinW = vp->width();
+        m_WinH = vp->height();
     }
 }
