@@ -85,23 +85,25 @@ HEADERS += \
     include/Qube2D/Input/Mouse.hpp \
     include/Qube2D/Input/Buttons.hpp \
     include/Qube2D/Debug/GLCheck.hpp \
-    include/Qube2D/Graphics/OpenGL/VertexArray.hpp \
-    include/Qube2D/Graphics/OpenGL/VertexBuffer.hpp \
-    include/Qube2D/Graphics/OpenGL/GLEnums.hpp \
-    include/Qube2D/Graphics/OpenGL/Texture.hpp \
-    include/Qube2D/Graphics/OpenGL/Shader.hpp \
-    include/Qube2D/Graphics/OpenGL/ShaderProgram.hpp \
-    include/Qube2D/Graphics/OpenGL/GLErrors.hpp \
+    include/Qube2D/Graphics/System/OpenGL/VertexArray.hpp \
+    include/Qube2D/Graphics/System/OpenGL/VertexBuffer.hpp \
+    include/Qube2D/Graphics/System/OpenGL/GLEnums.hpp \
+    include/Qube2D/Graphics/System/OpenGL/Texture.hpp \
+    include/Qube2D/Graphics/System/OpenGL/Shader.hpp \
+    include/Qube2D/Graphics/System/OpenGL/ShaderProgram.hpp \
+    include/Qube2D/Graphics/System/OpenGL/GLErrors.hpp \
     deps/lodepng/lodepng.h \
-    include/Qube2D/Graphics/GraphicsEnums.hpp \
-    include/Qube2D/Graphics/Shader/PrimitiveShaders.hpp \
-    include/Qube2D/Graphics/Shader/TextureShaders.hpp \
-    include/Qube2D/Graphics/Base/ISprite.hpp \
-    include/Qube2D/Graphics/Base/IPrimitive.hpp \
-    include/Qube2D/Graphics/Base/IFadable.hpp \
-    include/Qube2D/Graphics/Base/BaseEnums.hpp \
-    include/Qube2D/Graphics/Base/IMovable.hpp \
-    include/Qube2D/Graphics/Base/ITransformable.hpp
+    include/Qube2D/Graphics/System/GraphicsEnums.hpp \
+    include/Qube2D/Graphics/System/Shader/PrimitiveShaders.hpp \
+    include/Qube2D/Graphics/System/Shader/TextureShaders.hpp \
+    include/Qube2D/Graphics/System/Base/ISprite.hpp \
+    include/Qube2D/Graphics/System/Base/IPrimitive.hpp \
+    include/Qube2D/Graphics/System/Base/IFadable.hpp \
+    include/Qube2D/Graphics/System/Base/BaseEnums.hpp \
+    include/Qube2D/Graphics/System/Base/IMovable.hpp \
+    include/Qube2D/Graphics/System/Base/ITransformable.hpp \
+    include/Qube2D/Graphics/Sprite.hpp \
+    include/Qube2D/Graphics/Background.hpp
 
 
 #
@@ -126,17 +128,18 @@ SOURCES += \
     src/Input/Mouse.cpp \
     src/Window/WindowCallbacks.cpp \
     src/Debug/GLCheck.cpp \
-    src/Graphics/OpenGL/VertexArray.cpp \
-    src/Graphics/OpenGL/VertexBuffer.cpp \
-    src/Graphics/OpenGL/Shader.cpp \
-    src/Graphics/OpenGL/ShaderProgram.cpp \
+    src/Graphics/System/OpenGL/VertexArray.cpp \
+    src/Graphics/System/OpenGL/VertexBuffer.cpp \
+    src/Graphics/System/OpenGL/Shader.cpp \
+    src/Graphics/System/OpenGL/ShaderProgram.cpp \
     deps/lodepng/lodepng.cpp \
-    src/Graphics/OpenGL/Texture.cpp \
-    src/Graphics/Base/ISprite.cpp \
-    src/Graphics/Base/IPrimitive.cpp \
-    src/Graphics/Base/IFadable.cpp \
-    src/Graphics/Base/IMovable.cpp \
-    src/Graphics/Base/ITransformable.cpp
+    src/Graphics/System/OpenGL/Texture.cpp \
+    src/Graphics/System/Base/ISprite.cpp \
+    src/Graphics/System/Base/IPrimitive.cpp \
+    src/Graphics/System/Base/IFadable.cpp \
+    src/Graphics/System/Base/IMovable.cpp \
+    src/Graphics/System/Base/ITransformable.cpp \
+    src/Graphics/Background.cpp
 
 
 #
