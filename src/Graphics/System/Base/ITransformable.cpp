@@ -35,7 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
-#include <Qube2D/Graphics/Base/ITransformable.hpp>
+#include <Qube2D/Graphics/System/Base/ITransformable.hpp>
 
 
 namespace Qube2D

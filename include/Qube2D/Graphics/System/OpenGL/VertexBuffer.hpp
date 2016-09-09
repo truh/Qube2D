@@ -30,8 +30,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_SHADER_HPP__
-#define __Q2D_SHADER_HPP__
+#ifndef __Q2D_VERTEXBUFFER_HPP__
+#define __Q2D_VERTEXBUFFER_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -39,43 +39,44 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
-#include <Qube2D/Graphics/OpenGL/GLEnums.hpp>
+#include <Qube2D/Graphics/System/OpenGL/GLEnums.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Shader.hpp
+    /// \file    VertexBuffer.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \class   Shader
-    /// \brief   Wraps an OpenGL vertex or fragment shader.
+    /// \date    August 19th, 2016
+    /// \class   VertexBuffer
+    /// \brief   Wraps an OpenGL vertex buffer object.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API Shader
+    class Q2D_API VertexBuffer
     {
 
     public:
 
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
-        /// \brief  Initializes a new Qube2D::Shader.
+        /// \brief  Initializes a new Qube2D::VertexBuffer.
         ///
         ///////////////////////////////////////////////////////////
-        Shader();
+        VertexBuffer();
 
 
         ///////////////////////////////////////////////////////////
         /// \fn     create
-        /// \brief  Allocates a new OpenGL shader object.
-        /// \param  type One of the ShaderType values
+        /// \brief  Allocates a new OpenGL vertex buffer object.
+        /// \param  type One of Qube2D::BufferType
+        /// \param  usage One of Qube2D::BufferUsage
         ///
         ///////////////////////////////////////////////////////////
-        void create(ShaderType type);
+        void create(BufferType type, BufferUsage usage);
 
         ///////////////////////////////////////////////////////////
         /// \fn     destroy
-        /// \brief  Frees this OpenGL shader object.
+        /// \brief  Frees this OpenGL vertex buffer object.
         ///
         ///////////////////////////////////////////////////////////
         void destroy();
@@ -83,28 +84,52 @@ namespace Qube2D
 
         ///////////////////////////////////////////////////////////
         /// \fn       id -> const
-        /// \brief    Retrieves the shader ID within OpenGL.
-        /// \returns  the non-zero shader ID.
+        /// \brief    Retrieves the ID of this vertex buffer object.
+        /// \returns  the non-zero ID of this VBO.
         ///
         ///////////////////////////////////////////////////////////
         QUInt32 id() const;
 
 
         ///////////////////////////////////////////////////////////
-        /// \fn     compileFromFile
-        /// \brief  Compiles the shader written in a file.
-        /// \param  path Absolute path or asset path to ASCII file
+        /// \fn      bind
+        /// \brief   Binds this VBO to the current context.
+        /// \remark  Unbinds any previously bound VBO.
         ///
         ///////////////////////////////////////////////////////////
-        void compileFromFile(const char *path);
+        void bind();
 
         ///////////////////////////////////////////////////////////
-        /// \fn     compileFromString
-        /// \brief  Compiles the shader specified as ASCII string.
-        /// \param  code ASCII string containing shader code
+        /// \fn      unbind
+        /// \brief   Unbinds this VBO from the current context.
+        /// \remark  This function actually unbinds any VBO.
         ///
         ///////////////////////////////////////////////////////////
-        void compileFromString(const char *code);
+        void unbind();
+
+        ///////////////////////////////////////////////////////////
+        /// \fn       fill
+        /// \brief    Fills this buffer with the given data.
+        /// \param    data Data to store in the buffer
+        /// \param    size Size to store, in bytes
+        ///
+        ///////////////////////////////////////////////////////////
+        void fill(const void *data, int size);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     modify
+        /// \brief  Modifies the buffer's contents.
+        ///
+        /// Same as fill, but this function allows to you specify
+        /// a source and destination offset.
+        ///
+        /// \param  data Data to use
+        /// \param  src Offset within 'data' to start copying from
+        /// \param  dst Start offset within the buffer
+        /// \param  size Amount of bytes to copy from 'data'
+        ///
+        ///////////////////////////////////////////////////////////
+        void modify(void *data, int src, int dst, int size);
 
 
     private:
@@ -113,11 +138,12 @@ namespace Qube2D
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QUInt32 m_ID;       ///< Shader ID within OpenGL
-        QUInt32 m_Type;     ///< Type of the shader
+        QUInt32 m_ID;       ///< VBO identifier within OpenGL
+        QUInt32 m_Type;     ///< Buffer type (vertex or index)
+        QUInt32 m_Usage;    ///< Buffer usage (static or dynamic)
 
     };
 }
 
 
-#endif  // __Q2D_SHADER_HPP__
+#endif  // __Q2D_VERTEXBUFFER_HPP__

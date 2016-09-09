@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -35,166 +35,193 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
-#include <Qube2D/Debug/GLCheck.hpp>
-#include <Qube2D/Graphics/OpenGL/GLErrors.hpp>
-#include <Qube2D/Graphics/OpenGL/ShaderProgram.hpp>
-#include <glad/glad.h>
+#include <Qube2D/Graphics/System/Base/IFadable.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
+    /// \date    September 3rd, 2016
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    ShaderProgram::ShaderProgram()
-        : m_ID(0)
+    IFadable::IFadable()
+        : m_Opacity(0.f),
+          m_ElapsedTime(0.0),
+          m_Speed(0.1f),
+          m_BreakPoint(-1.f),
+          m_Mode(0),
+          m_InitialMode(0),
+          m_IsFading(false)
     {
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      create
+    /// \date    September 3rd, 2016
+    /// \fn      opacity -> const
     ///
     ///////////////////////////////////////////////////////////
-    void ShaderProgram::create()
+    QFloat IFadable::opacity() const
     {
-        glCheck(m_ID = glCreateProgram());
+        return m_Opacity;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      destroy
+    /// \date    September 3rd, 2016
+    /// \fn      isFading -> const
     ///
     ///////////////////////////////////////////////////////////
-    void ShaderProgram::destroy()
+    QBool IFadable::isFading() const
     {
-        glCheck(glDeleteProgram(m_ID));
-        m_ID = 0;
+        return m_IsFading;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      id -> const
+    /// \date    September 3rd, 2016
+    /// \fn      setOpacity
     ///
     ///////////////////////////////////////////////////////////
-    QUInt32 ShaderProgram::id() const
+    void IFadable::setOpacity(QFloat opacity)
     {
-        return m_ID;
+        m_Opacity = opacity;
     }
-    
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      addShader
+    /// \date    September 3rd, 2016
+    /// \fn      setFadingSpeed
     ///
     ///////////////////////////////////////////////////////////
-    void ShaderProgram::addShader(const Shader &shader)
+    void IFadable::setFadingSpeed(QFloat speed)
     {
-        glCheck(glAttachShader(m_ID, shader.id()));
+        m_Speed = speed;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      removeShader
+    /// \date    September 3rd, 2016
+    /// \fn      startFading
     ///
     ///////////////////////////////////////////////////////////
-    void ShaderProgram::removeShader(const Shader &shader)
+    void IFadable::startFading(FadeMode mode)
     {
-        glCheck(glDetachShader(m_ID, shader.id()));
+        m_Mode = m_InitialMode = static_cast<QUInt32>(mode);
+        m_IsFading = true;
+
+        if (mode != FadeMode::In)
+            m_Opacity = 1.f;
+        else
+            m_Opacity = 0.f;
+
+        if (mode == FadeMode::Pulse)
+            m_Mode = IFADABLE_FADE_IN;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      Default constructor
+    /// \date    September 3rd, 2016
+    /// \fn      setFadeBreakPoint
     ///
     ///////////////////////////////////////////////////////////
-    void ShaderProgram::link()
+    void IFadable::setFadeBreakPoint(QFloat opacity)
     {
-        // Attempts to link the program
-        glCheck(glLinkProgram(m_ID));
-        
-        
-        // Determines whether an error occured
-        int success = GL_FALSE;
-        glCheck(glGetProgramiv(m_ID, GL_LINK_STATUS, &success));
-        
-        if (success == GL_FALSE)
+        m_BreakPoint = opacity;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 3rd, 2016
+    /// \fn      removeFadeBreakPoint
+    ///
+    ///////////////////////////////////////////////////////////
+    void IFadable::removeFadeBreakPoint()
+    {
+        m_BreakPoint = -1.f;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 3rd, 2016
+    /// \fn      stopFading
+    ///
+    ///////////////////////////////////////////////////////////
+    void IFadable::stopFading()
+    {
+        m_IsFading = false;
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 3rd, 2016
+    /// \fn      updateFade
+    ///
+    ///////////////////////////////////////////////////////////
+    void IFadable::updateFade(double deltaTime)
+    {
+        if (!m_IsFading)
+            return;
+
+
+        // Increases the elapsed time
+        m_ElapsedTime += deltaTime;
+
+        if (m_ElapsedTime >= IFADABLE_UPDATE_INTERVAL)
         {
-            // Collects error information
-            char log[1024];
-            glCheck(glGetProgramInfoLog(m_ID, 1024, &success, log));
-            Q2DErrorNoArg(log);
+            // Increase or decrease the value
+            if (m_Mode == IFADABLE_FADE_IN)
+            {
+                m_Opacity += m_Speed;
+
+                // Stops fading if value exceeded the maximum
+                if (m_Opacity >= 1.f || (m_BreakPoint != -1 && m_Opacity >= m_BreakPoint))
+                {
+                    m_Opacity = 1.f;
+
+
+                    // Checks whether the object should pulse
+                    if (m_InitialMode == IFADABLE_FADE_PULSE)
+                    {
+                        m_IsFading = true;
+                        m_Mode = IFADABLE_FADE_OUT;
+                    }
+                    else
+                    {
+                        m_IsFading = false;
+                    }
+                }
+            }
+            else
+            {
+                m_Opacity -= m_Speed;
+
+                // Stops fading if value exceeded the minimum
+                if (m_Opacity <= 0.f || (m_BreakPoint != -1 && m_Opacity <= m_BreakPoint))
+                {
+                    m_Opacity = 0.f;
+
+
+                    // Checks whether the object should pulse
+                    if (m_InitialMode == IFADABLE_FADE_PULSE)
+                    {
+                        m_IsFading = true;
+                        m_Mode = IFADABLE_FADE_IN;
+                    }
+                    else
+                    {
+                        m_IsFading = false;
+                    }
+                }
+            }
+
+
+            m_ElapsedTime = 0.0;
         }
-    }
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      use
-    ///
-    ///////////////////////////////////////////////////////////
-    void ShaderProgram::bind()
-    {
-        glCheck(glUseProgram(m_ID));
-    }
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      unbind
-    ///
-    ///////////////////////////////////////////////////////////
-    void ShaderProgram::unbind()
-    {
-        glCheck(glUseProgram(0));
-    }
-    
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      bindLocation
-    ///
-    ///////////////////////////////////////////////////////////
-    void ShaderProgram::bindLocation(const char *var, QUInt32 index)
-    {
-        glCheck(glBindAttribLocation(m_ID, index, var));
-    }
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      getLocation -> const
-    ///
-    ///////////////////////////////////////////////////////////
-    QUInt32 ShaderProgram::getLocation(const char *var) const
-    {
-        QInt32 index;
-        glCheck(index = glGetAttribLocation(m_ID, var));
-        return static_cast<QUInt32>(index);
-    }    
-    
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 20th, 2016
-    /// \fn      getUniformLocation -> const
-    ///
-    ///////////////////////////////////////////////////////////
-    QInt32 ShaderProgram::getUniformLocation(const char *uni) const
-    {
-        QInt32 index;
-        glCheck(index = glGetUniformLocation(m_ID, uni));
-        return index;
     }
 }

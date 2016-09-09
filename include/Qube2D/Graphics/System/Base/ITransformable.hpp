@@ -30,8 +30,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_IMOVABLE_HPP__
-#define __Q2D_IMOVABLE_HPP__
+#ifndef __Q2D_ITRANSFORMABLE_HPP__
+#define __Q2D_ITRANSFORMABLE_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -39,163 +39,167 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
-#include <Qube2D/Graphics/Base/BaseEnums.hpp>
+#include <Qube2D/Graphics/System/Base/BaseEnums.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    IMovable.hpp
+    /// \file    ITransformable.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 3rd, 2016
-    /// \class   IMovable
-    /// \brief   Allows moving an object.
+    /// \date    September 5th, 2016
+    /// \class   ITransformable
+    /// \brief   Allows rotating and scaling an object.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API IMovable
+    class Q2D_API ITransformable
     {
 
     public:
 
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
-        /// \brief  Initializes a new instance of Qube2D::IMovable.
+        /// \brief  Initializes a new instance of ITransformable.
         ///
         ///////////////////////////////////////////////////////////
-        IMovable();
+        ITransformable();
 
 
         ///////////////////////////////////////////////////////////
-        /// \fn       x -> const
-        /// \brief    Retrieves the X-coordinate of this object.
-        /// \returns  the X-coordinate, in pixels.
+        /// \fn       angle
+        /// \brief    Retrieves the current angle of the object.
+        /// \returns  the object's angle, in degrees.
         ///
         ///////////////////////////////////////////////////////////
-        QFloat x() const;
+        QFloat angle() const;
 
         ///////////////////////////////////////////////////////////
-        /// \fn       y -> const
-        /// \brief    Retrieves the Y-coordinate of this object.
-        /// \returns  the Y-coordinate, in pixels.
+        /// \fn       scale
+        /// \brief    Retrieves the scaling of the object.
+        /// \returns  the object's scale, relatively.
         ///
         ///////////////////////////////////////////////////////////
-        QFloat y() const;
+        QFloat scale() const;
 
         ///////////////////////////////////////////////////////////
-        /// \fn       isMoving -> const
-        /// \brief    Determines whether the object is moving.
-        /// \returns  TRUE if the object is moving.
+        /// \fn       isRotating
+        /// \brief    Determines whether the object is rotating.
+        /// \returns  TRUE if the object is rotating.
         ///
         ///////////////////////////////////////////////////////////
-        QBool isMoving() const;
+        QBool isRotating() const;
 
         ///////////////////////////////////////////////////////////
-        /// \fn       isMovingHorizontally -> const
-        /// \brief    Determines whether the object is moving horiz.
-        /// \returns  TRUE if the object is still moving horizontally.
+        /// \fn       isScaling
+        /// \brief    Determines whether the object is scaling.
+        /// \returns  TRUE if the object is scaling.
         ///
         ///////////////////////////////////////////////////////////
-        QBool isMovingHorizontally() const;
+        QBool isScaling() const;
+
 
         ///////////////////////////////////////////////////////////
-        /// \fn       isMovingVertically -> const
-        /// \brief    Determines whether the object is moving vert.
-        /// \returns  TRUE if the object is still moving vertically.
+        /// \fn     setRotation
+        /// \brief  Specifies the rotation angle of the object.
+        /// \param  angle Rotation angle, in degrees
         ///
         ///////////////////////////////////////////////////////////
-        QBool isMovingVertically() const;
-
+        void setRotation(QFloat angle);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setPosition
-        /// \brief  Specifies the position of the object.
-        /// \param  x New X-position of the object, in pixels
-        /// \param  y New Y-position of the object, in pixels
+        /// \fn      setScale
+        /// \brief   Specifies the scaling of the object.
+        /// \param   scale The scale factor
+        /// \default 1.0, does not scale the object
         ///
         ///////////////////////////////////////////////////////////
-        void setPosition(QFloat x, QFloat y);
+        void setScale(QFloat scale);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setHorizontalMovingSpeed
-        /// \brief  Specifies the horizontal moving speed.
-        /// \param  speed The moving speed, in pixels
-        /// \note   This can also be set to a decimal value.
+        /// \fn     setRotationSpeed
+        /// \brief  Specifies the speed while rotating.
+        /// \param  speed Amount of degrees to rotate per update
         ///
         ///////////////////////////////////////////////////////////
-        void setHorizontalMovingSpeed(QFloat speed);
+        void setRotationSpeed(QFloat speed);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setVerticalMovingSpeed
-        /// \brief  Specifies the vertical moving speed.
-        /// \param  speed The moving speed, in pixels
-        /// \note   This can also be set to a decimal value.
+        /// \fn     setScalingSpeed
+        /// \brief  Specifies the speed while scaling.
+        /// \param  speed Factor to add per update
         ///
         ///////////////////////////////////////////////////////////
-        void setVerticalMovingSpeed(QFloat speed);
+        void setScalingSpeed(QFloat speed);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setMovingDirection
-        /// \brief  Specifies the moving direction.
-        /// \param  md The direction(s) to move the object in
+        /// \fn     setRotationOrigin
+        /// \brief  Specifies the point to rotate the object from.
+        /// \param  x Origin X-position
+        /// \parama y Origin Y-position
         ///
         ///////////////////////////////////////////////////////////
-        void setMovingDirection(MoveDirection md);
+        void setRotationOrigin(QFloat x, QFloat y);
 
 
         ///////////////////////////////////////////////////////////
-        /// \fn     startMovement
-        /// \brief  Starts moving the object.
-        /// \param  offsetX Amount of pixels to move horizontally
-        /// \param  offsetY Amount of pixels to move vertically
+        /// \fn     startRotation
+        /// \brief  Rotates the object by the given angle.
+        /// \param  angle Amount of degrees to rotate object
+        /// \param  dir Direction to rotate in
         ///
         ///////////////////////////////////////////////////////////
-        void startMovement(QFloat offsetX, QFloat offsetY);
+        void startRotation(QFloat angle, RotateDirection dir);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     stopMovement
-        /// \brief  Stops moving the object manually.
+        /// \fn     startScaling
+        /// \brief  Scales the object to the given scaling factor.
+        /// \param  factor Target scaling factor
         ///
         ///////////////////////////////////////////////////////////
-        void stopMovement();
-
-
-    #ifdef __Q2D_LIBRARY__
+        void startScaling(QFloat factor);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     initializeView
-        /// \brief  Specifies the window's width and height.
-        /// \note   Must be called everytime the window size changes.
+        /// \fn     stopRotation
+        /// \brief  Stops rotating the object.
         ///
         ///////////////////////////////////////////////////////////
-        static void initializeView();
+        void stopRotation();
 
-    #endif
+        ///////////////////////////////////////////////////////////
+        /// \fn     stopScaling
+        /// \brief  Stops scaling the object.
+        ///
+        ///////////////////////////////////////////////////////////
+        void stopScaling();
 
 
     protected:
 
         ///////////////////////////////////////////////////////////
-        /// \fn     updateMovement
-        /// \brief  Updates the object's position.
+        /// \fn     updateRotation
+        /// \brief  Updates the object's rotation angle.
         /// \param  deltaTime Time between last and current update
         ///
         ///////////////////////////////////////////////////////////
-        void updateMovement(double deltaTime);
-
+        void updateRotation(double deltaTime);
 
         ///////////////////////////////////////////////////////////
-        // Static class members
-        //
+        /// \fn     updateScaling
+        /// \brief  Updates the object's scaling factor.
+        /// \param  deltaTime Time between last and current update
+        ///
         ///////////////////////////////////////////////////////////
-        static QFloat m_WinW;              ///< Window width
-        static QFloat m_WinH;              ///< Window height
+        void updateScaling(double deltaTime);
+
 
         ///////////////////////////////////////////////////////////
         // Protected class members
         //
         ///////////////////////////////////////////////////////////
-        QFloat m_PosX;              ///< Current X-position
-        QFloat m_PosY;              ///< Current Y-position
+        QFloat m_Angle;             ///< Current rotation angle
+        QFloat m_Scale;             ///< Current scaling factor
+        QFloat m_OriginX;           ///< Origin X-position
+        QFloat m_OriginY;           ///< Origin Y-position
 
 
     private:
@@ -204,24 +208,26 @@ namespace Qube2D
         // Class members
         //
         ///////////////////////////////////////////////////////////
-        QDouble m_ElapsedTime;          ///< Delta time counter
-        QBool m_IsMovingHoriz;          ///< Moving horizontally?
-        QBool m_IsMovingVert;           ///< Moving vertically?
-        QUInt32 m_Direction;            ///< Direction flags
-        QFloat m_SpeedHoriz;            ///< Horizontal speed
-        QFloat m_SpeedVert;             ///< Vertical speed
-        QFloat m_TargetX;               ///< X target position
-        QFloat m_TargetY;               ///< Y target position
+        QDouble m_ElapsedTimeR;     ///< Delta time counter (rot)
+        QDouble m_ElapsedTimeS;     ///< Delta time counter (scale)
+        QBool m_IsRotating;         ///< Is currently rotating?
+        QBool m_IsScaling;          ///< Is currently scaling?
+        QFloat m_SpeedRotation;     ///< Rotation speed
+        QFloat m_SpeedScaling;      ///< Scaling speed
+        QFloat m_TargetRotation;    ///< Desired rotation angle
+        QFloat m_TargetScaling;     ///< Desired scaling factor
+        QUInt32 m_RotateDirection;  ///< Rotation direction
+        QUInt32 m_ScaleDirection;   ///< Scaling direction
 
     };
 
 
-    #define IMOVABLE_UPDATE_INTERVAL 0.010
-    #define IMOVABLE_DIR_UP     1
-    #define IMOVABLE_DIR_DOWN   2
-    #define IMOVABLE_DIR_RIGHT  4
-    #define IMOVABLE_DIR_LEFT   8
+    #define ITRANSFORMABLE_UPDATE_INTERVAL 0.010
+    #define ITRANSFORMABLE_ROTDIR_CW    0
+    #define ITRANSFORMABLE_ROTDIR_CCW   1
+    #define ITRANSFORMABLE_SCALEDIR_UP  0
+    #define ITRANSFORMABLE_SCALEDIR_DN  1
 }
 
 
-#endif  // __Q2D_IMOVABLE_HPP__
+#endif  // __Q2D_ITRANSFORMABLE_HPP__

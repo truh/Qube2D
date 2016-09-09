@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -34,7 +34,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
+#include <Qube2D/Graphics/System/OpenGL/VertexBuffer.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
 #include <glad/glad.h>
 
@@ -51,8 +51,8 @@ namespace Qube2D
         : m_ID(0)
     {
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -65,7 +65,7 @@ namespace Qube2D
         m_Type  = static_cast<QUInt32>(type);
         m_Usage = static_cast<QUInt32>(usage);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -77,8 +77,8 @@ namespace Qube2D
         glCheck(glDeleteBuffers(1, &m_ID));
         m_ID = 0;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -89,8 +89,8 @@ namespace Qube2D
     {
         return m_ID;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -101,7 +101,7 @@ namespace Qube2D
     {
         glCheck(glBindBuffer(m_Type, m_ID));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -112,7 +112,7 @@ namespace Qube2D
     {
         glCheck(glBindBuffer(m_Type, 0));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016
@@ -123,7 +123,7 @@ namespace Qube2D
     {
         glCheck(glBufferData(m_Type, size, data, m_Usage));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 19th, 2016

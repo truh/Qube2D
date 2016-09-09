@@ -36,8 +36,8 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
-#include <Qube2D/Graphics/Base/ISprite.hpp>
-#include <Qube2D/Graphics/Shader/TextureShaders.hpp>
+#include <Qube2D/Graphics/System/Base/ISprite.hpp>
+#include <Qube2D/Graphics/System/Shader/TextureShaders.hpp>
 #include <Qube2D/System/Structs/GLColor.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
@@ -397,5 +397,39 @@ namespace Qube2D
         m_FragShader.destroy();
         m_ShaderProgram.destroy();
         m_VertexArray.destroy();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 9th, 2016
+    /// \fn      visibleWidth
+    ///
+    ///////////////////////////////////////////////////////////
+    QFloat ISprite::visibleWidth() const
+    {
+        return m_Texture.width() * m_Scale;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 9th, 2016
+    /// \fn      visibleHeight
+    ///
+    ///////////////////////////////////////////////////////////
+    QFloat ISprite::visibleHeight() const
+    {
+        return m_Texture.height () * m_Scale;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 9th, 2016
+    /// \fn      texture
+    ///
+    ///////////////////////////////////////////////////////////
+    const Texture &ISprite::texture() const
+    {
+        return m_Texture;
     }
 }

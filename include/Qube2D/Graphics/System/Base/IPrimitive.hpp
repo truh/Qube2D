@@ -30,8 +30,8 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_ISPRITE_HPP__
-#define __Q2D_ISPRITE_HPP__
+#ifndef __Q2D_IPRIMITIVE_HPP__
+#define __Q2D_IPRIMITIVE_HPP__
 
 
 ///////////////////////////////////////////////////////////
@@ -39,41 +39,40 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
-#include <Qube2D/System/Structs/Rect.hpp>
+#include <Qube2D/System/Structs/Color.hpp>
 #include <Qube2D/System/Structs/Vertices.hpp>
-#include <Qube2D/Graphics/GraphicsEnums.hpp>
-#include <Qube2D/Graphics/Base/IFadable.hpp>
-#include <Qube2D/Graphics/Base/IMovable.hpp>
-#include <Qube2D/Graphics/Base/ITransformable.hpp>
-#include <Qube2D/Graphics/OpenGL/Texture.hpp>
-#include <Qube2D/Graphics/OpenGL/VertexArray.hpp>
-#include <Qube2D/Graphics/OpenGL/VertexBuffer.hpp>
-#include <Qube2D/Graphics/OpenGL/ShaderProgram.hpp>
+#include <Qube2D/Graphics/System/GraphicsEnums.hpp>
+#include <Qube2D/Graphics/System/Base/IFadable.hpp>
+#include <Qube2D/Graphics/System/Base/IMovable.hpp>
+#include <Qube2D/Graphics/System/Base/ITransformable.hpp>
+#include <Qube2D/Graphics/System/OpenGL/VertexArray.hpp>
+#include <Qube2D/Graphics/System/OpenGL/VertexBuffer.hpp>
+#include <Qube2D/Graphics/System/OpenGL/ShaderProgram.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    ISprite.hpp
+    /// \file    IPrimitive.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    August 31th, 2016
-    /// \class   ISprite
-    /// \brief   Base class for all texture-based rendering.
+    /// \date    September 3rd, 2016
+    /// \class   IPrimitive
+    /// \brief   Base class for all primitive-based rendering.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API ISprite : public IMovable,
-                            public IFadable,
-                            public ITransformable
+    class Q2D_API IPrimitive : public IMovable,
+                               public IFadable,
+                               public ITransformable
     {
 
     public:
 
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
-        /// \brief  Initializes a new instance of Qube2D::Image.
+        /// \brief  Initializes a new instance of Qube2D::Primitive.
         ///
         ///////////////////////////////////////////////////////////
-        ISprite();
+        IPrimitive();
 
 
         ///////////////////////////////////////////////////////////
@@ -95,64 +94,8 @@ namespace Qube2D
 
 
         ///////////////////////////////////////////////////////////
-        /// \fn     load
-        /// \brief  Loads an image from a relative or absolute path.
-        /// \param  path Absolute or relative path to the image
-        ///
-        ///////////////////////////////////////////////////////////
-        void load(const char *path);
-
-        ///////////////////////////////////////////////////////////
-        /// \fn     load (overload #1)
-        /// \brief  Directly loads the texture to display.
-        /// \param  texture Texture to render
-        ///
-        ///////////////////////////////////////////////////////////
-        void load(const Texture &texture);
-
-
-        ///////////////////////////////////////////////////////////
-        /// \fn     setSourceRectangle
-        /// \brief  Specifies the region of the image to be drawn.
-        /// \param  rect Region to draw
-        ///
-        ///////////////////////////////////////////////////////////
-        void setSourceRectangle(const RectF &rect);
-
-        ///////////////////////////////////////////////////////////
-        /// \fn     setBlendColor
-        /// \brief  Specifies the color to blend each pixel with.
-        /// \param  color Color to be added, multiplied, ...
-        ///
-        ///////////////////////////////////////////////////////////
-        void setBlendColor(const Color &color);
-
-        ///////////////////////////////////////////////////////////
-        /// \fn     setBlendColorEx
-        /// \brief  Specifies the blend color for each vertex.
-        /// \param  topLeft Top-left vertex blend color
-        /// \param  topRight Top-right vertex blend color
-        /// \param  bottomRight Bottom-right vertex blend color
-        /// \param  bottomLeft Bottom-left vertex blend color
-        ///
-        ///////////////////////////////////////////////////////////
-        void setBlendColorEx(const Color &topLeft,
-                             const Color &topRight,
-                             const Color &bottomRight,
-                             const Color &bottomLeft);
-
-        ///////////////////////////////////////////////////////////
-        /// \fn     setBlendMode
-        /// \brief  Specifies the blend mode within the frag shader.
-        /// \param  mode One of the Qube2D::BlendMode enum values
-        /// \note   The default value is BlendMode::NoBlend.
-        ///
-        ///////////////////////////////////////////////////////////
-        void setBlendMode(BlendMode mode);
-
-        ///////////////////////////////////////////////////////////
         /// \fn     setCustomShaderProgram
-        /// \brief  Specifies a shader program for this texture.
+        /// \brief  Specifies a shader program for this primitive.
         /// \param  program Program having shaders attached to it
         /// \note   This function causes the rendering to override
         ///         the default shader program. To reset it, pass
@@ -171,7 +114,7 @@ namespace Qube2D
 
         ///////////////////////////////////////////////////////////
         /// \fn     render
-        /// \brief  Applies vertex changes and renders the texture.
+        /// \brief  Applies vertex changes and performs rendering.
         ///
         ///////////////////////////////////////////////////////////
         void render();
@@ -198,15 +141,35 @@ namespace Qube2D
 
     protected:
 
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     setVertexCount
+        /// \brief  Specifies the amount of vertices.
+        /// \param  count Amount of vertices to allocate
+        /// \note   Must be called before modifying vertices.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setVertexCount(QUInt32 count);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     setVertexColors
+        /// \brief  Specifies the color of each vertex.
+        /// \param  colors List-size must be equal to vertex-count
+        /// \note   If the list contains one element only, the engine
+        ///         assumes that all vertices should be that color.
+        ///
+        ///////////////////////////////////////////////////////////
+        void setVertexColors(const std::vector<Color> &colors);
+
+
         ///////////////////////////////////////////////////////////
         // Class members
         //
         ///////////////////////////////////////////////////////////
         VertexBuffer m_VertexBuffer;    ///< Buffer for vertex data
-        TextureVertices m_Vertices;     ///< Vertex data
-        Texture m_Texture;              ///< Underlying texture
-        BlendMode m_BlendMode;          ///< Fragment shader mode
+        PolygonVertices m_Vertices;     ///< Vertex data
         ShaderProgram *m_CustomProgram; ///< Custom shader program
+        QUInt32 m_DrawMode;             ///< OpenGL drawing mode
 
 
     private:
@@ -215,12 +178,10 @@ namespace Qube2D
         // Static class members
         //
         ///////////////////////////////////////////////////////////
-        static VertexArray m_VertexArray;       ///< Texture vertex array
-        static VertexBuffer m_IndexBuffer;      ///< Texture index buffer
-        static ShaderProgram m_ShaderProgram;   ///< Texture shader program
-        static Shader m_VertexShader;           ///< Texture vertex shader
-        static Shader m_FragShader;             ///< Texture frag. shader
-        static QInt32 m_UniformSampler;         ///< Sampler2D variable loc
+        static VertexArray m_VertexArray;       ///< Primitive vertex array
+        static ShaderProgram m_ShaderProgram;   ///< Primitive shader program
+        static Shader m_VertexShader;           ///< Primitive vertex shader
+        static Shader m_FragShader;             ///< Primitive frag. shader
         static QInt32 m_UniformMatrix;          ///< MVP variable loc
         static QInt32 m_UniformOpacity;         ///< Opacity variable loc
 
@@ -228,4 +189,4 @@ namespace Qube2D
 }
 
 
-#endif  // __Q2D_ISPRITE_HPP__
+#endif  // __Q2D_IPRIMITIVE_HPP__

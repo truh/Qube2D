@@ -90,6 +90,23 @@ namespace Qube2D
         Clockwise           = 0,    ///< Rotates the object CW
         CounterClockwise    = 1     ///< Rotates the object CCW
     };
+
+    ///////////////////////////////////////////////////////////
+    /// \enum   ScrollDirection
+    /// \brief  Defines moving directions for Background.
+    ///
+    ///////////////////////////////////////////////////////////
+    enum class ScrollDirection : unsigned int
+    {
+        Up              = 0,    ///< Scrolls the BG upwards
+        Down            = 1,    ///< Scrolls the BG downwards
+        Right           = 2,    ///< Scrolls the BG to the right
+        Left            = 3,    ///< Scrolls the BG to the left
+        UpAndRight      = 4,    ///< Scrolls the BG up and right
+        UpAndLeft       = 5,    ///< Scrolls the BG up and left
+        DownAndRight    = 6,    ///< Scrolls the BG down and right
+        DownAndLeft     = 7     ///< Scrolls the BG down and left
+    };
 }
 
 

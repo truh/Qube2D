@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -34,8 +34,8 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Graphics/OpenGL/GLErrors.hpp>
-#include <Qube2D/Graphics/OpenGL/Texture.hpp>
+#include <Qube2D/Graphics/System/OpenGL/GLErrors.hpp>
+#include <Qube2D/Graphics/System/OpenGL/Texture.hpp>
 #include <Qube2D/System/Storage/File.hpp>
 #include <Qube2D/Assets/Assets.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
@@ -60,8 +60,8 @@ namespace Qube2D
         m_Format(0)
     {
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 28th, 2016
@@ -76,19 +76,19 @@ namespace Qube2D
         assert(m_ID == 0);
         assert(width%2 == 0);
         assert(height%2 == 0);
-        
-        
+
+
         // Creates an OpenGL texture
         glCheck(glGenTextures(1, &m_ID));
         glCheck(glBindTexture(GL_TEXTURE_2D, m_ID));
-        
-        // Generates the initial texture data        
+
+        // Generates the initial texture data
         QUInt8 red = color.r();
         QUInt8 green = color.g();
         QUInt8 blue = color.b();
         QUInt8 alpha = color.a();
         std::vector<QUInt8> pixelData;
-        
+
         for (int i = 0; i < width*height; i++)
         {
             if (format == TextureFormat::FormatRED)
@@ -127,17 +127,17 @@ namespace Qube2D
                 pixelData.push_back(alpha);
             }
         }
-        
+
         // Sets the pixel data within OpenGL
         glCheck(glTexImage2D(
                     GL_TEXTURE_2D, GL_NONE, static_cast<QUInt32>(format),
                     width, height, GL_NONE, static_cast<QUInt32>(format),
                     GL_UNSIGNED_BYTE, pixelData.data()));
-        
+
         m_Width = static_cast<QFloat>(width);
         m_Height = static_cast<QFloat>(height);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 28th, 2016
@@ -147,14 +147,14 @@ namespace Qube2D
     void Texture::createFromFile(const char *path)
     {
         assert(m_ID == 0 && path);
-        
+
         // Determines whether the given path is relative or absolute
         // and converts the relative to an absolute eventually.
         std::string filePath = path;
         if (Assets::isRelative(path))
             filePath = Assets::makePath(path);
-        
-        
+
+
         // Creates a new file handle
         File file;
         if (!file.open(path, FA_Read))
@@ -162,14 +162,14 @@ namespace Qube2D
             Q2DError(Q2D_SHADER_ERROR_0, filePath.c_str());
             return;
         }
-        
-        
+
+
         // Creates the texture
         QUInt8 *bytes = file.readBytes(file.size());
         createFromMemory(bytes, file.size());
         delete [] bytes;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 28th, 2016
@@ -179,19 +179,19 @@ namespace Qube2D
     void Texture::createFromMemory(const QUInt8 *bytes, QUInt32 size)
     {
         assert(m_ID == 0 && bytes);
-        
-        
+
+
         QUInt32 width, height;
         LodePNGState state;
-        memset(&state, 0, sizeof(state));       
-        
-        // Validates the given PNG image        
+        memset(&state, 0, sizeof(state));
+
+        // Validates the given PNG image
         if (lodepng_inspect(&width, &height, &state, bytes, size))
         {
             Q2DErrorNoArg(Q2D_TEXTURE_ERROR_1);
             return;
         }
-        
+
         // Loads the PNG image
         QUInt32 colorType = 0;
         QUInt8 *pixelData = 0;
@@ -201,9 +201,9 @@ namespace Qube2D
             colorType = GL_RGB;
         else if (state.info_png.color.colortype == LCT_RGBA)
             colorType = GL_RGBA;
-        
-        lodepng_decode(&pixelData, &width, &height, &state, bytes, size);        
-        
+
+        lodepng_decode(&pixelData, &width, &height, &state, bytes, size);
+
         // Allocates an OpenGL texture
         glCheck(glGenTextures(1, &m_ID));
         glCheck(glBindTexture(GL_TEXTURE_2D, m_ID));
@@ -215,11 +215,11 @@ namespace Qube2D
                     colorType,
                     GL_UNSIGNED_BYTE,
                     pixelData));
-        
+
         m_Width = static_cast<QFloat>(width);
         m_Height = static_cast<QFloat>(height);
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    August 28th, 2016
@@ -230,13 +230,13 @@ namespace Qube2D
     {
         if (m_ID)
             glDeleteTextures(1, &m_ID);
-        
+
         m_ID = 0;
         m_Width = 0;
         m_Height = 0;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -247,7 +247,7 @@ namespace Qube2D
     {
         glCheck(glBindTexture(GL_TEXTURE_2D, m_ID));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -258,8 +258,8 @@ namespace Qube2D
     {
         glCheck(glBindTexture(GL_TEXTURE_2D, 0));
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -270,7 +270,7 @@ namespace Qube2D
     {
         return m_ID;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -281,7 +281,7 @@ namespace Qube2D
     {
         return m_Width;
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -292,8 +292,8 @@ namespace Qube2D
     {
         return m_Height;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -306,7 +306,7 @@ namespace Qube2D
                                 GL_TEXTURE_MAG_FILTER,
                                 static_cast<QUInt32>(filter)));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -319,7 +319,7 @@ namespace Qube2D
                                 GL_TEXTURE_MIN_FILTER,
                                 static_cast<QUInt32>(filter)));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -332,7 +332,7 @@ namespace Qube2D
                                 GL_TEXTURE_WRAP_T,
                                 static_cast<QUInt32>(wrap)));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -345,7 +345,7 @@ namespace Qube2D
                                 GL_TEXTURE_WRAP_S,
                                 static_cast<QUInt32>(wrap)));
     }
-    
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 1st, 2016
@@ -357,8 +357,8 @@ namespace Qube2D
                                TextureFormat format)
     {
         assert(data && m_ID);
-        
-        
+
+
         // Determines the unpacking alignment
         if (format == TextureFormat::FormatRED || format == TextureFormat::FormatRGB || format == TextureFormat::FormatBGR)
             glCheck(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
@@ -366,8 +366,8 @@ namespace Qube2D
             glCheck(glPixelStorei(GL_UNPACK_ALIGNMENT, 2));
         else
             glCheck(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-        
-        
+
+
         // Updates the pixel data
         glCheck(glBindTexture(GL_TEXTURE_2D, m_ID));
         glCheck(glTexSubImage2D(

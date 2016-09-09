@@ -39,7 +39,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Config.hpp>
-#include <Qube2D/Graphics/Base/BaseEnums.hpp>
+#include <Qube2D/Graphics/System/Base/BaseEnums.hpp>
 
 
 namespace Qube2D

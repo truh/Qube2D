@@ -34,7 +34,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Graphics/Base/IMovable.hpp>
+#include <Qube2D/Graphics/System/Base/IMovable.hpp>
 #include <Qube2D/Window/Window.hpp>
 
 

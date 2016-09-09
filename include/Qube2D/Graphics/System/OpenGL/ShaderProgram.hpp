@@ -38,7 +38,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Graphics/OpenGL/Shader.hpp>
+#include <Qube2D/Graphics/System/OpenGL/Shader.hpp>
 
 
 namespace Qube2D

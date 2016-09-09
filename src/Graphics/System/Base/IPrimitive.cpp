@@ -36,8 +36,8 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
-#include <Qube2D/Graphics/Base/IPrimitive.hpp>
-#include <Qube2D/Graphics/Shader/PrimitiveShaders.hpp>
+#include <Qube2D/Graphics/System/Base/IPrimitive.hpp>
+#include <Qube2D/Graphics/System/Shader/PrimitiveShaders.hpp>
 #include <Qube2D/System/Structs/GLColor.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>

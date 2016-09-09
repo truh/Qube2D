@@ -41,7 +41,7 @@
 #include <Qube2D/Config.hpp>
 #include <Qube2D/System/Structs/Rect.hpp>
 #include <Qube2D/System/Structs/Color.hpp>
-#include <Qube2D/Graphics/OpenGL/GLEnums.hpp>
+#include <Qube2D/Graphics/System/OpenGL/GLEnums.hpp>
 #include <vector>
 
 
