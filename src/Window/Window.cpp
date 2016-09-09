@@ -37,9 +37,9 @@
 #include <Qube2D/Debug/Debug.hpp>
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
-#include <Qube2D/Graphics/Base/ISprite.hpp>
-#include <Qube2D/Graphics/Base/IPrimitive.hpp>
-#include <Qube2D/Graphics/Base/IMovable.hpp>
+#include <Qube2D/Graphics/System/Base/ISprite.hpp>
+#include <Qube2D/Graphics/System/Base/IPrimitive.hpp>
+#include <Qube2D/Graphics/System/Base/IMovable.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
