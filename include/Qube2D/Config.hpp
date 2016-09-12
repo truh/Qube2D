@@ -116,6 +116,24 @@ namespace Qube2D
     #   else
     #      define Q2D_TPL extern template class
     #   endif
+
+
+    ///////////////////////////////////////////////////////////
+    /// \file    Config.hpp
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 12th, 2016
+    /// \def     Q2D_DEBUG
+    ///
+    /// Detects whether the project is building in debug mode.
+    /// Since NDEBUG is almost always declared when building
+    /// in release mode, we are using that.
+    ///
+    ///////////////////////////////////////////////////////////
+    #   if defined(NDEBUG)
+    #       define Q2D_RELEASE
+    #   else
+    #       define Q2D_DEBUG
+    #   endif
 }
 
 

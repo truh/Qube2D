@@ -93,7 +93,7 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     ///
-#   ifndef NDEBUG
+#   ifdef Q2D_DEBUG
 #       define Q2DErrorNoArg(msg) (Debug::printError(0, msg, __FILE__, __func__, __LINE__, NULL))
 #       define Q2DError(msg, ...)                                               \
         {                                                                       \
