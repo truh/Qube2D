@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -200,8 +200,8 @@ namespace Qube2D
     {
         m_Position += 2;
 
-        char value[2];
-        this->m_Stream.read(value, 2);
+        QUInt8 value[2];
+        this->m_Stream.read((char *)value, 2);
         return static_cast<QUInt16>((value[1] << 8) | value[0]);
     }
 
@@ -215,8 +215,8 @@ namespace Qube2D
     {
         m_Position += 4;
 
-        char value[4];
-        this->m_Stream.read(value, 4);
+        QUInt8 value[4];
+        this->m_Stream.read((char *)value, 4);
         return static_cast<QUInt32>
         (
                (value[3] << 24) |
@@ -236,8 +236,8 @@ namespace Qube2D
     {
         m_Position += 8;
 
-        char value[8];
-        this->m_Stream.read(value, 8);
+        QUInt8 value[8];
+        this->m_Stream.read((char *)value, 8);
         return static_cast<QUInt64>
         (
                ((QUInt64)value[7] << 56) |
