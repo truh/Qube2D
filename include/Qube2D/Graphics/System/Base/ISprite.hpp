@@ -100,7 +100,7 @@ namespace Qube2D
         /// \param  path Absolute or relative path to the image
         ///
         ///////////////////////////////////////////////////////////
-        void load(const char *path);
+        virtual bool load(const char *path);
 
         ///////////////////////////////////////////////////////////
         /// \fn     load (overload #1)
@@ -108,7 +108,7 @@ namespace Qube2D
         /// \param  texture Texture to render
         ///
         ///////////////////////////////////////////////////////////
-        void load(const Texture &texture);
+        virtual bool load(const Texture &texture);
 
 
         ///////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ namespace Qube2D
         /// \brief  Applies vertex changes and renders the texture.
         ///
         ///////////////////////////////////////////////////////////
-        void render();
+        virtual void render();
 
 
     #ifdef __Q2D_LIBRARY__

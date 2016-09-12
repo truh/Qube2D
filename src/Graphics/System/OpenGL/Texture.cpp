@@ -144,7 +144,7 @@ namespace Qube2D
     /// \fn      createFromFile
     ///
     ///////////////////////////////////////////////////////////
-    void Texture::createFromFile(const char *path)
+    bool Texture::createFromFile(const char *path)
     {
         assert(m_ID == 0 && path);
 
@@ -160,7 +160,7 @@ namespace Qube2D
         if (!file.open(path, FA_Read))
         {
             Q2DError(Q2D_SHADER_ERROR_0, filePath.c_str());
-            return;
+            return false;
         }
 
 
@@ -168,6 +168,7 @@ namespace Qube2D
         QUInt8 *bytes = file.readBytes(file.size());
         createFromMemory(bytes, file.size());
         delete [] bytes;
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -176,7 +177,7 @@ namespace Qube2D
     /// \fn      createFromFile
     ///
     ///////////////////////////////////////////////////////////
-    void Texture::createFromMemory(const QUInt8 *bytes, QUInt32 size)
+    bool Texture::createFromMemory(const QUInt8 *bytes, QUInt32 size)
     {
         assert(m_ID == 0 && bytes);
 
@@ -189,7 +190,7 @@ namespace Qube2D
         if (lodepng_inspect(&width, &height, &state, bytes, size))
         {
             Q2DErrorNoArg(Q2D_TEXTURE_ERROR_1);
-            return;
+            return false;
         }
 
         // Loads the PNG image
@@ -218,6 +219,8 @@ namespace Qube2D
 
         m_Width = static_cast<QFloat>(width);
         m_Height = static_cast<QFloat>(height);
+
+        return true;
     }
 
     ///////////////////////////////////////////////////////////

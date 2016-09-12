@@ -88,7 +88,7 @@ namespace Qube2D
         /// \param  path Absolute file path or asset path
         ///
         ///////////////////////////////////////////////////////////
-        void createFromFile(const char *path);
+        bool createFromFile(const char *path);
 
         ///////////////////////////////////////////////////////////
         /// \fn     createFromMemory
@@ -97,7 +97,7 @@ namespace Qube2D
         /// \param  size Size of the given data array
         ///
         ///////////////////////////////////////////////////////////
-        void createFromMemory(const QUInt8 *bytes, QUInt32 size);
+        bool createFromMemory(const QUInt8 *bytes, QUInt32 size);
 
         ///////////////////////////////////////////////////////////
         /// \fn      destroy

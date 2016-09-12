@@ -114,14 +114,18 @@ namespace Qube2D
     /// \fn      load
     ///
     ///////////////////////////////////////////////////////////
-    void ISprite::load(const char *path)
+    bool ISprite::load(const char *path)
     {
-        m_Texture.createFromFile(path);
+        if (!m_Texture.createFromFile(path))
+            return false;
+
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
         setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
+
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -130,8 +134,11 @@ namespace Qube2D
     /// \fn      load (overload #1)
     ///
     ///////////////////////////////////////////////////////////
-    void ISprite::load(const Texture &texture)
+    bool ISprite::load(const Texture &texture)
     {
+        if (texture.id() == 0)
+            return false;
+
         m_Texture = texture;
         m_Texture.bind();
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
@@ -139,6 +146,8 @@ namespace Qube2D
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
         setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
+
+        return true;
     }
 
 
