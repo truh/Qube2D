@@ -103,7 +103,10 @@ HEADERS += \
     include/Qube2D/Graphics/System/Base/IMovable.hpp \
     include/Qube2D/Graphics/System/Base/ITransformable.hpp \
     include/Qube2D/Graphics/Sprite.hpp \
-    include/Qube2D/Graphics/Background.hpp
+    include/Qube2D/Graphics/Background.hpp \
+    include/Qube2D/Graphics/Animation.hpp \
+    include/Qube2D/Graphics/System/Structs/Frame.hpp \
+    include/Qube2D/Graphics/System/GraphicsErrors.hpp
 
 
 #
@@ -139,7 +142,8 @@ SOURCES += \
     src/Graphics/System/Base/IFadable.cpp \
     src/Graphics/System/Base/IMovable.cpp \
     src/Graphics/System/Base/ITransformable.cpp \
-    src/Graphics/Background.cpp
+    src/Graphics/Background.cpp \
+    src/Graphics/Animation.cpp
 
 
 #
