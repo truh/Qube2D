@@ -53,6 +53,11 @@ namespace Qube2D
     Window *Window::Current = NULL;
     RectF *Window::Viewport = NULL;
 
+    #ifdef Q2D_DEBUG
+    const char *Qube2D_Window_Title;
+    void Qube2D_Window_Draw_FPS(double);
+    #endif
+
 
     ////////////////////////////////////////////////////////////////////
     // Callback definitions
@@ -149,6 +154,9 @@ namespace Qube2D
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2); // OpenGLES 2.0
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    #   endif
+    #   ifdef Q2D_DEBUG
+            Qube2D_Window_Title = attr.title();
     #   endif
 
 
@@ -329,12 +337,18 @@ namespace Qube2D
                 // Updates the game (provides delta time)
                 elapsed = glfwGetTime();
                 Qube2D_Update_Callback(elapsed-current);
-                current = elapsed;
 
                 // Renders the game
                 glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
                 Qube2D_Render_Callback();
                 glfwSwapBuffers(m_Window);
+
+                // Sets the amount of FPS as window title, if debugging
+            #ifdef Q2D_DEBUG
+                Qube2D_Window_Draw_FPS(elapsed-current);
+            #endif
+
+                current = elapsed;
             }
 
             // Processes all pending GLFW events
@@ -527,4 +541,28 @@ namespace Qube2D
     {
         return Viewport;
     }
+
+
+    #ifdef Q2D_DEBUG
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 12th, 2016
+    /// \fn      Qube2D_Window_Draw_FPS
+    ///
+    ///////////////////////////////////////////////////////////
+    void Qube2D_Window_Draw_FPS(double deltaTime)
+    {
+        // Calculates the FPS
+        double fps = (1000.0 / deltaTime) / 1000.0;
+
+        // Generates a string out of it
+        GLFWwindow *cwin = Window::currentWindow()->nativeWindow();
+        std::string fstr = std::to_string(fps);
+        fstr.insert(0u, " - FPS: ");
+        fstr.insert(0u, Qube2D_Window_Title);
+
+        // Sets the new title
+        glfwSetWindowTitle(cwin, fstr.c_str());
+    }
+    #endif
 }
