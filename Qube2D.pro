@@ -106,7 +106,12 @@ HEADERS += \
     include/Qube2D/Graphics/Background.hpp \
     include/Qube2D/Graphics/Animation.hpp \
     include/Qube2D/Graphics/System/Structs/Frame.hpp \
-    include/Qube2D/Graphics/System/GraphicsErrors.hpp
+    include/Qube2D/Graphics/System/GraphicsErrors.hpp \
+    include/Qube2D/Graphics/Shapes/Line.hpp \
+    include/Qube2D/Graphics/Shapes/Triangle.hpp \
+    include/Qube2D/Graphics/Shapes/Rectangle.hpp \
+    include/Qube2D/Graphics/Shapes/Polygon.hpp \
+    include/Qube2D/Graphics/Shapes/Circle.hpp
 
 
 #
@@ -143,7 +148,12 @@ SOURCES += \
     src/Graphics/System/Base/IMovable.cpp \
     src/Graphics/System/Base/ITransformable.cpp \
     src/Graphics/Background.cpp \
-    src/Graphics/Animation.cpp
+    src/Graphics/Animation.cpp \
+    src/Graphics/Shapes/Line.cpp \
+    src/Graphics/Shapes/Triangle.cpp \
+    src/Graphics/Shapes/Rectangle.cpp \
+    src/Graphics/Shapes/Polygon.cpp \
+    src/Graphics/Shapes/Circle.cpp
 
 
 #

@@ -1,0 +1,1 @@
+Note: GIF limits the amount of colors to 256 and caps the FPS at 30. The real application will run smoothly, and the rainbow rectangle will have smooth color transitions.
