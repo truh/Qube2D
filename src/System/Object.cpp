@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -172,7 +172,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Object::removeChild(const Object *child)
     {
-        for (QUInt32 i = 0; i < m_Children.size(); i++)
+        for (QUInt32 i = 0; i < m_Children.size(); ++i)
             if (m_Children.at(i) == child)
                 m_Children.erase(m_Children.begin()+i);
     }
@@ -196,7 +196,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void Object::removeChildren(const std::vector<Object *> &children)
     {
-        for (QUInt32 i = 0; i < children.size(); i++)
+        for (QUInt32 i = 0; i < children.size(); ++i)
             removeChild(children.at(i));
     }
 

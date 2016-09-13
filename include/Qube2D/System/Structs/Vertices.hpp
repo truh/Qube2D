@@ -261,6 +261,16 @@ namespace Qube2D
         {
             return v.size();
         }
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     Subscript operator -> inline
+        /// \brief  Retrieves the reference to an element at 'index'.
+        ///
+        ///////////////////////////////////////////////////////////
+        inline PrimitiveVertex &operator[](std::size_t index)
+        {
+            return v[index];
+        }
     };
 
     ///////////////////////////////////////////////////////////

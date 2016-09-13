@@ -108,7 +108,7 @@ namespace Qube2D
 
 
         // Writes all entries to the stream
-        for (unsigned i = 0; i < m_Offsets.size(); i++)
+        for (unsigned i = 0; i < m_Offsets.size(); ++i)
         {
             m_Stream.seekp(m_Offsets.at(i), std::ios_base::beg);
             m_Stream.write((const char *)m_Buffers.at(i).data(), m_Buffers.at(i).size());

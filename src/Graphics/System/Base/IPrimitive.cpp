@@ -70,7 +70,9 @@ namespace Qube2D
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    IPrimitive::IPrimitive() : m_CustomProgram(NULL)
+    IPrimitive::IPrimitive()
+        : m_CustomProgram(NULL),
+          m_DrawMode(0)
     {
     }
 
@@ -110,9 +112,11 @@ namespace Qube2D
     void IPrimitive::setVertexCount(QUInt32 count)
     {
         assert(count != 0);
+        m_Vertices.v.clear();
 
-        for (QUInt32 i = 0; i < count; i++)
-            m_Vertices.add(PrimitiveVertex());
+        static PrimitiveVertex v = { 0.f, 0.f, 1.f, 1.f, 1.f, 1.f };
+        for (QUInt32 i = 0; i < count; ++i)
+            m_Vertices.add(v);
     }
 
     ///////////////////////////////////////////////////////////
@@ -123,8 +127,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void IPrimitive::setVertexColors(const std::vector<Color> &colors)
     {
-        assert(colors.size() != m_Vertices.size() &&
-               colors.size() != 1);
+        assert(colors.size() == m_Vertices.size() ||
+               colors.size() == 1);
 
         if (colors.size() == 1)
         {
@@ -134,12 +138,14 @@ namespace Qube2D
             QFloat  b = c.b();
             QFloat  a = c.a();
 
-            for (QUInt32 i = 0; i < colors.size(); i++)
+            QUInt32 s = m_Vertices.size();
+            for (QUInt32 i = 0; i < s; ++i)
                 m_Vertices.v[i].rgba(r, g, b, a);
         }
         else
         {
-            for (QUInt32 i = 0; i < colors.size(); i++)
+            QUInt32 s = colors.size();
+            for (QUInt32 i = 0; i < s; ++i)
             {
                 GLColor c = colors.at(i).toGL();
                 m_Vertices.v[i].rgba(c.r(), c.g(), c.b(), c.a());
@@ -195,14 +201,13 @@ namespace Qube2D
         glm::mat4 rotation      = glm::rotate(identity, glm::radians(m_Angle), glm::vec3(0.f, 0.f, 1.f));
         glm::mat4 iorigin       = glm::translate(identity, glm::vec3(m_OriginX, m_OriginY, 0.f));
         glm::mat4 scaling       = glm::scale(identity, glm::vec3(m_Scale, m_Scale, 1.f));
-        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling * identity;
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * iorigin * scaling * origin * identity;
 
 
         // Binds all necessary objects
         m_VertexArray.bind();
         m_VertexBuffer.bind();
         m_CustomProgram->bind();
-
 
         // Buffers the vertex data
         m_VertexBuffer.fill(m_Vertices.ptr(), m_Vertices.size() * PRIMITIVE_SINGLE_VERTEX);

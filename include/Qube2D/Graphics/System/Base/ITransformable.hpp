@@ -132,13 +132,13 @@ namespace Qube2D
         void setScalingSpeed(QFloat speed);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setRotationOrigin
-        /// \brief  Specifies the point to rotate the object from.
+        /// \fn     setOrigin
+        /// \brief  Specifies the point to rotate/scale the object.
         /// \param  x Origin X-position
         /// \parama y Origin Y-position
         ///
         ///////////////////////////////////////////////////////////
-        void setRotationOrigin(QFloat x, QFloat y);
+        void setOrigin(QFloat x, QFloat y);
 
 
         ///////////////////////////////////////////////////////////

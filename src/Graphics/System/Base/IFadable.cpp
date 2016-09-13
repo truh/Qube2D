@@ -47,7 +47,7 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     IFadable::IFadable()
-        : m_Opacity(0.f),
+        : m_Opacity(1.f),
           m_ElapsedTime(0.0),
           m_Speed(0.1f),
           m_BreakPoint(-1.f),

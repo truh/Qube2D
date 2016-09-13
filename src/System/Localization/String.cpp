@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -300,7 +300,7 @@ namespace Qube2D
             return false;
 
         // Determines whether every character is the same
-        for (QUInt32 i = 0; i < len; i++)
+        for (QUInt32 i = 0; i < len; ++i)
             if (at(i) != other.at(i))
                 return false;
 
@@ -423,7 +423,7 @@ namespace Qube2D
         while (pos != String::npos)
         {
             QUInt32 i;
-            for (i = 1; i < len; i++)
+            for (i = 1; i < len; ++i)
                 if (at(pos+i) != str.at(i))
                     break;
 
@@ -449,7 +449,7 @@ namespace Qube2D
     bool String::startsWith(const String &str) const
     {
         QUInt32 len = str.length();
-        for (QUInt32 i = 0; i < len; i++)
+        for (QUInt32 i = 0; i < len; ++i)
             if (at(i) != str.at(i))
                 return false;
 
@@ -467,7 +467,7 @@ namespace Qube2D
         QUInt32 len = str.length();
         QUInt32 start = length()-len;
 
-        for (QUInt32 i = 0; i < len; i++)
+        for (QUInt32 i = 0; i < len; ++i)
             if (at(start+i) != str.at(i))
                 return false;
 
@@ -494,7 +494,7 @@ namespace Qube2D
             size = length() - pos;
 
         // Copies the given amount of characters
-        for (QInt32 i = pos; i < pos+size; i++)
+        for (QInt32 i = pos; i < pos+size; ++i)
             str.append(at(i));
 
         return str;
@@ -509,7 +509,7 @@ namespace Qube2D
     QInt32 String::indexOf(char32_t u32, QUInt32 pos) const
     {
         QUInt32 len = length();
-        for (QUInt32 i = pos; i < len; i++)
+        for (QUInt32 i = pos; i < len; ++i)
             if (at(i) == u32)
                 return static_cast<QInt32>(i);
 
@@ -532,7 +532,7 @@ namespace Qube2D
         QUInt32 len = str.length();
         char32_t start = str.at(0);
 
-        for (QUInt32 i = pos; i < mylen; i++)
+        for (QUInt32 i = pos; i < mylen; ++i)
         {
             // Found starting character; check for others
             if (at(i) == start)
@@ -781,13 +781,13 @@ namespace Qube2D
 
         // Substrings every occurrence and adds it
         QUInt32 occ_size = bounds.size();
-        for (QUInt32 i = 0; i < occ_size; i++)
+        for (QUInt32 i = 0; i < occ_size; ++i)
             splitList.push_back(substr(bounds.at(i).x(), bounds.at(i).y()));
 
         // Deletes empty entries on request
         if (options == SO_EraseEmptyEntries)
         {
-            for (QUInt32 i = 0; i < occ_size; i++)
+            for (QUInt32 i = 0; i < occ_size; ++i)
             {
                 if (splitList.at(i).isEmpty())
                 {
@@ -994,7 +994,7 @@ namespace Qube2D
         if (startsWith(U"0x"))
             i = 2;
 
-        for (; i < len; i++)
+        for (; i < len; ++i)
         {
             char32_t c = at(i);
             if (c >= 65 && c <= 90)
@@ -1020,7 +1020,7 @@ namespace Qube2D
         if (startsWith(U"0x"))
             i = 2;
 
-        for (; i < len; i++)
+        for (; i < len; ++i)
         {
             char32_t c = at(i);
             if (c >= 97 && c <= 122)
@@ -1045,7 +1045,7 @@ namespace Qube2D
         std::locale loc;
         QUInt32 len = length();
         QUInt32 i; // first real character
-        for (i = 0; i < len; i++)
+        for (i = 0; i < len; ++i)
             if (at(i) < 128)
                 if (!std::isspace((char)at(i), loc))
                     break;
@@ -1079,7 +1079,7 @@ namespace Qube2D
         va_start(argList, n);
 
         // Replaces all arguments
-        for (QUInt32 i = 0; i < n; i++)
+        for (QUInt32 i = 0; i < n; ++i)
         {
             String rep((QInt32)i);
             String arg = va_arg(argList, String);
@@ -1118,7 +1118,7 @@ namespace Qube2D
             return TENC_Utf16_LE;
 
         // check if containing valid ASCII characters
-        for (int i = 0; str[i]; i++)
+        for (int i = 0; str[i]; ++i)
             if (str[i] >= 0x80)
                 return TENC_Invalid;
 

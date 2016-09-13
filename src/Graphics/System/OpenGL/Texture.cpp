@@ -89,7 +89,7 @@ namespace Qube2D
         QUInt8 alpha = color.a();
         std::vector<QUInt8> pixelData;
 
-        for (int i = 0; i < width*height; i++)
+        for (int i = 0; i < width*height; ++i)
         {
             if (format == TextureFormat::FormatRED)
             {

@@ -30,63 +30,56 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_GRAPHICSENUMS_HPP__
-#define __Q2D_GRAPHICSENUMS_HPP__
-
-
 ///////////////////////////////////////////////////////////
 // Included files
 //
 ///////////////////////////////////////////////////////////
+#include <Qube2D/System/Structs/GLColor.hpp>
+#include <Qube2D/Graphics/Shapes/Line.hpp>
+#include <Qube2D/Graphics/System/GraphicsEnums.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    GraphicsEnums.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 1st, 2016
+    /// \date    September 13th, 2016
+    /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-
-
-    ///////////////////////////////////////////////////////////
-    /// \enum   BlendMode
-    /// \brief  Defines various blend modes supported by the
-    ///         Qube2D fragment shaders.
-    ///
-    ///////////////////////////////////////////////////////////
-    enum class BlendMode : unsigned int
+    Line::Line()
+        : IPrimitive()
     {
-        NoBlend     = 0,    ///< Does not perform blending
-        Multiply    = 1,    ///< Multiplies pixel with blend color
-        Screen      = 2,    ///< The opposite of Multiply
-        Overlay     = 3,    ///< Combines Multiply and Screen
-        Devide      = 4,    ///< Devides the corresponding color components
-        Addition    = 5,    ///< Adds the corresponding color components
-        Subtract    = 6,    ///< Subtracts the corresponding color components
-        Difference  = 7,    ///< Same as Subtract, with positive values only
-        Lighten     = 8,    ///< Chooses the lighter color
-        Darken      = 9,    ///< Chooses the darker color
-    };
+        setVertexCount(2);
+        m_DrawMode = static_cast<QUInt32>(DrawMode::Lines);
+    }
+
 
     ///////////////////////////////////////////////////////////
-    /// \enum   DrawMode
-    /// \brief  Defines various OpenGL draw modes.
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 13th, 2016
+    /// \fn      setLine
     ///
     ///////////////////////////////////////////////////////////
-    enum class DrawMode : unsigned int
+    void Line::setLine(const PointF &start, const PointF &end)
     {
-        Points          = 0x0000,
-        Lines           = 0x0001,
-        LineLoop        = 0x0002,
-        LineStrip       = 0x0003,
-        Triangles       = 0x0004,
-        TriangleStrip   = 0x0005,
-        TriangleFan     = 0x0006,
-        Patches         = 0x000E,
-    };
+        m_Vertices[0].xy(start.x(), start.y());
+        m_Vertices[1].xy(end.x(), end.y());
+        setOrigin((end.x()-start.x()) / 2, (end.y()-start.y()) / 2);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 13th, 2016
+    /// \fn      setColor
+    ///
+    ///////////////////////////////////////////////////////////
+    void Line::setColor(const Color &first, const Color &second)
+    {
+        GLColor f = first.toGL();
+        GLColor s = second.toGL();
+
+        m_Vertices[0].rgba(f.r(), f.g(), f.b(), f.a());
+        m_Vertices[1].rgba(s.r(), s.g(), s.b(), s.a());
+    }
 }
-
-
-#endif  // __Q2D_GRAPHICSENUMS_HPP__

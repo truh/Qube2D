@@ -122,7 +122,7 @@ namespace Qube2D
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
-        setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
+        setOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
 
         return true;
@@ -144,7 +144,7 @@ namespace Qube2D
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
         setSourceRectangle({ 0.f, 0.f, m_Texture.width(), m_Texture.height() });
-        setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
+        setOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
 
         return true;

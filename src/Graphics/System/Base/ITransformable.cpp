@@ -154,10 +154,10 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 7th, 2016
-    /// \fn      setRotationOrigin
+    /// \fn      setOrigin
     ///
     ///////////////////////////////////////////////////////////
-    void ITransformable::setRotationOrigin(QFloat x, QFloat y)
+    void ITransformable::setOrigin(QFloat x, QFloat y)
     {
         m_OriginX = x;
         m_OriginY = y;

@@ -30,63 +30,67 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_GRAPHICSENUMS_HPP__
-#define __Q2D_GRAPHICSENUMS_HPP__
+#ifndef __Q2D_CIRCLE_HPP__
+#define __Q2D_CIRCLE_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Included files
 //
 ///////////////////////////////////////////////////////////
+#include <Qube2D/System/Structs/Point.hpp>
+#include <Qube2D/Graphics/System/Base/IPrimitive.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    GraphicsEnums.hpp
+    /// \file    Circle.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 1st, 2016
+    /// \date    September 13th, 2016
+    /// \class   Circle
+    /// \brief   Defines a circle with one constant radius.
     ///
     ///////////////////////////////////////////////////////////
-
-
-    ///////////////////////////////////////////////////////////
-    /// \enum   BlendMode
-    /// \brief  Defines various blend modes supported by the
-    ///         Qube2D fragment shaders.
-    ///
-    ///////////////////////////////////////////////////////////
-    enum class BlendMode : unsigned int
+    class Q2D_API Circle : public IPrimitive
     {
-        NoBlend     = 0,    ///< Does not perform blending
-        Multiply    = 1,    ///< Multiplies pixel with blend color
-        Screen      = 2,    ///< The opposite of Multiply
-        Overlay     = 3,    ///< Combines Multiply and Screen
-        Devide      = 4,    ///< Devides the corresponding color components
-        Addition    = 5,    ///< Adds the corresponding color components
-        Subtract    = 6,    ///< Subtracts the corresponding color components
-        Difference  = 7,    ///< Same as Subtract, with positive values only
-        Lighten     = 8,    ///< Chooses the lighter color
-        Darken      = 9,    ///< Chooses the darker color
-    };
 
-    ///////////////////////////////////////////////////////////
-    /// \enum   DrawMode
-    /// \brief  Defines various OpenGL draw modes.
-    ///
-    ///////////////////////////////////////////////////////////
-    enum class DrawMode : unsigned int
-    {
-        Points          = 0x0000,
-        Lines           = 0x0001,
-        LineLoop        = 0x0002,
-        LineStrip       = 0x0003,
-        Triangles       = 0x0004,
-        TriangleStrip   = 0x0005,
-        TriangleFan     = 0x0006,
-        Patches         = 0x000E,
+    public:
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     Default constructor
+        /// \brief  Initializes a new instance of Qube2D::Circle.
+        ///
+        ///////////////////////////////////////////////////////////
+        Circle();
+
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     setRadius
+        /// \brief  Specifies the radius of the circle.
+        /// \param  r Radius, in pixels
+        ///
+        ///////////////////////////////////////////////////////////
+        void setRadius(QFloat r);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     setColor
+        /// \brief  Specifies the color of the circle.
+        /// \param  color Color of the circle
+        ///
+        ///////////////////////////////////////////////////////////
+        void setColor(const Color &color);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     setFilled
+        /// \brief  Specifies whether the circle should be filled.
+        /// \param  fill TRUE if circle should be filled
+        ///
+        ///////////////////////////////////////////////////////////
+        void setFilled(bool fill);
+
     };
 }
 
 
-#endif  // __Q2D_GRAPHICSENUMS_HPP__
+#endif  // __Q2D_CIRCLE_HPP__
