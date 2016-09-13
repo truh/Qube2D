@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -215,7 +215,7 @@ namespace Qube2D
 
         // Applies four terminating bytes to cover all encodings
         std::vector<QUInt8> enc(data, data + file.size());
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; ++i)
             enc.push_back(0u);
 
 

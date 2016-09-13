@@ -103,7 +103,7 @@ namespace Qube2D
         m_FrameHeight = file.readUInt16();
 
         // Attempts to parse the frame-table
-        for (QUInt32 i = 0; i < m_FrameCount; i++)
+        for (QUInt32 i = 0; i < m_FrameCount; ++i)
         {
             if (major == 1 && minor == 0)
             {
@@ -141,9 +141,9 @@ namespace Qube2D
         QInt32 columns = static_cast<int>(imgWid / m_FrameWidth);
         QInt32 rows = static_cast<int>(imgHei / m_FrameHeight);
 
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < rows; ++i)
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < columns; ++j)
             {
                 m_FrameUV.push_back(
                 {
@@ -161,7 +161,7 @@ namespace Qube2D
         m_Texture.bind();
         m_Texture.setMinFilter(InterpolationMode::NearestNeighbor);
         m_Texture.setMagFilter(InterpolationMode::NearestNeighbor);
-        setRotationOrigin(m_Texture.width()/2, m_Texture.height()/2);
+        setOrigin(m_Texture.width()/2, m_Texture.height()/2);
         setBlendColor(Color(255, 255, 255, 255));
 
         delete png;

@@ -2,7 +2,7 @@
 //
 //
 //                    ___        _            ____  ____
-//                   / _ \ _   _| |__   ___  |___ \|  _ \ 
+//                   / _ \ _   _| |__   ___  |___ \|  _ \
 //                  | | | | | | | '_ \ / _ \   __) | | | |
 //                  | |_| | |_| | |_) |  __/  / __/| |_| |
 //                   \__\_\\__,_|_.__/ \___| |_____|____/
@@ -64,7 +64,7 @@ namespace Qube2D
         /* Variadic argument list */
         va_list argList;
         va_start(argList, line);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; ++i)
         {
             std::string strArg("%");
             strArg.append(std::to_string(i));
