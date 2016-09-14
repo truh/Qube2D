@@ -40,6 +40,8 @@
 #include <Qube2D/Graphics/Shapes/Rectangle.hpp>
 #include <Qube2D/Graphics/Shapes/Polygon.hpp>
 #include <Qube2D/Graphics/Shapes/Circle.hpp>
+#include <Qube2D/Graphics/Shapes/Ellipse.hpp>
+#include <Qube2D/Graphics/Shapes/Arc.hpp>
 #include <cmath>
 
 
@@ -70,6 +72,8 @@ Qube2D::Rectangle spinrect;
 Qube2D::Polygon hexagon;
 Qube2D::Polygon nonagon;
 Qube2D::Circle circle;
+Qube2D::Ellipse ellipse;
+Qube2D::Arc arc;
 Qube2D::Color blendColor;
 QUInt32 state = STATE_RED;
 
@@ -166,6 +170,17 @@ void init()
     circle.setColor(grn);
     circle.setFilled(true);
     circle.setPosition(250.f, 80.f);
+
+    ellipse.create();
+    ellipse.setRadii(80.f, 50.f);
+    ellipse.setColor(white);
+    ellipse.setPosition(80.f, 0.f);
+
+    // note: start angle is always counter-clockwise. 0° = right
+    arc.create();
+    arc.setArc(0.f, 0.f, 60.f);
+    arc.setColor(red);
+    arc.setPosition(70.f, 110.f);
 }
 
 
@@ -185,6 +200,8 @@ void exit()
     hexagon.destroy();
     nonagon.destroy();
     circle.destroy();
+    ellipse.destroy();
+    arc.destroy();
 }
 
 
@@ -204,12 +221,16 @@ void update(double deltaTime)
     hexagon.update(deltaTime);
     nonagon.update(deltaTime);
     circle.update(deltaTime);
+    ellipse.update(deltaTime);
+    arc.update(deltaTime);
 
+    // If rotation stopped, start another one
     if (!spinrect.isRotating())
         spinrect.startRotation(360, Qube2D::RotateDirection::Clockwise);
     if (!nonagon.isRotating())
         nonagon.startRotation(360, Qube2D::RotateDirection::CounterClockwise);
 
+    // If scaling stopped, start another one
     static int scale_dir = 0;
     if (!hexagon.isScaling() && scale_dir == 0)
     {
@@ -222,6 +243,7 @@ void update(double deltaTime)
         scale_dir = 0;
     }
 
+    // Change color from red to green to blue to red
     if (state == STATE_RED)
     {
         blendColor.setR(blendColor.r() - 5);
@@ -248,6 +270,38 @@ void update(double deltaTime)
     }
 
     circle.setColor(blendColor);
+
+    // Modify the arc to build up a circle
+    static bool arc_ccw = true;
+    static float arc_ang = 0;
+    static double arc_int = 0.0;
+
+    arc_int += deltaTime;
+    if (arc_int >= 0.020)
+    {
+        arc_int = 0.0;
+
+        if (arc_ccw)
+        {
+            arc_ang += 4.f;
+            if (arc_ang >= 360.f)
+            {
+                arc_ccw = false;
+                arc_ang = 362.f;
+            }
+        }
+        else
+        {
+            arc_ang -= 4.f;
+            if (arc_ang <= 0.f)
+            {
+                arc_ccw = true;
+                arc_ang = 0.f;
+            }
+        }
+
+        arc.setArc(0.f, arc_ang, 60.f);
+    }
 }
 
 
@@ -267,4 +321,6 @@ void render()
     hexagon.render();
     nonagon.render();
     circle.render();
+    ellipse.render();
+    arc.render();
 }
