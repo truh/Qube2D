@@ -35,7 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Structs/GLColor.hpp>
-#include <Qube2D/Graphics/Shapes/Circle.hpp>
+#include <Qube2D/Graphics/Shapes/Ellipse.hpp>
 #include <cmath>
 
 
@@ -43,11 +43,11 @@ namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
+    /// \date    September 14th, 2016
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    Circle::Circle()
+    Ellipse::Ellipse()
         : IPrimitive()
     {
         m_DrawMode = static_cast<QUInt32>(DrawMode::LineLoop);
@@ -56,14 +56,14 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
-    /// \fn      setRadius
+    /// \date    September 14th, 2016
+    /// \fn      setRadii
     ///
     ///////////////////////////////////////////////////////////
-    void Circle::setRadius(QFloat r)
+    void Ellipse::setRadii(QFloat rh, QFloat rv)
     {
-        // Calculates the segments, depending on the size
-        QUInt32 segments = static_cast<QUInt32>((r*2) * 3.6);
+        // Calculates the segments, depending on the radii
+        QUInt32 segments = static_cast<QUInt32>((rh+rv) * 3.6);
         setVertexCount(segments);
 
         // Calculates the radians per segment
@@ -72,14 +72,14 @@ namespace Qube2D
         // Pre-calculates the sine and cosine
         QFloat s = sinf(rps);
         QFloat c = cosf(rps);
-        QFloat x = r, y = 0, t;
+        QFloat x = 1, y = 0, t;
 
         // Computes all vertex locations. Speeds up the process by rotating
         // the shape instead of re-calculating the sine and cosine.
         for (QUInt32 i = 0; i < segments; ++i)
         {
             t = x;
-            m_Vertices[i].xy(x+r, y+r);
+            m_Vertices[i].xy((x*rh) + rh, (y*rv) + rv);
             x = (c*x) - (s*y);
             y = (s*t) + (c*y);
         }
@@ -87,11 +87,11 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
-    /// \fn      setColor
+    /// \date    September 14th, 2016
+    /// \fn      setRadii
     ///
     ///////////////////////////////////////////////////////////
-    void Circle::setColor(const Color &color)
+    void Ellipse::setColor(const Color &color)
     {
         QUInt32 s = m_Vertices.size();
         GLColor c = color.toGL();
@@ -106,11 +106,11 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
+    /// \date    September 14th, 2016
     /// \fn      setFilled
     ///
     ///////////////////////////////////////////////////////////
-    void Circle::setFilled(bool fill)
+    void Ellipse::setFilled(bool fill)
     {
         if (fill)
             m_DrawMode = static_cast<QUInt32>(DrawMode::TriangleFan);

@@ -35,7 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Structs/GLColor.hpp>
-#include <Qube2D/Graphics/Shapes/Circle.hpp>
+#include <Qube2D/Graphics/Shapes/Arc.hpp>
 #include <cmath>
 
 
@@ -43,43 +43,51 @@ namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
+    /// \date    September 14th, 2016
     /// \fn      Default constructor
     ///
     ///////////////////////////////////////////////////////////
-    Circle::Circle()
+    Arc::Arc()
         : IPrimitive()
     {
-        m_DrawMode = static_cast<QUInt32>(DrawMode::LineLoop);
+        m_DrawMode = static_cast<QUInt32>(DrawMode::LineStrip);
     }
 
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
-    /// \fn      setRadius
+    /// \date    September 14th, 2016
+    /// \fn      setArc
     ///
     ///////////////////////////////////////////////////////////
-    void Circle::setRadius(QFloat r)
+    void Arc::setArc(QFloat start,  QFloat angle,
+                     QFloat radius, QFloat r2)
     {
-        // Calculates the segments, depending on the size
-        QUInt32 segments = static_cast<QUInt32>((r*2) * 3.6);
+        // Converts the degrees to radians
+        QFloat srad = start * (M_PI/180.f);
+        QFloat arad = angle * (M_PI/180.f);
+
+
+        // Calculates the segments, depending on the radii and angle
+        QUInt32 segments = static_cast<QUInt32>((radius+r2) * (angle/100.f));
         setVertexCount(segments);
 
-        // Calculates the radians per segment
-        QFloat rps = (M_PI*2.f) / segments;
+        // Calculates the radiant angle per segment
+        QFloat rps = arad / segments;
 
         // Pre-calculates the sine and cosine
         QFloat s = sinf(rps);
         QFloat c = cosf(rps);
-        QFloat x = r, y = 0, t;
+        QFloat x = (radius+r2) * cosf(srad);
+        QFloat y = (radius+r2) * sinf(srad);
+        QFloat t;
 
         // Computes all vertex locations. Speeds up the process by rotating
         // the shape instead of re-calculating the sine and cosine.
         for (QUInt32 i = 0; i < segments; ++i)
         {
             t = x;
-            m_Vertices[i].xy(x+r, y+r);
+            m_Vertices[i].xy(x+radius+r2, y+radius+r2);
             x = (c*x) - (s*y);
             y = (s*t) + (c*y);
         }
@@ -87,11 +95,11 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
+    /// \date    September 14th, 2016
     /// \fn      setColor
     ///
     ///////////////////////////////////////////////////////////
-    void Circle::setColor(const Color &color)
+    void Arc::setColor(const Color &color)
     {
         QUInt32 s = m_Vertices.size();
         GLColor c = color.toGL();
@@ -102,19 +110,5 @@ namespace Qube2D
 
         for (QUInt32 i = 0; i < s; ++i)
             m_Vertices[i].rgba(r, g, b, a);
-    }
-
-    ///////////////////////////////////////////////////////////
-    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 13th, 2016
-    /// \fn      setFilled
-    ///
-    ///////////////////////////////////////////////////////////
-    void Circle::setFilled(bool fill)
-    {
-        if (fill)
-            m_DrawMode = static_cast<QUInt32>(DrawMode::TriangleFan);
-        else
-            m_DrawMode = static_cast<QUInt32>(DrawMode::LineLoop);
     }
 }

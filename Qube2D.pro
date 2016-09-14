@@ -111,7 +111,9 @@ HEADERS += \
     include/Qube2D/Graphics/Shapes/Triangle.hpp \
     include/Qube2D/Graphics/Shapes/Rectangle.hpp \
     include/Qube2D/Graphics/Shapes/Polygon.hpp \
-    include/Qube2D/Graphics/Shapes/Circle.hpp
+    include/Qube2D/Graphics/Shapes/Circle.hpp \
+    include/Qube2D/Graphics/Shapes/Ellipse.hpp \
+    include/Qube2D/Graphics/Shapes/Arc.hpp
 
 
 #
@@ -153,7 +155,9 @@ SOURCES += \
     src/Graphics/Shapes/Triangle.cpp \
     src/Graphics/Shapes/Rectangle.cpp \
     src/Graphics/Shapes/Polygon.cpp \
-    src/Graphics/Shapes/Circle.cpp
+    src/Graphics/Shapes/Circle.cpp \
+    src/Graphics/Shapes/Ellipse.cpp \
+    src/Graphics/Shapes/Arc.cpp
 
 
 #

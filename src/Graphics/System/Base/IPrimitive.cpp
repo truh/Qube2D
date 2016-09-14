@@ -111,7 +111,6 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void IPrimitive::setVertexCount(QUInt32 count)
     {
-        assert(count != 0);
         m_Vertices.v.clear();
 
         static PrimitiveVertex v = { 0.f, 0.f, 1.f, 1.f, 1.f, 1.f };
