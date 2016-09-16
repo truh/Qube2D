@@ -76,9 +76,10 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     struct GlyphAtlas
     {
-        std::map<QUInt32, Glyph> glyphs;    ///< Normal glyphs
-        std::map<QUInt32, Glyph> glyphOut;  ///< Outlines glyphs
-        std::map<QUInt32, Glyph> glyphBrd;  ///< Border glyphs
+        std::map<QUInt32, Glyph> glyphs;        ///< Normal glyphs
+        std::map<QUInt32, Glyph> glyphsBold;    ///< Bold glyphs
+        std::map<QUInt32, Glyph> glyphsOutline; ///< Outlined glyphs
+        std::map<QUInt32, Glyph> glyphsBorder;  ///< Bordered glyphs
     };
 }
 

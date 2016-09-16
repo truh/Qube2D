@@ -49,6 +49,7 @@
 #include <Qube2D/System/Structs/Rect.hpp>
 #include <algorithm>
 #include <utility>
+#include <iostream>
 
 
 namespace Qube2D

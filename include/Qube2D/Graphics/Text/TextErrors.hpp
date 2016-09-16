@@ -50,6 +50,7 @@ namespace Qube2D
     #define Q2D_FONTMGR_ERROR_0 "This TTF font file does not exist.\n    Path: %0"
     #define Q2D_FONTMGR_ERROR_1 "The FreeType2 library could not be initialized."
     #define Q2D_FONTMGR_ERROR_2 "The FreeType2 library could not be destroyed."
+    #define Q2D_FONTMGR_ERROR_3 "The FreeType2 stroker could not be initialized."
 
     ///////////////////////////////////////////////////////////
     /// \file    TextErrors.hpp

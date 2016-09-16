@@ -62,16 +62,31 @@ namespace Qube2D
     };
 
     ///////////////////////////////////////////////////////////
-    /// \enum   GlyphStyle
-    /// \brief  Defines glyph styles for Qube2D::Font.
+    /// \enum   TextStyle
+    /// \brief  Defines text styles for Qube2D::Font and Text.
     ///
     ///////////////////////////////////////////////////////////
-    enum class GlyphStyle
+    enum class TextStyle
     {
-        None,
-        Outline,
-        Border
+        Regular         = 0x0000,
+        Bold            = 0x0001,
+        Italic          = 0x0002,
+        Underline       = 0x0004,
+        Strikethrough   = 0x0008,
+        Outline         = 0x0010,
+        OutlineOnly     = 0x0020
     };
+
+
+    ///////////////////////////////////////////////////////////
+    /// \fn     operator&
+    /// \brief  Extracts a bit out of TextStyle.
+    ///
+    ///////////////////////////////////////////////////////////
+    inline bool operator&(const TextStyle &field, const TextStyle &bit)
+    {
+        return (static_cast<int>(field) & static_cast<int>(bit)) != 0;
+    }
 }
 
 

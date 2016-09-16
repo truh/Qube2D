@@ -52,6 +52,7 @@
 ///////////////////////////////////////////////////////////
 struct FT_FaceRec_;
 struct FT_StrokerRec_;
+struct FT_LibraryRec_;
 
 
 namespace Qube2D
@@ -107,14 +108,22 @@ namespace Qube2D
         void setSize(QUInt32 size);
 
         ///////////////////////////////////////////////////////////
+        /// \fn     setOutlineWidth
+        /// \brief  Specifies the width for the outline, if any.
+        /// \param  width Width of the outline, in pixels
+        ///
+        ///////////////////////////////////////////////////////////
+        void setOutlineWidth(QFloat width);
+
+        ///////////////////////////////////////////////////////////
         /// \fn       isCached -> const
         /// \brief    Determines whether a glyph is already cached.
         /// \param    cp Codepoint of the character to check for
-        /// \param    type Style of the character to check for
+        /// \param    style Style of the glyph
         /// \returns  TRUE if the character is already cached.
         ///
         ///////////////////////////////////////////////////////////
-        bool isCached(QUInt32 cp, GlyphStyle type) const;
+        bool isCached(QUInt32 cp, TextStyle style) const;
 
         ///////////////////////////////////////////////////////////
         /// \fn       lineSpacing -> const
@@ -128,11 +137,11 @@ namespace Qube2D
         /// \fn       glyph -> const
         /// \brief    Retrieves the glyph of the given style.
         /// \param    cp Codepoint of the character to fetch
-        /// \param    type Style of the character to fetch
+        /// \param    style Style of the glyph
         /// \returns  an outlined, bordered or regular glyph.
         ///
         ///////////////////////////////////////////////////////////
-        const Glyph &glyph(QUInt32 cp, GlyphStyle type) const;
+        const Glyph &glyph(QUInt32 cp, TextStyle style) const;
 
         ///////////////////////////////////////////////////////////
         /// \fn       texture -> const
@@ -142,6 +151,24 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         const Texture &texture() const;
 
+        ///////////////////////////////////////////////////////////
+        /// \fn     kerning -> const
+        /// \brief  Retrieves the kerning of two characters.
+        /// \param  prev Previous character
+        /// \param  cur Current character
+        ///
+        ///////////////////////////////////////////////////////////
+        QFloat kerning(QUInt32 prev, QUInt32 cur) const;
+
+
+        ///////////////////////////////////////////////////////////
+        /// \var    m_Stroker
+        /// \brief  Is able to outline/inline glyphs.
+        ///
+        ///////////////////////////////////////////////////////////
+        static FT_StrokerRec_ *m_Stroker;
+        static FT_LibraryRec_ *m_LibRef;
+
 
     #endif
 
@@ -149,30 +176,31 @@ namespace Qube2D
         /// \fn     cacheGlyph
         /// \brief  Caches one glyph of specified type.
         /// \param  cp Codepoint of the character to cache
-        /// \param  type Style of the text (outline, border, ...)
+        /// \param  style Style of the glyph
         ///
         ///////////////////////////////////////////////////////////
-        void cacheGlyph(QUInt32 cp, GlyphStyle type);
+        void cacheGlyph(QUInt32 cp, TextStyle style);
 
         ///////////////////////////////////////////////////////////
         /// \fn     cacheSubset
         /// \brief  Caches a subset of unicode characters.
         /// \param  set Subset to cache
+        /// \param  style Style of the glyph
         ///
         ///////////////////////////////////////////////////////////
-        void cacheSubset(Subset set, GlyphStyle type);
+        void cacheSubset(Subset set, TextStyle style);
 
         ///////////////////////////////////////////////////////////
         /// \fn       measureString
         /// \brief    Measures the width and height of a string.
         /// \param    string Qube2D::String to measure
-        /// \param    style Style of the glyphs
+        /// \param    style Style of the glyph
         /// \param    size Size of the glyphs in pixels
         /// \returns  the width and height, in pixels.
         ///
         ///////////////////////////////////////////////////////////
         SizeF measureString(const String &string,
-                            GlyphStyle style,
+                            TextStyle style,
                             QUInt32 size);
 
         ///////////////////////////////////////////////////////////
@@ -191,11 +219,11 @@ namespace Qube2D
         //
         ///////////////////////////////////////////////////////////
         FT_FaceRec_ *m_Face;       ///< Holds the current font face
-        FT_StrokerRec_ *m_Stroker; ///< Outlines glyphs
         Texture *m_Textures;       ///< OpenGL texture array
         Atlas<2048> *m_Packer;     ///< Packs glyphs into a texture
         QUInt32 m_Size;            ///< Currently active size
         QUInt32 m_Page;            ///< Currently active page
+        QFloat m_OutlineWidth;     ///< Width of the outline
         std::map<QUInt32, GlyphAtlas> m_Atlas;
         std::map<QUInt32, QInt32> m_Bearings;
 

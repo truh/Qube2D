@@ -40,6 +40,7 @@
 #include <Qube2D/Debug/Debug.hpp>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include FT_STROKER_H
 
 
 namespace Qube2D
@@ -120,6 +121,14 @@ namespace Qube2D
             Q2DErrorNoArg(Q2D_FONTMGR_ERROR_1);
             return false;
         }
+        if (FT_Stroker_New(m_Library, &Font::m_Stroker))
+        {
+            Q2DErrorNoArg(Q2D_FONTMGR_ERROR_3);
+            return false;
+        }
+
+        Font::m_LibRef = m_Library;
+        return true;
     }
 
     ///////////////////////////////////////////////////////////
@@ -137,6 +146,8 @@ namespace Qube2D
                 delete m_Fonts[i];
         }
 
+
+        FT_Stroker_Done(Font::m_Stroker);
 
         // Frees the FreeType2 library
         if (FT_Done_FreeType(m_Library))

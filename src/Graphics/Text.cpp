@@ -80,7 +80,8 @@ namespace Qube2D
           IMovable(),
           ITransformable(),
           m_Font(NULL),
-          m_VertexCount(0)
+          m_VertexCount(0),
+          m_OutlineWidth(0.f)
     {
     }
 
@@ -133,6 +134,18 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 16th, 2016
+    /// \fn      setOutlineWidth
+    ///
+    ///////////////////////////////////////////////////////////
+    void Text::setOutlineWidth(QFloat width)
+    {
+        m_OutlineWidth = width;
+        m_Font->setOutlineWidth(width);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 15th, 2016
     /// \fn      setFont
     ///
@@ -160,25 +173,36 @@ namespace Qube2D
     /// \fn      setText
     ///
     ///////////////////////////////////////////////////////////
-    void Text::setText(const String &text, GlyphStyle style)
+    void Text::setText(const String &text, TextStyle style)
     {
         assert(!text.isEmpty());
         assert(m_Font);
 
 
         m_Font->extract(m_Size);
+        m_VertexCount = 0;
+        m_Style = style;
 
 
         const char32_t *string = text.data();
+        char32_t prevChar = 0;
+
         QUInt32 length = text.length();
         QFloat sp_line = m_Font->lineSpacing();
         QFloat pos_x = 0, pos_y = 0;
-        QUInt32 vertexCount = 0;
-        m_VertexCount = 0;
+        std::vector<float> vertices, outlineVertices;
+
+        TextStyle regular = static_cast<TextStyle>(
+                            static_cast<QInt32>(style) &
+                           ~static_cast<QInt32>(TextStyle::Outline));
+
+        if (!m_Font->isCached(U' ', regular))
+            m_Font->cacheGlyph(U' ', regular);
+
+        QFloat wsAdvance = m_Font->glyph(U' ', regular).advance;
 
 
-        // Iterates through all characters and generates the vertex data
-        QFloat *vertices = new QFloat[length * 24 * sizeof(float)];
+        // Generates the "outline" vertices
         for (QUInt32 i = 0; i < length; ++i)
         {
             // Changes the vertical position on new-line
@@ -189,39 +213,73 @@ namespace Qube2D
                 pos_x = 0;
                 continue;
             }
+            if (c == ' ')
+            {
+                pos_x += wsAdvance;
+                continue;
+            }
+            if (style & TextStyle::Outline)
+            {
+                // Caches the glyph, if not already
+                if (!m_Font->isCached(c, style))
+                    m_Font->cacheGlyph(c, style);
+
+                // Generates the vertex data
+                const Glyph &glyph = m_Font->glyph(c, style);
+                QFloat x = pos_x + glyph.bearing_x - m_OutlineWidth, w = x + glyph.glyph_w;
+                QFloat y = pos_y + glyph.bearing_y - m_OutlineWidth, h = y + glyph.glyph_h;
+                QFloat u = glyph.texture_x, v = glyph.texture_y;
+                QFloat s = u + glyph.texture_w, t = v + glyph.texture_h;
+
+                outlineVertices.push_back(x); outlineVertices.push_back(y);
+                outlineVertices.push_back(u); outlineVertices.push_back(v);
+                outlineVertices.push_back(w); outlineVertices.push_back(y);
+                outlineVertices.push_back(s); outlineVertices.push_back(v);
+                outlineVertices.push_back(x); outlineVertices.push_back(h);
+                outlineVertices.push_back(u); outlineVertices.push_back(t);
+                outlineVertices.push_back(x); outlineVertices.push_back(h);
+                outlineVertices.push_back(u); outlineVertices.push_back(t);
+                outlineVertices.push_back(w); outlineVertices.push_back(y);
+                outlineVertices.push_back(s); outlineVertices.push_back(v);
+                outlineVertices.push_back(w); outlineVertices.push_back(h);
+                outlineVertices.push_back(s); outlineVertices.push_back(t);
+            }
 
             // Caches the glyph, if not already
-            if (!m_Font->isCached(c, style))
-                m_Font->cacheGlyph(c, style);
+            if (!m_Font->isCached(c, regular))
+                m_Font->cacheGlyph(c, regular);
 
             // Generates the vertex data
-            const Glyph &glyph = m_Font->glyph(c, style);
+            const Glyph &glyph = m_Font->glyph(c, regular);
             QFloat x = pos_x + glyph.bearing_x, w = x + glyph.glyph_w;
             QFloat y = pos_y + glyph.bearing_y, h = y + glyph.glyph_h;
             QFloat u = glyph.texture_x, v = glyph.texture_y;
             QFloat s = u + glyph.texture_w, t = v + glyph.texture_h;
 
-            vertices[vertexCount++] = x; vertices[vertexCount++] = y;
-            vertices[vertexCount++] = u; vertices[vertexCount++] = v;
-            vertices[vertexCount++] = w; vertices[vertexCount++] = y;
-            vertices[vertexCount++] = s; vertices[vertexCount++] = v;
-            vertices[vertexCount++] = x; vertices[vertexCount++] = h;
-            vertices[vertexCount++] = u; vertices[vertexCount++] = t;
-            vertices[vertexCount++] = x; vertices[vertexCount++] = h;
-            vertices[vertexCount++] = u; vertices[vertexCount++] = t;
-            vertices[vertexCount++] = w; vertices[vertexCount++] = y;
-            vertices[vertexCount++] = s; vertices[vertexCount++] = v;
-            vertices[vertexCount++] = w; vertices[vertexCount++] = h;
-            vertices[vertexCount++] = s; vertices[vertexCount++] = t;
+            vertices.push_back(x); vertices.push_back(y);
+            vertices.push_back(u); vertices.push_back(v);
+            vertices.push_back(w); vertices.push_back(y);
+            vertices.push_back(s); vertices.push_back(v);
+            vertices.push_back(x); vertices.push_back(h);
+            vertices.push_back(u); vertices.push_back(t);
+            vertices.push_back(x); vertices.push_back(h);
+            vertices.push_back(u); vertices.push_back(t);
+            vertices.push_back(w); vertices.push_back(y);
+            vertices.push_back(s); vertices.push_back(v);
+            vertices.push_back(w); vertices.push_back(h);
+            vertices.push_back(s); vertices.push_back(t);
             m_VertexCount += 6;
+
             pos_x += glyph.advance;
+            pos_x += m_Font->kerning(prevChar, c);
+            prevChar = c;
         }
 
-        // Updates the vertex buffer
-        m_VertexBuffer.bind();
-        m_VertexBuffer.fill(vertices, sizeof(float) * vertexCount);
 
-        delete[] vertices;
+        // Updates the vertex buffer
+        vertices.insert(vertices.end(), outlineVertices.begin(), outlineVertices.end());
+        m_VertexBuffer.bind();
+        m_VertexBuffer.fill(vertices.data(), vertices.size() * sizeof(float));
     }
 
 
@@ -269,19 +327,6 @@ namespace Qube2D
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Font->texture().id()));
         glCheck(glUniform1i(m_UniformSampler, 0));
 
-        // Writes the uniform color values
-        glCheck(glUniform4f(m_UniformColor,
-                            m_Color.r(),
-                            m_Color.g(),
-                            m_Color.b(),
-                            m_Color.a()));
-
-        glCheck(glUniform4f(m_UniformOutColor,
-                            m_OutlineColor.r(),
-                            m_OutlineColor.g(),
-                            m_OutlineColor.b(),
-                            m_OutlineColor.a()));
-
         // Forwards the MVP matrix and the opacity to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
         glCheck(glUniform1f(m_UniformOpacity, opacity()));
@@ -308,6 +353,28 @@ namespace Qube2D
                     TEXT_SINGLE_VERTEX,
                     TEXT_OFFSET_COORD));
 
+
+        // Renders the outlines
+        if (m_Style == TextStyle::Outline)
+        {
+            glCheck(glUniform4f(m_UniformColor,
+                                m_OutlineColor.r(),
+                                m_OutlineColor.g(),
+                                m_OutlineColor.b(),
+                                m_OutlineColor.a()));
+
+            glCheck(glDrawArrays(
+                        GL_TRIANGLES,
+                        m_VertexCount,
+                        m_VertexCount));
+        }
+
+        // Writes the uniform color values
+        glCheck(glUniform4f(m_UniformColor,
+                            m_Color.r(),
+                            m_Color.g(),
+                            m_Color.b(),
+                            m_Color.a()));
 
         // Renders the glyphs
         glCheck(glDrawArrays(

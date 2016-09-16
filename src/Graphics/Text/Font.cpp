@@ -51,6 +51,28 @@
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
+    // Static variable definition
+    //
+    ///////////////////////////////////////////////////////////
+    FT_Stroker Font::m_Stroker = NULL;
+    FT_Library Font::m_LibRef = NULL;
+
+
+    ///////////////////////////////////////////////////////////
+    /// \fn       Qube2D_Font_Set_Stroker -> inline
+    /// \brief    Specifies the size of the stroker.
+    ///
+    ///////////////////////////////////////////////////////////
+    inline void Qube2D_Font_Set_Stroker(QUInt32 size)
+    {
+        FT_Stroker_Set(Font::m_Stroker,
+                       static_cast<QInt64>(size * 64),
+                       FT_STROKER_LINECAP_ROUND,
+                       FT_STROKER_LINEJOIN_ROUND,
+                       true);
+    }
+
+    ///////////////////////////////////////////////////////////
     /// \fn       Qube2D_Font_Atlas_By_Size -> inline
     /// \brief    Determines the atlas index by range checking.
     /// \returns  the atlas index.
@@ -81,7 +103,6 @@ namespace Qube2D
     Font::Font(FT_FaceRec_ *face)
         : Uncopyable(),
           m_Face(face),
-          m_Stroker(NULL),
           m_Size(0u)
     {
         // Select encoding
@@ -131,7 +152,6 @@ namespace Qube2D
             if (!FT_Load_Char(m_Face, 'T', FT_LOAD_RENDER))
                 m_Bearings.insert(std::make_pair(size, m_Face->glyph->bitmap_top));
 
-
         m_Size = size;
         m_Page = Qube2D_Font_Atlas_By_Size(size);
 
@@ -170,20 +190,33 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 16th, 2016
+    /// \fn      setOutlineWidth
+    ///
+    ///////////////////////////////////////////////////////////
+    void Font::setOutlineWidth(QFloat width)
+    {
+        m_OutlineWidth = width;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 15th, 2016
     /// \fn      isCached -> const
     ///
     ///////////////////////////////////////////////////////////
-    bool Font::isCached(QUInt32 cp, GlyphStyle type) const
+    bool Font::isCached(QUInt32 cp, TextStyle style) const
     {
         // Determines whether 'cp' is already cached
         const GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (type == GlyphStyle::None)
-            return (atlas.glyphs.find(cp) != atlas.glyphs.end());
-        else if (type == GlyphStyle::Outline)
-            return (atlas.glyphOut.find(cp) != atlas.glyphOut.end());
+        if (style == TextStyle::Bold)
+            return (atlas.glyphsBold.find(cp) != atlas.glyphsBold.end());
+        else if (style == TextStyle::Outline)
+            return (atlas.glyphsOutline.find(cp) != atlas.glyphsOutline.end());
+        else if (style == TextStyle::OutlineOnly)
+            return (atlas.glyphsBorder.find(cp) != atlas.glyphsBorder.end());
         else
-            return (atlas.glyphBrd.find(cp) != atlas.glyphBrd.end());
+            return (atlas.glyphs.find(cp) != atlas.glyphs.end());
     }
 
     ///////////////////////////////////////////////////////////
@@ -203,15 +236,17 @@ namespace Qube2D
     /// \fn      glyph -> const
     ///
     ///////////////////////////////////////////////////////////
-    const Glyph &Font::glyph(QUInt32 cp, GlyphStyle type) const
+    const Glyph &Font::glyph(QUInt32 cp, TextStyle style) const
     {
         const GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (type == GlyphStyle::None)
-            return atlas.glyphs.at(cp);
-        else if (type == GlyphStyle::Outline)
-            return atlas.glyphOut.at(cp);
+        if (style == TextStyle::Bold)
+            return atlas.glyphsBold.at(cp);
+        else if (style == TextStyle::Outline)
+            return atlas.glyphsOutline.at(cp);
+        else if (style == TextStyle::OutlineOnly)
+            return atlas.glyphsBorder.at(cp);
         else
-            return atlas.glyphBrd.at(cp);
+            return atlas.glyphs.at(cp);
     }
 
     ///////////////////////////////////////////////////////////
@@ -225,6 +260,19 @@ namespace Qube2D
         return m_Textures[m_Page];
     }
 
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 16th, 2016
+    /// \fn      kerning -> const
+    ///
+    ///////////////////////////////////////////////////////////
+    QFloat Font::kerning(QUInt32 prev, QUInt32 cur) const
+    {
+        FT_Vector v;
+        FT_Get_Kerning(m_Face, prev, cur, FT_KERNING_DEFAULT, &v);
+        return static_cast<QFloat>(v.x >> 6);
+
+    }
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -232,10 +280,17 @@ namespace Qube2D
     /// \fn      cacheGlyph
     ///
     ///////////////////////////////////////////////////////////
-    void Font::cacheGlyph(QUInt32 cp, GlyphStyle type)
+    void Font::cacheGlyph(QUInt32 cp, TextStyle style)
     {
+        QInt32 loadFlags;
+        if (style == TextStyle::Bold || style == TextStyle::OutlineOnly || style == TextStyle::Outline)
+            loadFlags = FT_LOAD_TARGET_NORMAL|FT_LOAD_FORCE_AUTOHINT|FT_LOAD_NO_BITMAP;
+        else
+            loadFlags = FT_LOAD_RENDER;
+
+
         // Attempts to load and render a character
-        if (FT_Load_Char(m_Face, cp, FT_LOAD_RENDER))
+        if (FT_Load_Char(m_Face, cp, loadFlags))
         {
         #ifdef Q2D_DEBUG
             std::string n = std::to_string(cp);
@@ -245,12 +300,50 @@ namespace Qube2D
         }
 
 
+        if (style == TextStyle::Bold)
+        {
+            QInt64 strength = static_cast<QInt64>((m_Size / 36.f) * 64);
+            FT_Glyph glyph;
+            FT_BitmapGlyph bmp;
+
+            // Converts the glyph to a bitmap
+            FT_Get_Glyph(m_Face->glyph, &glyph);
+            FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, NULL, 1);
+            bmp = (FT_BitmapGlyph) glyph;
+
+            // Emboldens the bitmap
+            FT_Bitmap_Embolden(m_LibRef, &bmp->bitmap, strength, strength);
+            m_Face->glyph->bitmap = bmp->bitmap;
+        }
+        else if (style == TextStyle::OutlineOnly || style == TextStyle::Outline)
+        {
+            FT_Glyph glyph;
+            FT_Get_Glyph(m_Face->glyph, &glyph);
+            Qube2D_Font_Set_Stroker(m_OutlineWidth);
+
+            // Applies the outline
+            if (style == TextStyle::OutlineOnly)
+                FT_Glyph_Stroke(&glyph, m_Stroker, 1);
+            else
+                FT_Glyph_StrokeBorder(&glyph, m_Stroker, 0, 1);
+
+            FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, NULL, 1);
+            m_Face->glyph->bitmap = ((FT_BitmapGlyph) glyph)->bitmap;
+        }
+
+
         // Finds suitable space for this glyph
         QUInt8 *pixels = m_Face->glyph->bitmap.buffer;
         Texture &texture = m_Textures[m_Page];
         RectI space = m_Packer[m_Page].find(
-                    m_Face->glyph->bitmap.width,
-                    m_Face->glyph->bitmap.rows);
+                    m_Face->glyph->bitmap.width+2,
+                    m_Face->glyph->bitmap.rows+2);
+
+        space.rx()++;
+        space.ry()++;
+        space.rwidth()-=2;
+        space.rheight()-=2;
+
 
         if (!space.isValid() && pixels)
         {
@@ -261,12 +354,14 @@ namespace Qube2D
             return;
         }
 
+
         // Updates the pixel data, if not whitespace
         if (pixels != NULL)
             texture.updatePixels(
                         pixels,
                         space,
                         TextureFormat::FormatRED);
+
 
         // Initializes a new glyph structure and fills it
         Glyph glyph;
@@ -276,18 +371,24 @@ namespace Qube2D
         glyph.texture_h = space.height() / 2048.f;
         glyph.glyph_w = space.width();
         glyph.glyph_h = space.height();
-        glyph.bearing_x = m_Face->glyph->bitmap_left;
-        glyph.bearing_y = m_Bearings.at(m_Size) - m_Face->glyph->bitmap_top;
+        glyph.bearing_x = (m_Face->glyph->metrics.horiBearingX / 64.f);
+        glyph.bearing_y = m_Bearings.at(m_Size) - (m_Face->glyph->metrics.horiBearingY / 64.f);
         glyph.advance = m_Face->glyph->advance.x / 64.f;
+
+        if (style == TextStyle::Bold || style == TextStyle::Outline || style == TextStyle::OutlineOnly)
+            glyph.advance += m_OutlineWidth;
+
 
         // Inserts a new entry (TODO: Stroker etc)
         GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (type == GlyphStyle::None)
-            atlas.glyphs.insert(std::make_pair(cp, glyph));
-        else if (type == GlyphStyle::Outline)
-            atlas.glyphOut.insert(std::make_pair(cp, glyph));
+        if (style == TextStyle::Bold)
+            atlas.glyphsBold.insert(std::make_pair(cp, glyph));
+        else if (style == TextStyle::Outline)
+            atlas.glyphsOutline.insert(std::make_pair(cp, glyph));
+        else if (style == TextStyle::OutlineOnly)
+            atlas.glyphsBorder.insert(std::make_pair(cp, glyph));
         else
-            atlas.glyphBrd.insert(std::make_pair(cp, glyph));
+            atlas.glyphs.insert(std::make_pair(cp, glyph));
     }
 
     ///////////////////////////////////////////////////////////
@@ -296,7 +397,7 @@ namespace Qube2D
     /// \fn      cacheSubset
     ///
     ///////////////////////////////////////////////////////////
-    void Font::cacheSubset(Subset set, GlyphStyle type)
+    void Font::cacheSubset(Subset set, TextStyle style)
     {
         QUInt32 min = 0, max = 0;
 
@@ -308,7 +409,7 @@ namespace Qube2D
         else if (set == Subset::Arabic) { min = 0x600; max = 0x6FF; }
         else if (set == Subset::Hiragana) { min = 0x3040; max = 0x309F; }
         else if (set == Subset::Katakana) { min = 0x30A0; max = 0x30FF; }
-        for (QUInt32 i = min; i < max; ++i) { cacheGlyph(i, type); }
+        for (QUInt32 i = min; i < max; ++i) { cacheGlyph(i, style); }
     }
 
     ///////////////////////////////////////////////////////////
@@ -318,7 +419,7 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     SizeF Font::measureString(const String &string,
-                             GlyphStyle style,
+                             TextStyle style,
                              QUInt32 size)
     {
         // First sets the size

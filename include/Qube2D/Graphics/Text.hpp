@@ -115,6 +115,14 @@ namespace Qube2D
         void setOutlineColor(const Color &color);
 
         ///////////////////////////////////////////////////////////
+        /// \fn     setOutlineWidth
+        /// \brief  Specifies the width for the outline, if any.
+        /// \param  width Width of the outline, in pixels
+        ///
+        ///////////////////////////////////////////////////////////
+        void setOutlineWidth(QFloat width);
+
+        ///////////////////////////////////////////////////////////
         /// \fn     setFont
         /// \brief  Specifies the font to render the text with.
         /// \param  font Pointer to valid Qube2D::Font structure
@@ -136,10 +144,11 @@ namespace Qube2D
         /// \fn     setText
         /// \brief  Specifies the text to render.
         /// \param  text UTF-32 text
-        /// \param  style Style of the text
+        /// \param  style Combination of TextStyle flags
         ///
         ///////////////////////////////////////////////////////////
-        void setText(const String &text, GlyphStyle style = GlyphStyle::None);
+        void setText(const String &text,
+                     TextStyle style = TextStyle::Regular);
 
 
         ///////////////////////////////////////////////////////////
@@ -188,6 +197,8 @@ namespace Qube2D
         GLColor m_OutlineColor;         ///< Outline color
         QUInt32 m_VertexCount;          ///< Vertex count
         QUInt32 m_Size;                 ///< Text size
+        TextStyle m_Style;              ///< Text style
+        QFloat m_OutlineWidth;          ///< Outline width
 
         ///////////////////////////////////////////////////////////
         // Static class members
