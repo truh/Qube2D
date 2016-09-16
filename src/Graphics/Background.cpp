@@ -134,8 +134,8 @@ namespace Qube2D
             return;
         }
 
-        m_ScrollTargetX = m_PosX + offsetX;
-        m_ScrollTargetY = m_PosY + offsetY;
+        m_ScrollTargetX = x() + offsetX;
+        m_ScrollTargetY = y() + offsetY;
         m_IsInfinite = false;
         m_IsScrolling = true;
     }

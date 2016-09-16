@@ -145,12 +145,6 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         void updateFade(double deltaTime);
 
-        ///////////////////////////////////////////////////////////
-        // Protected class members
-        //
-        ///////////////////////////////////////////////////////////
-        QFloat m_Opacity;           ///< Current object's opacity
-
 
     private:
 
@@ -164,6 +158,7 @@ namespace Qube2D
         QUInt32 m_Mode;             ///< Fading mode
         QUInt32 m_InitialMode;      ///< Initial fading mode (hack for 'pulse')
         QBool m_IsFading;           ///< Is object currently fading?
+        QFloat m_Opacity;           ///< Current object's opacity
 
     };
 

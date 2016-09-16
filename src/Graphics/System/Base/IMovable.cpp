@@ -44,8 +44,8 @@ namespace Qube2D
     // Static variable definitions
     //
     ///////////////////////////////////////////////////////////
-    QFloat IMovable::m_WinW = 0.f;
-    QFloat IMovable::m_WinH = 0.f;
+    QFloat m_WinW = 0.f;
+    QFloat m_WinH = 0.f;
 
 
     ///////////////////////////////////////////////////////////
@@ -55,16 +55,16 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     IMovable::IMovable()
-        : m_PosX(0),
-          m_PosY(0),
-          m_ElapsedTime(0.0),
+        : m_ElapsedTime(0.0),
           m_IsMovingHoriz(false),
           m_IsMovingVert(false),
           m_Direction(0),
           m_SpeedHoriz(1.f),
           m_SpeedVert(1.f),
           m_TargetX(0.f),
-          m_TargetY(0.f)
+          m_TargetY(0.f),
+          m_PosX(0),
+          m_PosY(0)
     {
     }
 

@@ -71,7 +71,10 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     IPrimitive::IPrimitive()
-        : m_CustomProgram(NULL),
+        : IFadable(),
+          IMovable(),
+          ITransformable(),
+          m_CustomProgram(NULL),
           m_DrawMode(0)
     {
     }
@@ -195,12 +198,12 @@ namespace Qube2D
         // Constructs the MVP matrix
         glm::mat4 identity      = glm::mat4(1.f);
         glm::mat4 projection    = glm::ortho(0.f, m_WinW, m_WinH, 0.f);
-        glm::mat4 translation   = glm::translate(identity, glm::vec3(m_PosX, m_PosY, 0.f));
-        glm::mat4 origin        = glm::translate(identity, glm::vec3(-m_OriginX, -m_OriginY, 0.f));
-        glm::mat4 rotation      = glm::rotate(identity, glm::radians(m_Angle), glm::vec3(0.f, 0.f, 1.f));
-        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(m_OriginX, m_OriginY, 0.f));
-        glm::mat4 scaling       = glm::scale(identity, glm::vec3(m_Scale, m_Scale, 1.f));
-        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * iorigin * scaling * origin * identity;
+        glm::mat4 translation   = glm::translate(identity, glm::vec3(x(), y(), 0.f));
+        glm::mat4 origin        = glm::translate(identity, glm::vec3(-originX(), -originY(), 0.f));
+        glm::mat4 rotation      = glm::rotate(identity, glm::radians(angle()), glm::vec3(0.f, 0.f, 1.f));
+        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(originX(), originY(), 0.f));
+        glm::mat4 scaling       = glm::scale(identity, glm::vec3(scale(), scale(), 1.f));
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling * identity;
 
 
         // Binds all necessary objects
@@ -213,7 +216,7 @@ namespace Qube2D
 
         // Forwards the MVP matrix and the opacity to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
-        glCheck(glUniform1f(m_UniformOpacity, m_Opacity));
+        glCheck(glUniform1f(m_UniformOpacity, opacity()));
 
 
         // Enables all the used vertex attributes

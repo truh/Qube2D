@@ -183,21 +183,6 @@ namespace Qube2D
         void updateMovement(double deltaTime);
 
 
-        ///////////////////////////////////////////////////////////
-        // Static class members
-        //
-        ///////////////////////////////////////////////////////////
-        static QFloat m_WinW;              ///< Window width
-        static QFloat m_WinH;              ///< Window height
-
-        ///////////////////////////////////////////////////////////
-        // Protected class members
-        //
-        ///////////////////////////////////////////////////////////
-        QFloat m_PosX;              ///< Current X-position
-        QFloat m_PosY;              ///< Current Y-position
-
-
     private:
 
         ///////////////////////////////////////////////////////////
@@ -205,15 +190,25 @@ namespace Qube2D
         //
         ///////////////////////////////////////////////////////////
         QDouble m_ElapsedTime;          ///< Delta time counter
-        QBool m_IsMovingHoriz;          ///< Moving horizontally?
-        QBool m_IsMovingVert;           ///< Moving vertically?
         QUInt32 m_Direction;            ///< Direction flags
         QFloat m_SpeedHoriz;            ///< Horizontal speed
         QFloat m_SpeedVert;             ///< Vertical speed
         QFloat m_TargetX;               ///< X target position
         QFloat m_TargetY;               ///< Y target position
+        QFloat m_PosX;                  ///< Current X-position
+        QFloat m_PosY;                  ///< Current Y-position
+        QBool m_IsMovingHoriz;          ///< Moving horizontally?
+        QBool m_IsMovingVert;           ///< Moving vertically?
 
     };
+
+
+    ///////////////////////////////////////////////////////////
+    // Static variables
+    //
+    ///////////////////////////////////////////////////////////
+    extern QFloat m_WinW;              ///< Window width
+    extern QFloat m_WinH;              ///< Window height
 
 
     #define IMOVABLE_UPDATE_INTERVAL 0.010

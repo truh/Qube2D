@@ -48,7 +48,7 @@ namespace Qube2D
     /// Q2D_ANIM_ERROR_3
     ///
     ///////////////////////////////////////////////////////////
-    #define Q2D_ANIM_ERROR_0 "This Qube2D animation file does not exist."
+    #define Q2D_ANIM_ERROR_0 "This Qube2D animation file does not exist.\n    File: %0"
     #define Q2D_ANIM_ERROR_1 "The header of the animation file is corrupt.\n   File: %0"
     #define Q2D_ANIM_ERROR_2 "The frame table of the animation file is erroneous.\n    The width, height or the display duration shall not be zero.\n    File: %0"
     #define Q2D_ANIM_ERROR_3 "The animation file does not contain a valid PNG image.\n   File: %0"

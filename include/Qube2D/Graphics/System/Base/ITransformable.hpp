@@ -192,14 +192,8 @@ namespace Qube2D
         void updateScaling(double deltaTime);
 
 
-        ///////////////////////////////////////////////////////////
-        // Protected class members
-        //
-        ///////////////////////////////////////////////////////////
-        QFloat m_Angle;             ///< Current rotation angle
-        QFloat m_Scale;             ///< Current scaling factor
-        QFloat m_OriginX;           ///< Origin X-position
-        QFloat m_OriginY;           ///< Origin Y-position
+        inline QFloat originX() { return m_OriginX; }
+        inline QFloat originY() { return m_OriginY; }
 
 
     private:
@@ -218,6 +212,10 @@ namespace Qube2D
         QFloat m_TargetScaling;     ///< Desired scaling factor
         QUInt32 m_RotateDirection;  ///< Rotation direction
         QUInt32 m_ScaleDirection;   ///< Scaling direction
+        QFloat m_Angle;             ///< Current rotation angle
+        QFloat m_Scale;             ///< Current scaling factor
+        QFloat m_OriginX;           ///< Origin X-position
+        QFloat m_OriginY;           ///< Origin Y-position
 
     };
 

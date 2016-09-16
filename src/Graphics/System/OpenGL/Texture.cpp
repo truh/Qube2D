@@ -78,64 +78,75 @@ namespace Qube2D
         assert(height%2 == 0);
 
 
+        m_Width = static_cast<QFloat>(width);
+        m_Height = static_cast<QFloat>(height);
+
+
         // Creates an OpenGL texture
         glCheck(glGenTextures(1, &m_ID));
         glCheck(glBindTexture(GL_TEXTURE_2D, m_ID));
 
         // Generates the initial texture data
-        QUInt8 red = color.r();
-        QUInt8 green = color.g();
-        QUInt8 blue = color.b();
-        QUInt8 alpha = color.a();
-        std::vector<QUInt8> pixelData;
-
-        for (int i = 0; i < width*height; ++i)
+        if (color.a() != 0)
         {
-            if (format == TextureFormat::FormatRED)
+            QUInt8 red = color.r();
+            QUInt8 green = color.g();
+            QUInt8 blue = color.b();
+            QUInt8 alpha = color.a();
+            std::vector<QUInt8> pixelData;
+
+            for (int i = 0; i < width*height; ++i)
             {
-                pixelData.push_back(red);
+                if (format == TextureFormat::FormatRED)
+                {
+                    pixelData.push_back(red);
+                }
+                else if (format == TextureFormat::FormatRG)
+                {
+                    pixelData.push_back(red);
+                    pixelData.push_back(green);
+                }
+                else if (format == TextureFormat::FormatRGB)
+                {
+                    pixelData.push_back(red);
+                    pixelData.push_back(green);
+                    pixelData.push_back(blue);
+                }
+                else if (format == TextureFormat::FormatBGR)
+                {
+                    pixelData.push_back(blue);
+                    pixelData.push_back(green);
+                    pixelData.push_back(red);
+                }
+                else if (format == TextureFormat::FormatRGBA)
+                {
+                    pixelData.push_back(red);
+                    pixelData.push_back(green);
+                    pixelData.push_back(blue);
+                    pixelData.push_back(alpha);
+                }
+                else if (format == TextureFormat::FormatBGRA)
+                {
+                    pixelData.push_back(blue);
+                    pixelData.push_back(green);
+                    pixelData.push_back(red);
+                    pixelData.push_back(alpha);
+                }
             }
-            else if (format == TextureFormat::FormatRG)
-            {
-                pixelData.push_back(red);
-                pixelData.push_back(green);
-            }
-            else if (format == TextureFormat::FormatRGB)
-            {
-                pixelData.push_back(red);
-                pixelData.push_back(green);
-                pixelData.push_back(blue);
-            }
-            else if (format == TextureFormat::FormatBGR)
-            {
-                pixelData.push_back(blue);
-                pixelData.push_back(green);
-                pixelData.push_back(red);
-            }
-            else if (format == TextureFormat::FormatRGBA)
-            {
-                pixelData.push_back(red);
-                pixelData.push_back(green);
-                pixelData.push_back(blue);
-                pixelData.push_back(alpha);
-            }
-            else if (format == TextureFormat::FormatBGRA)
-            {
-                pixelData.push_back(blue);
-                pixelData.push_back(green);
-                pixelData.push_back(red);
-                pixelData.push_back(alpha);
-            }
+
+            // Sets the pixel data within OpenGL
+            glCheck(glTexImage2D(
+                        GL_TEXTURE_2D, GL_NONE, static_cast<QUInt32>(format),
+                        width, height, GL_NONE, static_cast<QUInt32>(format),
+                        GL_UNSIGNED_BYTE, pixelData.data()));
         }
-
-        // Sets the pixel data within OpenGL
-        glCheck(glTexImage2D(
-                    GL_TEXTURE_2D, GL_NONE, static_cast<QUInt32>(format),
-                    width, height, GL_NONE, static_cast<QUInt32>(format),
-                    GL_UNSIGNED_BYTE, pixelData.data()));
-
-        m_Width = static_cast<QFloat>(width);
-        m_Height = static_cast<QFloat>(height);
+        else
+        {
+            glCheck(glTexImage2D(
+                        GL_TEXTURE_2D, GL_NONE, static_cast<QUInt32>(format),
+                        width, height, GL_NONE, static_cast<QUInt32>(format),
+                        GL_UNSIGNED_BYTE, NULL));
+        }
     }
 
     ///////////////////////////////////////////////////////////
