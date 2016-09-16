@@ -87,6 +87,38 @@ namespace Qube2D
     {
         return (static_cast<int>(field) & static_cast<int>(bit)) != 0;
     }
+
+    ///////////////////////////////////////////////////////////
+    /// \fn     operator& -> overload
+    /// \brief  Extracts a bit out of TextStyle.
+    ///
+    ///////////////////////////////////////////////////////////
+    inline TextStyle operator&(const TextStyle &field, int bit)
+    {
+        return static_cast<TextStyle>(static_cast<int>(field) & bit);
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \fn     operator|
+    /// \brief  Combines two TextStyle's.
+    ///
+    ///////////////////////////////////////////////////////////
+    inline void operator|(TextStyle &field, const TextStyle &bit)
+    {
+        field = static_cast<TextStyle>(
+                    static_cast<int>(field) |
+                    static_cast<int>(bit));
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \fn     operator~
+    /// \brief  Negates the given TextStyle flag.
+    ///
+    ///////////////////////////////////////////////////////////
+    inline int operator~(const TextStyle &flag)
+    {
+        return ~static_cast<int>(flag);
+    }
 }
 
 

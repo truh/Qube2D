@@ -125,6 +125,7 @@ namespace Qube2D
             m_Textures[i].destroy();
 
         delete[] m_Textures;
+        delete[] m_Packer;
     }
 
 
@@ -209,11 +210,11 @@ namespace Qube2D
     {
         // Determines whether 'cp' is already cached
         const GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (style == TextStyle::Bold)
+        if (style & TextStyle::Bold)
             return (atlas.glyphsBold.find(cp) != atlas.glyphsBold.end());
-        else if (style == TextStyle::Outline)
+        else if (style & TextStyle::Outline)
             return (atlas.glyphsOutline.find(cp) != atlas.glyphsOutline.end());
-        else if (style == TextStyle::OutlineOnly)
+        else if (style & TextStyle::OutlineOnly)
             return (atlas.glyphsBorder.find(cp) != atlas.glyphsBorder.end());
         else
             return (atlas.glyphs.find(cp) != atlas.glyphs.end());
@@ -239,11 +240,11 @@ namespace Qube2D
     const Glyph &Font::glyph(QUInt32 cp, TextStyle style) const
     {
         const GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (style == TextStyle::Bold)
+        if (style & TextStyle::Bold)
             return atlas.glyphsBold.at(cp);
-        else if (style == TextStyle::Outline)
+        else if (style & TextStyle::Outline)
             return atlas.glyphsOutline.at(cp);
-        else if (style == TextStyle::OutlineOnly)
+        else if (style & TextStyle::OutlineOnly)
             return atlas.glyphsBorder.at(cp);
         else
             return atlas.glyphs.at(cp);
@@ -283,7 +284,7 @@ namespace Qube2D
     void Font::cacheGlyph(QUInt32 cp, TextStyle style)
     {
         QInt32 loadFlags;
-        if (style == TextStyle::Bold || style == TextStyle::OutlineOnly || style == TextStyle::Outline)
+        if (style & TextStyle::Bold || style & TextStyle::OutlineOnly || style & TextStyle::Outline)
             loadFlags = FT_LOAD_TARGET_NORMAL|FT_LOAD_FORCE_AUTOHINT|FT_LOAD_NO_BITMAP;
         else
             loadFlags = FT_LOAD_RENDER;
@@ -300,7 +301,7 @@ namespace Qube2D
         }
 
 
-        if (style == TextStyle::Bold)
+        if (style & TextStyle::Bold)
         {
             QInt64 strength = static_cast<QInt64>((m_Size / 36.f) * 64);
             FT_Glyph glyph;
@@ -315,14 +316,14 @@ namespace Qube2D
             FT_Bitmap_Embolden(m_LibRef, &bmp->bitmap, strength, strength);
             m_Face->glyph->bitmap = bmp->bitmap;
         }
-        else if (style == TextStyle::OutlineOnly || style == TextStyle::Outline)
+        else if (style & TextStyle::OutlineOnly || style & TextStyle::Outline)
         {
             FT_Glyph glyph;
             FT_Get_Glyph(m_Face->glyph, &glyph);
             Qube2D_Font_Set_Stroker(m_OutlineWidth);
 
             // Applies the outline
-            if (style == TextStyle::OutlineOnly)
+            if (style & TextStyle::OutlineOnly)
                 FT_Glyph_Stroke(&glyph, m_Stroker, 1);
             else
                 FT_Glyph_StrokeBorder(&glyph, m_Stroker, 0, 1);
@@ -375,17 +376,17 @@ namespace Qube2D
         glyph.bearing_y = m_Bearings.at(m_Size) - (m_Face->glyph->metrics.horiBearingY / 64.f);
         glyph.advance = m_Face->glyph->advance.x / 64.f;
 
-        if (style == TextStyle::Bold || style == TextStyle::Outline || style == TextStyle::OutlineOnly)
+        if (style & TextStyle::Bold || style & TextStyle::Outline || style & TextStyle::OutlineOnly)
             glyph.advance += m_OutlineWidth;
 
 
         // Inserts a new entry (TODO: Stroker etc)
         GlyphAtlas &atlas = m_Atlas.at(m_Size);
-        if (style == TextStyle::Bold)
+        if (style & TextStyle::Bold)
             atlas.glyphsBold.insert(std::make_pair(cp, glyph));
-        else if (style == TextStyle::Outline)
+        else if (style & TextStyle::Outline)
             atlas.glyphsOutline.insert(std::make_pair(cp, glyph));
-        else if (style == TextStyle::OutlineOnly)
+        else if (style & TextStyle::OutlineOnly)
             atlas.glyphsBorder.insert(std::make_pair(cp, glyph));
         else
             atlas.glyphs.insert(std::make_pair(cp, glyph));
@@ -480,6 +481,6 @@ namespace Qube2D
         file.close();
 
         // Frees buffer
-        delete buffer;
+        delete[] buffer;
     }
 }

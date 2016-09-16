@@ -34,8 +34,8 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/Graphics/System/Shader/TextShaders.hpp>
 #include <Qube2D/System/Structs/GLColor.hpp>
+#include <Qube2D/Graphics/System/Shader/TextShaders.hpp>
 #include <Qube2D/Graphics/Text.hpp>
 #include <Qube2D/Debug/GLCheck.hpp>
 #include <Qube2D/Debug/Debug.hpp>
@@ -179,45 +179,59 @@ namespace Qube2D
         assert(m_Font);
 
 
+        // Prepares all glyphs of given size
         m_Font->extract(m_Size);
         m_VertexCount = 0;
         m_Style = style;
 
 
-        const char32_t *string = text.data();
+        // Removes the outline bit from the field
+        TextStyle regular = style & ~TextStyle::Outline;
+        std::vector<float> vertices, outlineVertices;
         char32_t prevChar = 0;
 
-        QUInt32 length = text.length();
-        QFloat sp_line = m_Font->lineSpacing();
-        QFloat pos_x = 0, pos_y = 0;
-        std::vector<float> vertices, outlineVertices;
 
-        TextStyle regular = static_cast<TextStyle>(
-                            static_cast<QInt32>(style) &
-                           ~static_cast<QInt32>(TextStyle::Outline));
-
+        // Pre-computes the advance offset of a whitespace
         if (!m_Font->isCached(U' ', regular))
             m_Font->cacheGlyph(U' ', regular);
 
+
+        // Retrieves miscellaneous values for the iteration
         QFloat wsAdvance = m_Font->glyph(U' ', regular).advance;
+        QUInt32 length = text.length();
+        QFloat sp_line = m_Font->lineSpacing();
+        QFloat pos_x = 0, pos_y = 0;
 
 
         // Generates the "outline" vertices
         for (QUInt32 i = 0; i < length; ++i)
         {
+            char32_t c = text.at(i);
+
             // Changes the vertical position on new-line
-            char32_t c = string[i];
             if (c == '\n')
             {
                 pos_y += sp_line;
                 pos_x = 0;
                 continue;
             }
+
+            // Does not generate vertices for whitespace
             if (c == ' ')
             {
                 pos_x += wsAdvance;
                 continue;
             }
+
+            // Adds four spaces instead of the tab
+            if (c == '\t')
+            {
+                pos_x += (wsAdvance * 4);
+                continue;
+            }
+
+
+            // Adds the outline vertices
             if (style & TextStyle::Outline)
             {
                 // Caches the glyph, if not already
@@ -245,11 +259,11 @@ namespace Qube2D
                 outlineVertices.push_back(s); outlineVertices.push_back(t);
             }
 
-            // Caches the glyph, if not already
+
             if (!m_Font->isCached(c, regular))
                 m_Font->cacheGlyph(c, regular);
 
-            // Generates the vertex data
+            // Adds the normal vertices
             const Glyph &glyph = m_Font->glyph(c, regular);
             QFloat x = pos_x + glyph.bearing_x, w = x + glyph.glyph_w;
             QFloat y = pos_y + glyph.bearing_y, h = y + glyph.glyph_h;
@@ -276,7 +290,7 @@ namespace Qube2D
         }
 
 
-        // Updates the vertex buffer
+        // Buffers the generated data
         vertices.insert(vertices.end(), outlineVertices.begin(), outlineVertices.end());
         m_VertexBuffer.bind();
         m_VertexBuffer.fill(vertices.data(), vertices.size() * sizeof(float));
@@ -355,7 +369,7 @@ namespace Qube2D
 
 
         // Renders the outlines
-        if (m_Style == TextStyle::Outline)
+        if (m_Style & TextStyle::Outline)
         {
             glCheck(glUniform4f(m_UniformColor,
                                 m_OutlineColor.r(),
