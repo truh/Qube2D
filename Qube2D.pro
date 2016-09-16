@@ -31,17 +31,22 @@ OBJECTS_DIR = $$DESTDIR/obj
 #
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/deps
+INCLUDEPATH += $$PWD/deps/freetype2     # needed by ft2build.h appearantly...
 DEPENDPATH  += $$PWD/include
 
 
 #
 #  Dependencies
 #
-linux-g++*:         LIBS += -L$$PWD/lib/glfw-3.2/linux/ -lglfw-3.2
-win32:!win32-g++:   PRE_TARGETDEPS += $$PWD/lib/glfw3.2/win32/glfw-3.2.lib -lgdi32
-else:win32-g++:     LIBS += -L$$PWD/lib/glfw-3.2/win32/ -lglfw-3.2 -lgdi32
+linux-g++* {
+    LIBS += -L$$PWD/lib/glfw-3.2/linux/ -lglfw-3.2
+    LIBS += -L$$PWD/lib/freetype-2.3.5/linux/ -lfreetype
+} else:win32-g++ {
+    LIBS += -L$$PWD/lib/glfw-3.2/win32/ -lglfw-3.2
+    LIBS += -L$$PWD/lib/freetype-2.3.5/win32/ -lfreetype
+}
 
-win32:  LIBS += -lopengl32
+win32:  LIBS += -lopengl32 -lgdi32
 unix:   LIBS += -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -pthread -dl
 
 
@@ -113,7 +118,15 @@ HEADERS += \
     include/Qube2D/Graphics/Shapes/Polygon.hpp \
     include/Qube2D/Graphics/Shapes/Circle.hpp \
     include/Qube2D/Graphics/Shapes/Ellipse.hpp \
-    include/Qube2D/Graphics/Shapes/Arc.hpp
+    include/Qube2D/Graphics/Shapes/Arc.hpp \
+    include/Qube2D/Graphics/Text/FontManager.hpp \
+    include/Qube2D/Graphics/Text/TextErrors.hpp \
+    include/Qube2D/Graphics/Text/Glyph.hpp \
+    include/Qube2D/Graphics/Text/Font.hpp \
+    include/Qube2D/Graphics/Text/TextEnums.hpp \
+    include/Qube2D/System/Storage/Atlas.hpp \
+    include/Qube2D/Graphics/Text.hpp \
+    include/Qube2D/Graphics/System/Shader/TextShaders.hpp
 
 
 #
@@ -157,7 +170,10 @@ SOURCES += \
     src/Graphics/Shapes/Polygon.cpp \
     src/Graphics/Shapes/Circle.cpp \
     src/Graphics/Shapes/Ellipse.cpp \
-    src/Graphics/Shapes/Arc.cpp
+    src/Graphics/Shapes/Arc.cpp \
+    src/Graphics/Text/FontManager.cpp \
+    src/Graphics/Text/Font.cpp \
+    src/Graphics/Text.cpp
 
 
 #

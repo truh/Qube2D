@@ -40,6 +40,7 @@
 #include <Qube2D/Graphics/System/Base/ISprite.hpp>
 #include <Qube2D/Graphics/System/Base/IPrimitive.hpp>
 #include <Qube2D/Graphics/System/Base/IMovable.hpp>
+#include <Qube2D/Graphics/Text.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -264,6 +265,8 @@ namespace Qube2D
     {
         ISprite::destroyGL();
         IPrimitive::destroyGL();
+        Text::destroyGL();
+        FontManager::destroyFT2();
 
         glfwDestroyWindow(m_Window);
         glfwTerminate();
@@ -315,6 +318,8 @@ namespace Qube2D
         ISprite::initializeGL();
         IPrimitive::initializeGL();
         IMovable::initializeView();
+        Text::initializeGL();
+        FontManager::initializeFT2();
 
 
         // Enables color blending for shaders etc.
