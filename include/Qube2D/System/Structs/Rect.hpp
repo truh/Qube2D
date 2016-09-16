@@ -106,7 +106,7 @@ namespace Qube2D
         /// \returns a value that contains a (xy) coordinate pair.
         ///
         ///////////////////////////////////////////////////////////
-        Point<T> pos() const
+        inline Point<T> pos() const
         {
             return Point<T>(this->x(), this->y());
         }
@@ -117,7 +117,7 @@ namespace Qube2D
         /// \returns a value that contains a (wh) size pair.
         ///
         ///////////////////////////////////////////////////////////
-        Size<T> size() const
+        inline Size<T> size() const
         {
             return Size<T>(this->width(), this->height());
         }
@@ -128,7 +128,7 @@ namespace Qube2D
         /// \brief   Specifies the rectangle's position.
         ///
         ///////////////////////////////////////////////////////////
-        void setPos(const Point<T> &pos)
+        inline void setPos(const Point<T> &pos)
         {
             this->setX(pos.x());
             this->setY(pos.y());
@@ -139,7 +139,7 @@ namespace Qube2D
         /// \brief   Specifies the rectangle's size.
         ///
         ///////////////////////////////////////////////////////////
-        void setSize(const Size<T> &size)
+        inline void setSize(const Size<T> &size)
         {
             this->setWidth(size.width());
             this->setHeight(size.height());

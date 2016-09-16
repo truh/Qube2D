@@ -101,7 +101,7 @@ namespace Qube2D
         /// \returns a constant copy of the first pair entry.
         ///
         ///////////////////////////////////////////////////////////
-        const T x() const
+        inline const T x() const
         {
             return cx;
         }
@@ -112,7 +112,7 @@ namespace Qube2D
         /// \returns a constant copy of the second pair entry.
         ///
         ///////////////////////////////////////////////////////////
-        const T y() const
+        inline const T y() const
         {
             return cy;
         }
@@ -123,7 +123,7 @@ namespace Qube2D
         /// \param  _x Value to copy to the first pair entry
         ///
         ///////////////////////////////////////////////////////////
-        void setX(const T &_x)
+        inline void setX(const T &_x)
         {
             cx = _x;
         }
@@ -134,7 +134,7 @@ namespace Qube2D
         /// \param  _y Value to copy to the second pair entry
         ///
         ///////////////////////////////////////////////////////////
-        void setY(const T &_y)
+        inline void setY(const T &_y)
         {
             cy = _y;
         }
@@ -151,7 +151,7 @@ namespace Qube2D
         /// \returns a modifiable reference to the first entry.
         ///
         ///////////////////////////////////////////////////////////
-        T &rx()
+        inline T &rx()
         {
             return cx;
         }
@@ -167,7 +167,7 @@ namespace Qube2D
         /// \returns a modifiable reference to the second entry.
         ///
         ///////////////////////////////////////////////////////////
-        T &ry()
+        inline T &ry()
         {
             return cy;
         }

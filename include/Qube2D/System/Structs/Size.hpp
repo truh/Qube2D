@@ -93,7 +93,7 @@ namespace Qube2D
         Size(const Size &val)
         {
             w = val.w;
-            h = val.w;
+            h = val.h;
         }
 
 
@@ -103,7 +103,7 @@ namespace Qube2D
         /// \returns a constant copy of the object width.
         ///
         ///////////////////////////////////////////////////////////
-        const T width() const
+        inline const T width() const
         {
             return w;
         }
@@ -114,7 +114,7 @@ namespace Qube2D
         /// \returns a constant copy of the object height.
         ///
         ///////////////////////////////////////////////////////////
-        const T height() const
+        inline const T height() const
         {
             return h;
         }
@@ -125,7 +125,7 @@ namespace Qube2D
         /// \param  _w Value to replace the current width.
         ///
         ///////////////////////////////////////////////////////////
-        void setWidth(const T &_w)
+        inline void setWidth(const T &_w)
         {
             w = _w;
         }
@@ -136,7 +136,7 @@ namespace Qube2D
         /// \param  _h Value to replace the current height.
         ///
         ///////////////////////////////////////////////////////////
-        void setHeight(const T &_h)
+        inline void setHeight(const T &_h)
         {
             h = _h;
         }
@@ -153,7 +153,7 @@ namespace Qube2D
         /// \returns a modifiable reference to the width.
         ///
         ///////////////////////////////////////////////////////////
-        T &rwidth()
+        inline T &rwidth()
         {
             return w;
         }
@@ -169,7 +169,7 @@ namespace Qube2D
         /// \returns a modifiable reference to the height.
         ///
         ///////////////////////////////////////////////////////////
-        T &rheight()
+        inline T &rheight()
         {
             return h;
         }
@@ -185,7 +185,7 @@ namespace Qube2D
         /// \returns true if the size is valid and usable.
         ///
         ///////////////////////////////////////////////////////////
-        bool isValid() const
+        inline bool isValid() const
         {
             return (w > 0 && h > 0);
         }
