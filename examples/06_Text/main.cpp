@@ -120,21 +120,24 @@ void init()
     greekText.create();
     greekText.setFont(font);
     greekText.setTextSize(32);
-    greekText.setText(U"Αυτό είναι Έλληνες");
+    greekText.setLineWidth(2.f);
+    greekText.setText(U"Αυτό είναι Έλληνες", Qube2D::TextStyle::Underline);
     greekText.setPosition(10.f, 52.f);
     greekText.setColor(color);
 
     russianText.create();
     russianText.setFont(font);
     russianText.setTextSize(32);
-    russianText.setText(U"Это русский");
+    russianText.setLineWidth(2.f);
+    russianText.setText(U"Это русский", Qube2D::TextStyle::Strikethrough);
     russianText.setPosition(10.f, 94.f);
     russianText.setColor(color);
 
     arabicText.create();
     arabicText.setFont(font);
     arabicText.setTextSize(32);
-    arabicText.setText(U"وهي اللغة العربية");
+    arabicText.setOutlineWidth(2.f);
+    arabicText.setText(U"وهي اللcغة العربية");
     arabicText.setPosition(10.f, 136.f);
     arabicText.setColor(color);
 
