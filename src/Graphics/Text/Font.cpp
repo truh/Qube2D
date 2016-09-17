@@ -447,7 +447,7 @@ namespace Qube2D
             }
 
             // Caches the glyph, if not already
-            if (isCached(c, style))
+            if (!isCached(c, style))
                 cacheGlyph(c, style);
 
             // Adds to the width

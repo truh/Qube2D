@@ -123,6 +123,14 @@ namespace Qube2D
         void setOutlineWidth(QFloat width);
 
         ///////////////////////////////////////////////////////////
+        /// \fn     setLineWidth
+        /// \brief  Sets the width of the underline and strikethrough.
+        /// \param  width Width of the line, in pixels
+        ///
+        ///////////////////////////////////////////////////////////
+        void setLineWidth(QFloat width);
+
+        ///////////////////////////////////////////////////////////
         /// \fn     setFont
         /// \brief  Specifies the font to render the text with.
         /// \param  font Pointer to valid Qube2D::Font structure
@@ -196,9 +204,11 @@ namespace Qube2D
         GLColor m_Color;                ///< Text color
         GLColor m_OutlineColor;         ///< Outline color
         QUInt32 m_VertexCount;          ///< Vertex count
+        QUInt32 m_OutlineVertexCount;   ///< Outline vertex count
         QUInt32 m_Size;                 ///< Text size
         TextStyle m_Style;              ///< Text style
         QFloat m_OutlineWidth;          ///< Outline width
+        QFloat m_LineWidth;             ///< Underline & Strikethrough width
 
         ///////////////////////////////////////////////////////////
         // Static class members

@@ -42,6 +42,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <fstream>
+#include <cmath>
 
 
 namespace Qube2D
@@ -52,6 +53,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     #define TEXT_SINGLE_VERTEX     sizeof(float) * 4
     #define TEXT_OFFSET_COORD      (const void *)(sizeof(float) * 2)
+    inline void Qube2D_Text_Add_Line(std::vector<float> &v, const RectF &bounds);
 
 
     ///////////////////////////////////////////////////////////
@@ -146,6 +148,17 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 17th, 2016
+    /// \fn      setLineWidth
+    ///
+    ///////////////////////////////////////////////////////////
+    void Text::setLineWidth(QFloat width)
+    {
+        m_LineWidth = width;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 15th, 2016
     /// \fn      setFont
     ///
@@ -181,6 +194,7 @@ namespace Qube2D
 
         // Prepares all glyphs of given size
         m_Font->extract(m_Size);
+        m_OutlineVertexCount = 0;
         m_VertexCount = 0;
         m_Style = style;
 
@@ -189,6 +203,9 @@ namespace Qube2D
         TextStyle regular = style & ~TextStyle::Outline;
         std::vector<float> vertices, outlineVertices;
         char32_t prevChar = 0;
+
+        // Determines strike-through location with character 'x'
+        QUInt32 strikeY = m_Font->measureString(U"x", regular, m_Size).height() / 2.f;
 
 
         // Pre-computes the advance offset of a whitespace
@@ -211,6 +228,13 @@ namespace Qube2D
             // Changes the vertical position on new-line
             if (c == '\n')
             {
+                // Add underline & strikethrough for this line
+                if (style & TextStyle::Underline)
+                    Qube2D_Text_Add_Line(vertices, { 0, pos_y + sp_line, pos_x, m_LineWidth });
+                if (style & TextStyle::Strikethrough)
+                    Qube2D_Text_Add_Line(vertices, { 0, pos_y + strikeY, pos_x, m_LineWidth });
+
+                // Increment Y pos
                 pos_y += sp_line;
                 pos_x = 0;
                 continue;
@@ -282,13 +306,21 @@ namespace Qube2D
             vertices.push_back(s); vertices.push_back(v);
             vertices.push_back(w); vertices.push_back(h);
             vertices.push_back(s); vertices.push_back(t);
-            m_VertexCount += 6;
 
             pos_x += glyph.advance;
             pos_x += m_Font->kerning(prevChar, c);
             prevChar = c;
         }
 
+        if (style & TextStyle::Underline)
+            Qube2D_Text_Add_Line(vertices, { 0, pos_y + sp_line, pos_x, m_LineWidth });
+        if (style & TextStyle::Strikethrough)
+            Qube2D_Text_Add_Line(vertices, { 0, pos_y + strikeY, pos_x, m_LineWidth });
+
+
+        // Dynamically determines the vertex count
+        m_OutlineVertexCount = outlineVertices.size() / 4;
+        m_VertexCount = vertices.size() / 4;
 
         // Buffers the generated data
         vertices.insert(vertices.end(), outlineVertices.begin(), outlineVertices.end());
@@ -380,7 +412,7 @@ namespace Qube2D
             glCheck(glDrawArrays(
                         GL_TRIANGLES,
                         m_VertexCount,
-                        m_VertexCount));
+                        m_OutlineVertexCount));
         }
 
         // Writes the uniform color values
@@ -447,5 +479,25 @@ namespace Qube2D
         m_FragShader.destroy();
         m_ShaderProgram.destroy();
         m_VertexArray.destroy();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 17th, 2016
+    /// \fn      Qube2D_Text_Add_Line
+    ///
+    ///////////////////////////////////////////////////////////
+    void Qube2D_Text_Add_Line(std::vector<float> &v, const RectF &bounds)
+    {
+        QFloat x = bounds.x(),          w = x + bounds.width();
+        QFloat y = roundf(bounds.y()),  h = y + bounds.height();
+
+        v.push_back(x); v.push_back(y); v.push_back(1); v.push_back(1);
+        v.push_back(w); v.push_back(y); v.push_back(1); v.push_back(1);
+        v.push_back(x); v.push_back(h); v.push_back(1); v.push_back(1);
+        v.push_back(x); v.push_back(h); v.push_back(1); v.push_back(1);
+        v.push_back(w); v.push_back(y); v.push_back(1); v.push_back(1);
+        v.push_back(w); v.push_back(h); v.push_back(1); v.push_back(1);
     }
 }

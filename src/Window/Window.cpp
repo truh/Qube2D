@@ -336,25 +336,25 @@ namespace Qube2D
         // Runs the main loop
         do
         {
-            // Only performs updates and rendering if window is active
-            if (m_IsActive)
-            {
-                // Updates the game (provides delta time)
-                elapsed = glfwGetTime();
-                Qube2D_Update_Callback(elapsed-current);
+            while (!m_IsActive)
+                glfwWaitEvents();
 
-                // Renders the game
-                glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-                Qube2D_Render_Callback();
-                glfwSwapBuffers(m_Window);
 
-                // Sets the amount of FPS as window title, if debugging
-            #ifdef Q2D_DEBUG
-                Qube2D_Window_Draw_FPS(elapsed-current);
-            #endif
+            // Updates the game (provides delta time)
+            elapsed = glfwGetTime();
+            Qube2D_Update_Callback(elapsed-current);
 
-                current = elapsed;
-            }
+            // Renders the game
+            glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+            Qube2D_Render_Callback();
+            glfwSwapBuffers(m_Window);
+
+            // Sets the amount of FPS as window title, if debugging
+        #ifdef Q2D_DEBUG
+            Qube2D_Window_Draw_FPS(elapsed-current);
+        #endif
+
+            current = elapsed;
 
             // Processes all pending GLFW events
             glfwPollEvents();

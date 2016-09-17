@@ -74,7 +74,8 @@ namespace Qube2D
         Underline       = 0x0004,
         Strikethrough   = 0x0008,
         Outline         = 0x0010,
-        OutlineOnly     = 0x0020
+        OutlineOnly     = 0x0020,
+        DropShadow      = 0x0040
     };
 
 
@@ -103,11 +104,11 @@ namespace Qube2D
     /// \brief  Combines two TextStyle's.
     ///
     ///////////////////////////////////////////////////////////
-    inline void operator|(TextStyle &field, const TextStyle &bit)
+    inline TextStyle operator|(TextStyle field, const TextStyle bit)
     {
-        field = static_cast<TextStyle>(
-                    static_cast<int>(field) |
-                    static_cast<int>(bit));
+        return static_cast<TextStyle>(
+               static_cast<int>(field) |
+               static_cast<int>(bit));
     }
 
     ///////////////////////////////////////////////////////////
