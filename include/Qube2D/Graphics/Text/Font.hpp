@@ -188,7 +188,7 @@ namespace Qube2D
         /// \param  style Style of the glyph
         ///
         ///////////////////////////////////////////////////////////
-        void cacheSubset(Subset set, TextStyle style);
+        void cacheSubset(Subset set, QUInt32 size, TextStyle style);
 
         ///////////////////////////////////////////////////////////
         /// \fn       measureString

@@ -68,7 +68,6 @@ namespace Qube2D
     QInt32 Text::m_UniformMatrix;
     QInt32 Text::m_UniformOpacity;
     QInt32 Text::m_UniformColor;
-    QInt32 Text::m_UniformOutColor;
 
 
     ///////////////////////////////////////////////////////////
@@ -159,6 +158,18 @@ namespace Qube2D
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 17th, 2016
+    /// \fn      setShadowOffset
+    ///
+    ///////////////////////////////////////////////////////////
+    void Text::setShadowOffset(QFloat x, QFloat y)
+    {
+        m_ShadowX = x;
+        m_ShadowY = y;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 15th, 2016
     /// \fn      setFont
     ///
@@ -201,7 +212,7 @@ namespace Qube2D
 
         // Removes the outline bit from the field
         TextStyle regular = style & ~TextStyle::Outline;
-        std::vector<float> vertices, outlineVertices;
+        std::vector<float> vertices, outlineVertices, shadowVertices;
         char32_t prevChar = 0;
 
         // Determines strike-through location with character 'x'
@@ -284,16 +295,38 @@ namespace Qube2D
             }
 
 
+            // Retrieves the regular glyph and its boundaries
             if (!m_Font->isCached(c, regular))
                 m_Font->cacheGlyph(c, regular);
 
-            // Adds the normal vertices
             const Glyph &glyph = m_Font->glyph(c, regular);
             QFloat x = pos_x + glyph.bearing_x, w = x + glyph.glyph_w;
             QFloat y = pos_y + glyph.bearing_y, h = y + glyph.glyph_h;
             QFloat u = glyph.texture_x, v = glyph.texture_y;
             QFloat s = u + glyph.texture_w, t = v + glyph.texture_h;
 
+            // Adds the drop shadow vertices
+            if (style & TextStyle::DropShadow)
+            {
+                QFloat dx = x + m_ShadowX, dw = w + m_ShadowX;
+                QFloat dy = y + m_ShadowY, dh = h + m_ShadowY;
+
+                shadowVertices.push_back(dx); shadowVertices.push_back(dy);
+                shadowVertices.push_back(u);  shadowVertices.push_back(v);
+                shadowVertices.push_back(dw); shadowVertices.push_back(dy);
+                shadowVertices.push_back(s);  shadowVertices.push_back(v);
+                shadowVertices.push_back(dx); shadowVertices.push_back(dh);
+                shadowVertices.push_back(u);  shadowVertices.push_back(t);
+                shadowVertices.push_back(dx); shadowVertices.push_back(dh);
+                shadowVertices.push_back(u);  shadowVertices.push_back(t);
+                shadowVertices.push_back(dw); shadowVertices.push_back(dy);
+                shadowVertices.push_back(s);  shadowVertices.push_back(v);
+                shadowVertices.push_back(dw); shadowVertices.push_back(dh);
+                shadowVertices.push_back(s);  shadowVertices.push_back(t);
+            }
+
+
+            // Adds the normal glyph vertices
             vertices.push_back(x); vertices.push_back(y);
             vertices.push_back(u); vertices.push_back(v);
             vertices.push_back(w); vertices.push_back(y);
@@ -320,10 +353,14 @@ namespace Qube2D
 
         // Dynamically determines the vertex count
         m_OutlineVertexCount = outlineVertices.size() / 4;
+        m_ShadowVertexCount = shadowVertices.size() / 4;
         m_VertexCount = vertices.size() / 4;
 
-        // Buffers the generated data
+        // Combines all the vertices into one buffer
         vertices.insert(vertices.end(), outlineVertices.begin(), outlineVertices.end());
+        vertices.insert(vertices.end(), shadowVertices.begin(), shadowVertices.end());
+
+        // Buffers the generated data
         m_VertexBuffer.bind();
         m_VertexBuffer.fill(vertices.data(), vertices.size() * sizeof(float));
     }
@@ -373,9 +410,8 @@ namespace Qube2D
         glCheck(glBindTexture(GL_TEXTURE_2D, m_Font->texture().id()));
         glCheck(glUniform1i(m_UniformSampler, 0));
 
-        // Forwards the MVP matrix and the opacity to the shader
+        // Forwards the MVP matrix to the shader
         glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
-        glCheck(glUniform1f(m_UniformOpacity, opacity()));
 
 
         // Enables all the used vertex attributes
@@ -400,6 +436,26 @@ namespace Qube2D
                     TEXT_OFFSET_COORD));
 
 
+        // Renders the drop shadow first
+        if (m_Style & TextStyle::DropShadow)
+        {
+            float alpha = std::max(0.1f, m_Color.a()-0.5f);
+            glCheck(glUniform4f(m_UniformColor,
+                                m_Color.r(),
+                                m_Color.g(),
+                                m_Color.b(),
+                                m_Color.a()));
+
+            glCheck(glUniform1f(m_UniformOpacity, alpha));
+            glCheck(glDrawArrays(
+                        GL_TRIANGLES,
+                        m_VertexCount+m_OutlineVertexCount,
+                        m_ShadowVertexCount));
+        }
+
+        // Forwards the opacity to the shader
+        glCheck(glUniform1f(m_UniformOpacity, opacity()));
+
         // Renders the outlines
         if (m_Style & TextStyle::Outline)
         {
@@ -415,6 +471,7 @@ namespace Qube2D
                         m_OutlineVertexCount));
         }
 
+
         // Writes the uniform color values
         glCheck(glUniform4f(m_UniformColor,
                             m_Color.r(),
@@ -422,7 +479,7 @@ namespace Qube2D
                             m_Color.b(),
                             m_Color.a()));
 
-        // Renders the glyphs
+        // Renders the regular glyphs
         glCheck(glDrawArrays(
                     GL_TRIANGLES,
                     GL_ZERO,
@@ -464,7 +521,6 @@ namespace Qube2D
         m_UniformSampler = m_ShaderProgram.getUniformLocation("uni_texture");
         m_UniformOpacity = m_ShaderProgram.getUniformLocation("uni_opacity");
         m_UniformColor = m_ShaderProgram.getUniformLocation("uni_color");
-        m_UniformOutColor = m_ShaderProgram.getUniformLocation("uni_outline");
     }
 
     ///////////////////////////////////////////////////////////

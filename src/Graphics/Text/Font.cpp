@@ -398,8 +398,10 @@ namespace Qube2D
     /// \fn      cacheSubset
     ///
     ///////////////////////////////////////////////////////////
-    void Font::cacheSubset(Subset set, TextStyle style)
+    void Font::cacheSubset(Subset set, QUInt32 size, TextStyle style)
     {
+        extract(size);
+
         QUInt32 min = 0, max = 0;
 
         if (set == Subset::Ascii) { min = 0x20; max = 0x7F; }

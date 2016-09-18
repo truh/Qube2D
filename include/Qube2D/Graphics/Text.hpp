@@ -131,6 +131,15 @@ namespace Qube2D
         void setLineWidth(QFloat width);
 
         ///////////////////////////////////////////////////////////
+        /// \fn     setShadowOffset
+        /// \brief  Specifies the drop shadow offset.
+        /// \param  x Horizontal translation
+        /// \param  y Vertical translation
+        ///
+        ///////////////////////////////////////////////////////////
+        void setShadowOffset(QFloat x, QFloat y);
+
+        ///////////////////////////////////////////////////////////
         /// \fn     setFont
         /// \brief  Specifies the font to render the text with.
         /// \param  font Pointer to valid Qube2D::Font structure
@@ -205,10 +214,13 @@ namespace Qube2D
         GLColor m_OutlineColor;         ///< Outline color
         QUInt32 m_VertexCount;          ///< Vertex count
         QUInt32 m_OutlineVertexCount;   ///< Outline vertex count
+        QUInt32 m_ShadowVertexCount;    ///< Drop shadow vertex count
         QUInt32 m_Size;                 ///< Text size
         TextStyle m_Style;              ///< Text style
         QFloat m_OutlineWidth;          ///< Outline width
         QFloat m_LineWidth;             ///< Underline & Strikethrough width
+        QFloat m_ShadowX;               ///< X-shadow offset
+        QFloat m_ShadowY;               ///< Y-shadow offset
 
         ///////////////////////////////////////////////////////////
         // Static class members
@@ -222,8 +234,6 @@ namespace Qube2D
         static QInt32 m_UniformMatrix;          ///< MVP variable loc
         static QInt32 m_UniformOpacity;         ///< Opacity variable loc
         static QInt32 m_UniformColor;           ///< Uniform text color
-        static QInt32 m_UniformOutColor;        ///< Uniform outline color
-
     };
 }
 
