@@ -137,7 +137,8 @@ void init()
     arabicText.setFont(font);
     arabicText.setTextSize(32);
     arabicText.setOutlineWidth(2.f);
-    arabicText.setText(U"وهي اللcغة العربية");
+    arabicText.setShadowOffset(4, 4);
+    arabicText.setText(U"وهي اللcغة العربية", Qube2D::TextStyle::DropShadow);
     arabicText.setPosition(10.f, 136.f);
     arabicText.setColor(color);
 
