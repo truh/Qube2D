@@ -126,7 +126,13 @@ HEADERS += \
     include/Qube2D/Graphics/Text/TextEnums.hpp \
     include/Qube2D/System/Storage/Atlas.hpp \
     include/Qube2D/Graphics/Text.hpp \
-    include/Qube2D/Graphics/System/Shader/TextShaders.hpp
+    include/Qube2D/Graphics/System/Shader/TextShaders.hpp \
+    include/Qube2D/Audio/System/AudioManager.hpp \
+    include/Qube2D/Debug/ALCheck.hpp \
+    include/Qube2D/Audio/System/AudioErrors.hpp \
+    include/Qube2D/Audio/IAudio.hpp \
+    include/Qube2D/Audio/System/AudioEnums.hpp \
+    include/Qube2D/Audio/Music.hpp
 
 
 #
@@ -173,7 +179,10 @@ SOURCES += \
     src/Graphics/Shapes/Arc.cpp \
     src/Graphics/Text/FontManager.cpp \
     src/Graphics/Text/Font.cpp \
-    src/Graphics/Text.cpp
+    src/Graphics/Text.cpp \
+    src/Debug/ALCheck.cpp \
+    src/Audio/System/AudioManager.cpp \
+    src/Audio/IAudio.cpp
 
 
 #
