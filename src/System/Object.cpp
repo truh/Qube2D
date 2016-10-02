@@ -151,6 +151,7 @@ namespace Qube2D
     void Object::addChild(Object *child)
     {
         m_Children.push_back(child);
+        child->setParent(this);
     }
 
     ///////////////////////////////////////////////////////////
@@ -162,6 +163,9 @@ namespace Qube2D
     void Object::addChildren(const std::vector<Object *> &children)
     {
         m_Children.insert(m_Children.end(), children.begin(), children.end());
+
+        for (Object *obj : children)
+            obj->setParent(this);
     }
 
     ///////////////////////////////////////////////////////////

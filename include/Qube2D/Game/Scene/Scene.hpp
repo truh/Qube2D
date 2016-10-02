@@ -30,110 +30,115 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef __Q2D_LANGUAGE_HPP__
-#define __Q2D_LANGUAGE_HPP__
+#ifndef __Q2D_SCENE_HPP__
+#define __Q2D_SCENE_HPP__
 
 
 ///////////////////////////////////////////////////////////
 // Included files
 //
 ///////////////////////////////////////////////////////////
-#include <Qube2D/System/Localization/String.hpp>
-#include <memory>
-#include <map>
+#include <Qube2D/System/Object.hpp>
 
 
 namespace Qube2D
 {
     ///////////////////////////////////////////////////////////
-    /// \file    Language.hpp
+    /// \file    Scene.hpp
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
-    /// \date    September 21th, 2016
-    /// \class   Language
-    /// \brief   Holds all strings for one language.
+    /// \date    September 28th, 2016
+    /// \class   Scene
+    /// \brief   Defines a game-scene with child scenes.
     ///
     ///////////////////////////////////////////////////////////
-    class Q2D_API Language
+    class Q2D_API Scene : public Object
     {
-
-    #ifdef __Q2D_LIBRARY__
 
     public:
 
         ///////////////////////////////////////////////////////////
         /// \fn     Default constructor
-        /// \brief  Initializes a new instance of Qube2D::Language.
+        /// \brief  Initializes a new instance of Qube2D::Scene.
         ///
         ///////////////////////////////////////////////////////////
-        Language();
+        Scene();
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Destructor
-        /// \brief  Frees all strings.
+        /// \fn     Destructor -> virtual
+        /// \brief  Frees objects allocated by this scene.
         ///
         ///////////////////////////////////////////////////////////
-        ~Language();
+        virtual ~Scene();
 
 
         ///////////////////////////////////////////////////////////
-        /// \fn       load
-        /// \brief    Attempts to load the given language file.
-        /// \param    path Path to language file
-        /// \returns  a pointer to the language identifier string.
+        /// \fn     update -> virtual
+        /// \brief  Updates the scene.
+        /// \param  deltaTime Time between current and last update
         ///
         ///////////////////////////////////////////////////////////
-        const char *load(const char *path);
+        virtual void update(double deltaTime);
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setStringMap
-        /// \brief  Specifies the language map.
-        /// \param  map Map containing string <> string pairs.
+        /// \fn     render -> virtual
+        /// \brief  Renders the scene.
         ///
         ///////////////////////////////////////////////////////////
-        void setStringMap(const std::map<const char *, String> &map);
+        virtual void render();
 
         ///////////////////////////////////////////////////////////
-        /// \fn     setStringList
-        /// \brief  Specifies the language string list.
-        /// \param  list List containing all strings.
+        /// \fn     keyDown -> virtual
+        /// \brief  Receives a key-down event.
         ///
         ///////////////////////////////////////////////////////////
-        void setStringList(const std::vector<String> &list);
-
-    #endif
-
+        virtual void keyDown();
 
         ///////////////////////////////////////////////////////////
-        /// \fn       at -> const
-        /// \brief    Retrieves the string corresponding to the key.
-        /// \param    key Unique string key connected to value
-        /// \returns  a reference to the value.
+        /// \fn     keyUp -> virtual
+        /// \brief  Receives a key-up event.
         ///
         ///////////////////////////////////////////////////////////
-        const String &at(const char *key) const;
+        virtual void keyUp();
 
         ///////////////////////////////////////////////////////////
-        /// \fn       at -> const
-        /// \brief    Retrieves the string corresponding to the index.
-        /// \param    index Index of the string in the list
-        /// \returns  a reference to the value.
+        /// \fn     keyChar -> virtual
+        /// \brief  Receives a key-char event.
+        /// \param  codepoint UTF-32 pressed character
         ///
         ///////////////////////////////////////////////////////////
-        const String &at(QUInt32 index) const;
-
-
-    private:
+        virtual void keyChar(char32_t codepoint);
 
         ///////////////////////////////////////////////////////////
-        // Class members
-        //
+        /// \fn     mouseDown -> virtual
+        /// \brief  Receives a mouse-down event.
+        ///
         ///////////////////////////////////////////////////////////
-        std::map<const char *, String> m_Map;
-        std::vector<String> m_List;
-        std::vector<const char *> m_Keys;
-        std::unique_ptr<const char *> m_Id;
+        virtual void mouseDown();
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     mouseUp -> virtual
+        /// \brief  Receives a mouse-up event.
+        ///
+        ///////////////////////////////////////////////////////////
+        virtual void mouseUp();
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     mouseMove -> virtual
+        /// \brief  Receives a mouse-move event.
+        ///
+        ///////////////////////////////////////////////////////////
+        virtual void mouseMove();
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     mouseWheel -> virtual
+        /// \brief  Receives a mouse-wheel event.
+        /// \param  offset Vertical scrolling position
+        ///
+        ///////////////////////////////////////////////////////////
+        virtual void mouseWheel(double offset);
+
     };
 }
 
 
-#endif  // __Q2D_LANGUAGE_HPP__
+#endif  // __Q2D_SCENE_HPP__

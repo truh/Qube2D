@@ -132,7 +132,11 @@ HEADERS += \
     include/Qube2D/Audio/System/AudioErrors.hpp \
     include/Qube2D/Audio/IAudio.hpp \
     include/Qube2D/Audio/System/AudioEnums.hpp \
-    include/Qube2D/Audio/Music.hpp
+    include/Qube2D/Audio/Music.hpp \
+    include/Qube2D/System/Localization/Language.hpp \
+    include/Qube2D/System/Localization/LanguageManager.hpp \
+    include/Qube2D/Game/Scene/Scene.hpp \
+    include/Qube2D/Game/Scene/SceneManager.hpp
 
 
 #
@@ -182,7 +186,10 @@ SOURCES += \
     src/Graphics/Text.cpp \
     src/Debug/ALCheck.cpp \
     src/Audio/System/AudioManager.cpp \
-    src/Audio/IAudio.cpp
+    src/Audio/IAudio.cpp \
+    src/System/Localization/Language.cpp \
+    src/System/Localization/LanguageManager.cpp \
+    src/Game/Scene/SceneManager.cpp
 
 
 #

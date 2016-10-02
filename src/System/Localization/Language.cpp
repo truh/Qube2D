@@ -35,6 +35,8 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/System/Localization/Language.hpp>
+#include <Qube2D/System/Storage/File.hpp>
+#include <Qube2D/Assets/Assets.hpp>
 #include <Qube2D/Debug/Debug.hpp>
 
 
@@ -48,6 +50,18 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     Language::Language()
     {
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 21th, 2016
+    /// \fn      Destructor
+    ///
+    /////////////////////////////////////////////////////////
+    Language::~Language()
+    {
+        for (const char *key : m_Keys)
+            delete[] key;
     }
 
 
@@ -88,5 +102,69 @@ namespace Qube2D
     #endif
 
         return m_List.at(index);
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    September 28th, 2016
+    /// \fn      load
+    ///
+    ///////////////////////////////////////////////////////////
+    const char *Language::load(const char *path)
+    {
+        assert(path);
+
+
+        // Converts the relative path to an absolute one.
+        std::string filePath;
+        if (Assets::isRelative(path))
+            filePath = Assets::makePath(path);
+        else
+            filePath = path;
+
+
+        File file;
+        file.open(filePath.c_str(), FA_Read);
+
+        // Fetches information about the language properties
+        QUInt8 idSize, fiType;
+        idSize = file.readByte();
+        m_Id.reset(file.readString(idSize));
+        fiType = file.readByte();
+
+        // Fetches all language entries
+        QUInt32 strCount = file.readUInt32();
+        QInt64 tblBegin = file.position();
+        for (QUInt32 i = 0; i < strCount; ++i)
+        {
+            // Retrieves the entry position
+            file.seek(tblBegin + (i * 4), SD_Begin);
+            file.seek(static_cast<QInt64>(file.readUInt32()), SD_Begin);
+
+            // 0 = indices, 1 = map
+            if (fiType == 0)
+            {
+                QUInt32 strLen = file.readUInt32();
+                m_List.push_back(file.readString(strLen));
+            }
+            else if (fiType == 1)
+            {
+                const char *strKey, strVal;
+
+                QUInt32 lenKey, lenVal;
+                lenKey = file.readUInt32();
+                strKey = file.readString(lenKey);
+                lenVal = file.readUInt32();
+                strVal = file.readString(lenVal);
+                m_Keys.push_back(strKey);
+                m_Map.insert(std::make_pair(strKey, String(strVal)));
+            }
+            else
+            {
+                Q2DErrorNoArg(Q2D_LANG_ERROR_2);
+                return NULL;
+            }
+        }
     }
 }

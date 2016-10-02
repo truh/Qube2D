@@ -57,7 +57,51 @@ namespace Qube2D
     public:
 
         ///////////////////////////////////////////////////////////
-        /// \fn     Default constructor
+        /// \fn       loadFromFolder
+        /// \brief    Attempts to load language files from a folder.
+        /// \param    dir Folder containing the language files
+        /// \param    (opt) ext Extension of the language file(s)
+        /// \returns  the amount of languages loaded.
+        ///
+        ///////////////////////////////////////////////////////////
+        static int loadFromFolder(const char *dir, const char *ext = NULL);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn    setActiveLanguage
+        /// \brief Specifies the currently active language.
+        /// \param lang Language identifier as string (e.g. "en")
+        ///
+        ///////////////////////////////////////////////////////////
+        static void setActiveLanguage(const char *lang);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn       at -> const
+        /// \brief    Retrieves the string corresponding to the key.
+        /// \param    key Unique string key connected to value
+        /// \returns  a reference to the value.
+        ///
+        ///////////////////////////////////////////////////////////
+        static const String &at(const char *key);
+
+        ///////////////////////////////////////////////////////////
+        /// \fn       at -> const
+        /// \brief    Retrieves the string corresponding to the index.
+        /// \param    index Index of the string in the list
+        /// \returns  a reference to the value.
+        ///
+        ///////////////////////////////////////////////////////////
+        static const String &at(QUInt32 index);
+
+
+    private:
+
+        ///////////////////////////////////////////////////////////
+        // Static class members
+        //
+        ///////////////////////////////////////////////////////////
+        static std::vector<Language> m_Languages;
+        static std::vector<const char *> m_Identifiers;
+        static Language *m_ActiveLanguage;
 
     };
 }
