@@ -161,18 +161,20 @@ namespace Qube2D
     void ISprite::setSourceRectangle(const RectF &rect)
     {
         // Pre-calculates OpenGL vertex positions and UV coords
-        float tex_w = rect.width();
-        float tex_h = rect.height();
+        float tex_w = m_Texture.width();
+        float tex_h = m_Texture.height();
+        float des_w = rect.width();
+        float des_h = rect.height();
         float rel_x = rect.x() / tex_w;
         float rel_y = rect.y() / tex_h;
-        float rel_w = rel_x + (tex_w / m_Texture.width());
-        float rel_h = rel_y + (tex_h / m_Texture.height());
+        float rel_w = rel_x + (des_w / tex_w);
+        float rel_h = rel_y + (des_h / tex_h);
 
         // Modifies the XY data
         m_Vertices.v0.xy(0.f,   0.f);
-        m_Vertices.v1.xy(tex_w, 0.f);
-        m_Vertices.v2.xy(tex_w, tex_h);
-        m_Vertices.v3.xy(0.f,   tex_h);
+        m_Vertices.v1.xy(des_w, 0.f);
+        m_Vertices.v2.xy(des_w, des_h);
+        m_Vertices.v3.xy(0.f,   des_h);
 
         // Modifies the UV data
         m_Vertices.v0.uv(rel_x, rel_y);

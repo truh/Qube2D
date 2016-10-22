@@ -35,6 +35,7 @@
 //
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Debug/Debug.hpp>
+#include <Qube2D/Assets/Assets.hpp>
 #include <Qube2D/Window/Window.hpp>
 #include <Qube2D/Window/WindowErrors.hpp>
 #include <Qube2D/Graphics/System/Base/ISprite.hpp>
@@ -315,6 +316,7 @@ namespace Qube2D
 
 
         // Initializes global OpenGL objects
+        Assets::initialize();
         ISprite::initializeGL();
         IPrimitive::initializeGL();
         IMovable::initializeView();
