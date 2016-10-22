@@ -162,6 +162,24 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    June 26th, 2016
+    /// \fn      fromFloat
+    ///
+    ///////////////////////////////////////////////////////////
+    void Variant::fromFloat(QFloat f)
+    {
+        QUInt8 *a = reinterpret_cast<QUInt8 *>(&f);
+
+        m_Buffer.clear();
+        m_Buffer.push_back(a[0]);
+        m_Buffer.push_back(a[1]);
+        m_Buffer.push_back(a[2]);
+        m_Buffer.push_back(a[3]);
+        m_Type = VT_Float;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 26th, 2016
     /// \fn      fromString
     ///
     ///////////////////////////////////////////////////////////
@@ -438,6 +456,26 @@ namespace Qube2D
               ((QInt64)m_Buffer.at(1) << 8)  |
                (QInt64)m_Buffer.at(0)
         );
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 26th, 2016
+    /// \fn      toFloat
+    ///
+    ///////////////////////////////////////////////////////////
+    QFloat Variant::toFloat() const
+    {
+        assert(isType(VT_Float));
+        float value = 0.f;
+
+        QUInt8 *a = reinterpret_cast<QUInt8 *>(&value);
+        a[0] = m_Buffer.at(0);
+        a[1] = m_Buffer.at(1);
+        a[2] = m_Buffer.at(2);
+        a[3] = m_Buffer.at(3);
+
+        return value;
     }
 
     ///////////////////////////////////////////////////////////

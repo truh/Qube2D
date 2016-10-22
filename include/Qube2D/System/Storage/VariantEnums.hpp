@@ -55,6 +55,7 @@ namespace Qube2D
         VT_Utf8,
         VT_Utf16,
         VT_Utf32,
+        VT_Float,
         VT_PInt8,
         VT_PInt16,
         VT_PInt32,

@@ -136,6 +136,14 @@ namespace Qube2D
         void fromInt64(QInt64 s64);
 
         ///////////////////////////////////////////////////////////
+        /// \fn     fromFloat
+        /// \brief  Converts the given float value to a variant.
+        /// \param  f Float value
+        ///
+        ///////////////////////////////////////////////////////////
+        void fromFloat(QFloat f);
+
+        ///////////////////////////////////////////////////////////
         /// \fn     fromString
         /// \brief  Converts the given UTF-8 string to a variant.
         /// \param  utf8 UTF-8 encoded string
@@ -293,6 +301,14 @@ namespace Qube2D
         ///
         ///////////////////////////////////////////////////////////
         QInt64 toInt64() const;
+
+        ///////////////////////////////////////////////////////////
+        /// \fn      toFloat -> const
+        /// \brief   Converts this variant to a float value.
+        /// \returns a float value.
+        ///
+        ///////////////////////////////////////////////////////////
+        QFloat toFloat() const;
 
         ///////////////////////////////////////////////////////////
         /// \fn      toUtf8 -> const
