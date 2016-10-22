@@ -47,6 +47,7 @@ namespace Qube2D
     enum VariantType
     {
         VT_Invalid = -1,
+        VT_Bool,
         VT_Int8,
         VT_Int16,
         VT_Int32,

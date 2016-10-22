@@ -86,6 +86,22 @@ namespace Qube2D
     /// \fn      fromInt8
     ///
     ///////////////////////////////////////////////////////////
+    void Variant::fromBoolean(QBool b)
+    {
+        m_Buffer.clear();
+        if (b)
+            m_Buffer.push_back(1);
+        else
+            m_Buffer.push_back(0);
+        m_Type = VT_Bool;
+    }
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 26th, 2016
+    /// \fn      fromInt8
+    ///
+    ///////////////////////////////////////////////////////////
     void Variant::fromInt8(QInt8 s8)
     {
         m_Buffer.clear();
@@ -343,6 +359,18 @@ namespace Qube2D
         return m_Type == type;
     }
 
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    June 26th, 2016
+    /// \fn      toBool
+    ///
+    ///////////////////////////////////////////////////////////
+    QBool Variant::toBool() const
+    {
+        assert(isType(VT_Bool));
+        return m_Buffer.at(0) == 1;
+    }
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)

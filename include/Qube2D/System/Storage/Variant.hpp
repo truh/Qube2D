@@ -96,6 +96,14 @@ namespace Qube2D
 
 
         ///////////////////////////////////////////////////////////
+        /// \fn     fromBoolean
+        /// \brief  Converts the given bool value to a variant.
+        /// \param  b Boolean value
+        ///
+        ///////////////////////////////////////////////////////////
+        void fromBoolean(QBool b);
+
+        ///////////////////////////////////////////////////////////
         /// \fn     fromInt8
         /// \brief  Converts the given Int8 value to a variant.
         /// \param  s8 Signed 8-bit value
@@ -245,6 +253,14 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         bool isType(VariantType type) const;
 
+
+        ///////////////////////////////////////////////////////////
+        /// \fn      toBool -> const
+        /// \brief   Converts this variant to a boolean value.
+        /// \returns a boolean value.
+        ///
+        ///////////////////////////////////////////////////////////
+        QBool toBool() const;
 
         ///////////////////////////////////////////////////////////
         /// \fn      toInt8 -> const
