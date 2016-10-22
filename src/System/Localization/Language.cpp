@@ -62,6 +62,8 @@ namespace Qube2D
     {
         for (const char *key : m_Keys)
             delete[] key;
+
+        delete m_Id;
     }
 
 
@@ -130,7 +132,7 @@ namespace Qube2D
         // Fetches information about the language properties
         QUInt8 idSize, fiType;
         idSize = file.readByte();
-        m_Id.reset(file.readString(idSize));
+        m_Id = file.readString(idSize);
         fiType = file.readByte();
 
         // Fetches all language entries
@@ -150,7 +152,7 @@ namespace Qube2D
             }
             else if (fiType == 1)
             {
-                const char *strKey, strVal;
+                const char *strKey, *strVal;
 
                 QUInt32 lenKey, lenVal;
                 lenKey = file.readUInt32();
@@ -162,7 +164,7 @@ namespace Qube2D
             }
             else
             {
-                Q2DErrorNoArg(Q2D_LANG_ERROR_2);
+                Q2DErrorNoArg("ERROR"/*Q2D_LANG_ERROR_2*/);
                 return NULL;
             }
         }

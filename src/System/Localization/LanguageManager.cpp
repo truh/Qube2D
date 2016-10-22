@@ -36,10 +36,20 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Assets/Assets.hpp>
 #include <Qube2D/System/Localization/LanguageManager.hpp>
+#include <algorithm>
 
 
 namespace Qube2D
 {
+    ///////////////////////////////////////////////////////////
+    // Static variable definitions
+    //
+    ///////////////////////////////////////////////////////////
+    std::vector<Language> LanguageManager::m_Languages;
+    std::vector<const char *> LanguageManager::m_Identifiers;
+    Language *LanguageManager::m_ActiveLanguage;
+
+
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
     /// \date    September 27th, 2016
@@ -54,7 +64,7 @@ namespace Qube2D
 
         // Retrieves all files within the folder
         QUInt32 fileCount, i;
-        const char *files = Assets::folderFiles(dir, ext, &fileCount);
+        const char **files = Assets::folderFiles(dir, ext, &fileCount);
 
         // Attempts to load all languages
         for (i = 0; i < fileCount; i++)
@@ -62,7 +72,7 @@ namespace Qube2D
             Language language;
             if (!language.load(files[i]))
             {
-                Q2DError(Q2D_LANG_ERROR_0, files[i]);
+                Q2DError("ERROR"/*Q2D_LANG_ERROR_0*/, files[i]);
                 return -1;
             }
 
@@ -87,12 +97,12 @@ namespace Qube2D
         auto it = std::find(m_Identifiers.begin(), m_Identifiers.end(), lang);
         if (it == m_Identifiers.end())
         {
-            Q2DError(Q2D_LANG_ERROR_1, lang);
+            Q2DError("ERROR"/*Q2D_LANG_ERROR_1*/, lang);
             return;
         }
 
 
-        m_ActiveLanguage = &(*it);
+        m_ActiveLanguage = &m_Languages[std::distance(m_Identifiers.begin(), it)];
     }
 
     ///////////////////////////////////////////////////////////

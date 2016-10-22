@@ -177,6 +177,12 @@ namespace Qube2D
         virtual void render();
 
 
+        // Tile-based drawing
+        void startRendering();
+        void proceedRendering();
+        void doneRendering();
+
+
     #ifdef __Q2D_LIBRARY__
 
         ///////////////////////////////////////////////////////////

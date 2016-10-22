@@ -34,6 +34,7 @@
 // Included files
 //
 ///////////////////////////////////////////////////////////
+#include <Qube2D/Audio/System/AudioManager.hpp>
 #include <Qube2D/Debug/ALCheck.hpp>
 #include <string>
 #include <iostream>
@@ -107,11 +108,11 @@ namespace Qube2D
     /// \fn      checkAlc
     ///
     ///////////////////////////////////////////////////////////
-    void ALCheck::check(const char *file,
-                        const long  line,
-                        const char *expr)
+    void ALCheck::checkAlc(const char *file,
+                           const long  line,
+                           const char *expr)
     {
-        QUInt32 error = alcGetError();
+        QUInt32 error = alcGetError(AudioManager::device());
         if (error == ALC_NO_ERROR)
             return;
 

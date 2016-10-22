@@ -39,6 +39,7 @@
 #include <Qube2D/Debug/ALCheck.hpp>
 #include <Qube2D/Debug/Debug.hpp>
 #include <al/alc.h>
+#include <algorithm>
 
 
 namespace Qube2D
@@ -104,7 +105,7 @@ namespace Qube2D
     /// \fn      add
     ///
     ///////////////////////////////////////////////////////////
-    void AudioManager::add(Audio *audio)
+    void AudioManager::add(IAudio *audio)
     {
         m_Tracks.push_back(audio);
     }
@@ -115,7 +116,7 @@ namespace Qube2D
     /// \fn      remove
     ///
     ///////////////////////////////////////////////////////////
-    void AudioManager::remove(Audio *audio)
+    void AudioManager::remove(IAudio *audio)
     {
         auto it = std::find(m_Tracks.begin(), m_Tracks.end(), audio);
         if (it == m_Tracks.end())
@@ -131,8 +132,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void AudioManager::pause()
     {
-        for (auto it = m_Tracks.begin(); it != m_Tracks.end(); ++it)
-            it->pause();
+        //for (auto it = m_Tracks.begin(); it != m_Tracks.end(); ++it)
+            //it->pause();
     }
 
     ///////////////////////////////////////////////////////////
@@ -143,7 +144,19 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void AudioManager::resume()
     {
-        for (auto it = m_Tracks.begin(); it != m_Tracks.end(); ++it)
-            it->resume();
+        //for (auto it = m_Tracks.begin(); it != m_Tracks.end(); ++it)
+            //it->resume();
+    }
+
+
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    October 2nd, 2016
+    /// \fn      device
+    ///
+    ///////////////////////////////////////////////////////////
+    ALCdevice *AudioManager::device()
+    {
+        return m_Device;
     }
 }

@@ -22,7 +22,7 @@
 //  Qube2D is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU Lesser General Public License for more details.
+//  GNU Lesser General Public License for more details->
 //
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with  Qube2D. If not, see <http://www.gnu.org/licenses/>.
@@ -36,6 +36,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Game/Scene/SceneManager.hpp>
 #include <Qube2D/Debug/Debug.hpp>
+#include <algorithm>
 
 
 namespace Qube2D
@@ -88,8 +89,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::update(double deltaTime)
     {
-        for (Scene s : m_Scenes)
-            s.update(deltaTime);
+        for (Scene *s : m_Scenes)
+            s->update(deltaTime);
     }
 
     ///////////////////////////////////////////////////////////
@@ -100,8 +101,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::render()
     {
-        for (Scene s : m_Scenes)
-            s.render();
+        for (Scene *s : m_Scenes)
+            s->render();
     }
 
     ///////////////////////////////////////////////////////////
@@ -112,8 +113,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::keyDown()
     {
-        for (Scene s : m_Scenes)
-            s.keyDown();
+        for (Scene *s : m_Scenes)
+            s->keyDown();
     }
 
     ///////////////////////////////////////////////////////////
@@ -124,8 +125,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::keyUp()
     {
-        for (Scene s : m_Scenes)
-            s.keyUp();
+        for (Scene *s : m_Scenes)
+            s->keyUp();
     }
 
     ///////////////////////////////////////////////////////////
@@ -134,10 +135,10 @@ namespace Qube2D
     /// \fn      keyChar
     ///
     ///////////////////////////////////////////////////////////
-    void SceneManager::keyChar(unsigned codepoint)
+    void SceneManager::keyChar(char32_t codepoint)
     {
-        for (Scene s : m_Scenes)
-            s.keyChar(codepoint);
+        for (Scene *s : m_Scenes)
+            s->keyChar(codepoint);
     }
 
     ///////////////////////////////////////////////////////////
@@ -148,8 +149,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::mouseDown()
     {
-        for (Scene s : m_Scenes)
-            s.mouseDown();
+        for (Scene *s : m_Scenes)
+            s->mouseDown();
     }
 
     ///////////////////////////////////////////////////////////
@@ -160,8 +161,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::mouseUp()
     {
-        for (Scene s : m_Scenes)
-            s.mouseUp();
+        for (Scene *s : m_Scenes)
+            s->mouseUp();
     }
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
@@ -171,8 +172,8 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::mouseMove()
     {
-        for (Scene s : m_Scenes)
-            s.mouseMove();
+        for (Scene *s : m_Scenes)
+            s->mouseMove();
     }
 
     ///////////////////////////////////////////////////////////
@@ -183,7 +184,7 @@ namespace Qube2D
     ///////////////////////////////////////////////////////////
     void SceneManager::mouseWheel(double offset)
     {
-        for (Scene s : m_Scenes)
-            s.mouseWheel(offset);
+        for (Scene *s : m_Scenes)
+            s->mouseWheel(offset);
     }
 }

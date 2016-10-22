@@ -362,6 +362,118 @@ namespace Qube2D
         m_CustomProgram->unbind();
     }
 
+    ///////////////////////////////////////////////////////////
+    /// \author  Nicolas Kogler (kogler.cml@hotmail.com)
+    /// \date    October 22nd, 2016
+    /// \fn      startRendering
+    ///
+    ///////////////////////////////////////////////////////////
+    void ISprite::startRendering()
+    {
+        // Constructs the MVP matrix
+        glm::mat4 identity      = glm::mat4(1.f);
+        glm::mat4 projection    = glm::ortho(0.f, m_WinW, m_WinH, 0.f);
+        glm::mat4 translation   = glm::translate(identity, glm::vec3(x(), y(), 0.f));
+        glm::mat4 origin        = glm::translate(identity, glm::vec3(-originX(), -originY(), 0.f));
+        glm::mat4 rotation      = glm::rotate(identity, glm::radians(angle()), glm::vec3(0.f, 0.f, 1.f));
+        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(originX(), originY(), 0.f));
+        glm::mat4 scaling       = glm::scale(identity, glm::vec3(scale(), scale(), 1.f));
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling * identity;
+
+
+        // Binds all necessary objects
+        m_VertexArray.bind();
+        m_IndexBuffer.bind();
+        m_VertexBuffer.bind();
+        m_CustomProgram->bind();
+
+
+        // Buffers the vertex data
+        m_VertexBuffer.fill(&m_Vertices, IMAGE_VERTEX_SIZE);
+
+        // Binds the texture to unit 0
+        glCheck(glActiveTexture(GL_TEXTURE0));
+        m_Texture.bind();
+        glCheck(glUniform1i(m_UniformSampler, 0));
+
+        // Forwards the MVP matrix and the opacity to the shader
+        glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
+        glCheck(glUniform1f(m_UniformOpacity, opacity()));
+
+
+        // Enables all the used vertex attributes
+        m_VertexArray.enableAttrib(0);
+        m_VertexArray.enableAttrib(1);
+        m_VertexArray.enableAttrib(2);
+
+        // Specifies the vertex attributes
+        glCheck(glVertexAttribPointer(
+                    0,
+                    2,
+                    GL_FLOAT,
+                    GL_FALSE,
+                    IMAGE_SINGLE_VERTEX,
+                    NULL));
+
+        glCheck(glVertexAttribPointer(
+                    1,
+                    2,
+                    GL_FLOAT,
+                    GL_FALSE,
+                    IMAGE_SINGLE_VERTEX,
+                    IMAGE_OFFSET_COORD));
+
+        glCheck(glVertexAttribPointer(
+                    2,
+                    4,
+                    GL_FLOAT,
+                    GL_FALSE,
+                    IMAGE_SINGLE_VERTEX,
+                    IMAGE_OFFSET_BLEND));
+    }
+
+    void ISprite::proceedRendering()
+    {
+        // Constructs the MVP matrix
+        glm::mat4 identity      = glm::mat4(1.f);
+        glm::mat4 projection    = glm::ortho(0.f, m_WinW, m_WinH, 0.f);
+        glm::mat4 translation   = glm::translate(identity, glm::vec3(x(), y(), 0.f));
+        glm::mat4 origin        = glm::translate(identity, glm::vec3(-originX(), -originY(), 0.f));
+        glm::mat4 rotation      = glm::rotate(identity, glm::radians(angle()), glm::vec3(0.f, 0.f, 1.f));
+        glm::mat4 iorigin       = glm::translate(identity, glm::vec3(originX(), originY(), 0.f));
+        glm::mat4 scaling       = glm::scale(identity, glm::vec3(scale(), scale(), 1.f));
+        glm::mat4 mvp           = projection * translation * iorigin * rotation * origin * scaling;
+
+        // Forwards the MVP matrix to the shader
+        glCheck(glUniformMatrix4fv(m_UniformMatrix, 1, GL_FALSE, &mvp[0][0]));
+
+        // Buffers the vertex data
+        m_VertexBuffer.fill(&m_Vertices, IMAGE_VERTEX_SIZE);
+
+
+        // Renders the texture
+        glCheck(glDrawElements(
+                    GL_TRIANGLES,
+                    6,
+                    GL_UNSIGNED_INT,
+                    NULL));
+    }
+
+    void ISprite::doneRendering()
+    {
+        // Disables all the used vertex attributes
+        m_VertexArray.disableAttrib(2);
+        m_VertexArray.disableAttrib(1);
+        m_VertexArray.disableAttrib(0);
+
+        // Unbinds the necessary objects
+        m_Texture.unbind();
+        m_VertexArray.unbind();
+        m_IndexBuffer.unbind();
+        m_VertexBuffer.unbind();
+        m_CustomProgram->unbind();
+    }
+
 
     ///////////////////////////////////////////////////////////
     /// \author  Nicolas Kogler (kogler.cml@hotmail.com)

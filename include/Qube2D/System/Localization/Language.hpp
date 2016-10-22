@@ -68,6 +68,13 @@ namespace Qube2D
         Language();
 
         ///////////////////////////////////////////////////////////
+        /// \fn     Copy constructor
+        /// \brief  Copies one language to another.
+        ///
+        ///////////////////////////////////////////////////////////
+        Language(const Language &lang) = default;
+
+        ///////////////////////////////////////////////////////////
         /// \fn     Destructor
         /// \brief  Frees all strings.
         ///
@@ -131,7 +138,7 @@ namespace Qube2D
         std::map<const char *, String> m_Map;
         std::vector<String> m_List;
         std::vector<const char *> m_Keys;
-        std::unique_ptr<const char *> m_Id;
+        const char *m_Id;
     };
 }
 

@@ -47,8 +47,10 @@
 // Forward declarations
 //
 ///////////////////////////////////////////////////////////
-struct ALCdevice;
-struct ALCcontext;
+struct ALCdevice_struct;
+struct ALCcontext_struct;
+typedef ALCdevice_struct ALCdevice;
+typedef ALCcontext_struct ALCcontext;
 
 
 namespace Qube2D
@@ -90,7 +92,7 @@ namespace Qube2D
         /// \param  audio Valid Qube2D::Audio instance
         ///
         ///////////////////////////////////////////////////////////
-        static void add(Audio *audio);
+        static void add(IAudio *audio);
 
         ///////////////////////////////////////////////////////////
         /// \fn     remove
@@ -98,7 +100,7 @@ namespace Qube2D
         /// \param  audio Valid Qube2D::Audio instance
         ///
         ///////////////////////////////////////////////////////////
-        static void remove(Audio *audio);
+        static void remove(IAudio *audio);
 
 
         ///////////////////////////////////////////////////////////
@@ -115,6 +117,14 @@ namespace Qube2D
         ///////////////////////////////////////////////////////////
         static void resume();
 
+
+        ///////////////////////////////////////////////////////////
+        /// \fn     device
+        /// \brief  Retrieves the currently opened device.
+        ///
+        ///////////////////////////////////////////////////////////
+        static ALCdevice *device();
+
     #endif
 
 
@@ -124,9 +134,9 @@ namespace Qube2D
         // Static class members
         //
         ///////////////////////////////////////////////////////////
-        ALCdevice m_Device;             ///< OpenAL audio device
-        ALCcontext m_Context;           ///< OpenAL context
-        std::vector<IAudio *> m_Tracks; ///< Holds the audio tracks
+        static ALCdevice *m_Device;            ///< OpenAL audio device
+        static ALCcontext *m_Context;          ///< OpenAL context
+        static std::vector<IAudio *> m_Tracks; ///< Holds the audio tracks
 
     };
 }
