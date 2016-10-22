@@ -82,7 +82,7 @@ namespace Qube2D
     ///
     ///////////////////////////////////////////////////////////
     ///
-    #   if defined (Q2D_SYS_WINDOWS)
+    #   ifdef _MSC_VER
     #       if defined (__Q2D_LIBRARY__)
     #          define Q2D_API __declspec(dllexport)
     #       else
