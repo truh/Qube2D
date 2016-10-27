@@ -9,6 +9,7 @@ DEFINES        += __Q2D_LIBRARY__
 QMAKE_LFLAGS   += -static-libgcc -static-libstdc++
 QMAKE_CXXFLAGS_WARN_ON -= -Wall
 QMAKE_CXXFLAGS_WARN_ON += -Wno-comment
+QMAKE_CXXFLAGS += -std=c++11
 
 
 #
