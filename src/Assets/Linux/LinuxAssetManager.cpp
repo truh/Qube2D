@@ -36,7 +36,7 @@
 ///////////////////////////////////////////////////////////
 #include <Qube2D/Assets/Linux/LinuxAssetManager.hpp>
 #include <Qube2D/Assets/AssetErrors.hpp>
-#include <Qube2D/System/Debug.hpp>
+#include <Qube2D/Debug/Debug.hpp>
 #include <cstdio>
 #include <vector>
 #include <unistd.h>
