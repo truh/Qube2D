@@ -39,10 +39,7 @@ DEPENDPATH  += $$PWD/include
 #
 #  Dependencies
 #
-linux-g++* {
-    LIBS += -L$$PWD/lib/glfw-3.2/linux/ -lglfw-3.2
-    LIBS += -L$$PWD/lib/freetype-2.3.5/linux/ -lfreetype
-} else:win32-g++ {
+win32-g++ {
     LIBS += -L$$PWD/lib/glfw-3.2/win32/ -lglfw-3.2
     LIBS += -L$$PWD/lib/freetype-2.3.5/win32/ -lfreetype
 }
