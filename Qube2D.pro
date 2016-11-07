@@ -45,7 +45,7 @@ win32-g++ {
 }
 
 win32:  LIBS += -lopengl32 -lgdi32
-unix:   LIBS += -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -pthread -dl
+unix:   LIBS += -lGL -lX11 -lXi -lXrandr -lXxf86vm -lXinerama -lXcursor -pthread  -lglfw -lfreetype -dl
 
 
 #
