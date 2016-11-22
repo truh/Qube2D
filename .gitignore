@@ -40,3 +40,4 @@ bin/**
 bin/.qmake.stash
 bin/object_script.Qube2D.Debug
 bin/object_script.Qube2D.Release
+release/
